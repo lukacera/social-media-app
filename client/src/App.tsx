@@ -2,7 +2,7 @@ import "./index.css";
 import { GiBackup } from "react-icons/gi";
 import { IconContext } from "react-icons";
 
-function App() {
+function App(): JSX.Element {
     return (
         <IconContext.Provider value={{
             className: ""
