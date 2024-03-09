@@ -39,7 +39,7 @@ export const Feed = (): ReactNode => {
                             </div>
                             <p className="p-5 cursor-pointer w-[20%] flex justify-center
                             bg-profileColor gap-5 rounded-full">
-                                <span onClick={() => incrementLikes()}
+                                <span
                                     className="text-red-500 flex items-center gap-2">
                                     <FaHeart />
                                     0
