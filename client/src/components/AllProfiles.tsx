@@ -1,4 +1,5 @@
 import "../assets/index.css";
+import { IoMdPersonAdd } from "react-icons/io";
 
 // Helper functions
 import { usersAllProfiles, User } from "../helpers/fakerHelper";
@@ -32,9 +33,9 @@ const AllProfiles = (): ReactNode => {
                         <img className="w-10 rounded-full" src={profile.avatar} alt="" />
                         <p>{profile.username}</p>
                         <p className="flex justify-end w-full">
-                            <span className="bg-white px-4 text-black rounded-full
+                            <span className="bg-white px-2 text-black rounded-full
                             text-2xl">
-                                +
+                                < IoMdPersonAdd />
                             </span>
                         </p>
                     </div>

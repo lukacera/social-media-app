@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainPage from "./pages/MainPage"
-
+//Hook 
 const App = (): ReactNode => {
     const router = createBrowserRouter([
         {

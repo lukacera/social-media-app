@@ -11,6 +11,9 @@ import { ReactNode } from "react";
 function App(): ReactNode {
     const profileUser = createRandomUser()
     const renderComponentBasedOnURL = (): ReactNode => {
+        window.scroll({
+            top: 0
+        })
         const currentURL = window.location.pathname;
         // URL decides which component will render
         if (currentURL === '/') {
