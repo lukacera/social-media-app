@@ -7,10 +7,12 @@ interface User {
     avatar: string,
     password: string
 }
-interface randomImage {
+
+interface Post {
+    username: string,
+    userAvatar: string,
     url: string,
-    height: number,
-    width: number
+    createdAt: string,
 }
 export function createRandomUser(): User {
     return {
@@ -21,14 +23,16 @@ export function createRandomUser(): User {
         password: faker.internet.password()
     }
 }
-export function createRandomImage(): randomImage {
+export function createPost(): Post {
     return {
+        userAvatar: faker.image.avatar(),
         url: faker.image.urlPicsumPhotos(),
-        height: 1,
-        width: 1
+        createdAt: faker.date.recent().toLocaleString(),
+        username: faker.internet.userName()
     }
 }
-export const POSTS: randomImage[] = faker.helpers.multiple(createRandomImage, {
+
+export const POSTS: Post[] = faker.helpers.multiple(createPost, {
     count: 10
 })
 export const USERS: User[] = faker.helpers.multiple(createRandomUser, {
