@@ -7,6 +7,8 @@
     flex items-center gap-5
 }
 .profileName {
-    @apply border-l-2 pl-5
-    text-xl
+    @apply border-l-2 pl-5 text-xl tracking-wide
+}
+.liSidebar {
+
 }
