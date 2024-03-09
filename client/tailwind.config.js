@@ -7,9 +7,9 @@ export default {
     extend: {
       colors: {
         borderGray: "#7a7d7d",
-        profileColor: "#31363F",
+        profileColor: "#333333",
         linearGradientStart: "#65ade3",
-        linearGradientEnd: "#094572"
+        linearGradientEnd: "#000000"
       }
     },
   },
