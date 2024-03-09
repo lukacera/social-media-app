@@ -1,23 +1,42 @@
 import "../assets/index.css";
-import React from "react"
 
 // Helper functions
-import { usersAllProfiles } from "../helpers/fakerHelper";
-import { ReactNode } from "react";
+import { usersAllProfiles, User } from "../helpers/fakerHelper";
+
+import { ChangeEvent, ReactNode, useState } from "react";
 
 const AllProfiles = (): ReactNode => {
-
+    const [searchProfile, setSearchProfile] = useState('')
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        const searchValue = e.target.value;
+        setSearchProfile(searchValue)
+    }
+    // Compare search to existing profiles
+    const usersAllProfilesFilter: User[] = usersAllProfiles.filter(profile => (
+        profile.username.toLowerCase().includes(searchProfile.toLowerCase())
+    ))
     return (
-        <div className="my-20 flex flex-col gap-20 items-center overflow-auto">
+        <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
             <div className="flex flex-col items-center gap-5">
                 <h2 className="text-4xl">All profiles</h2>
-                <input type="text" />
+                <input onChange={handleInputChange}
+                    className="px-5 py-2 w-[30rem] text-black focus:outline-none"
+                    type="text" placeholder="Search for profiles" />
             </div>
             <div className="flex flex-wrap gap-20 justify-center">
-                {usersAllProfiles.map((profile, index) => (
+                {usersAllProfilesFilter.length === 0 &&
+                    <p className="text-2xl">No profiles found!</p>
+                }
+                {usersAllProfilesFilter.map((profile, index) => (
                     <div className="profileWrapper" key={index}>
-                        <img className="w-10" src={profile.avatar} alt="" />
+                        <img className="w-10 rounded-full" src={profile.avatar} alt="" />
                         <p>{profile.username}</p>
+                        <p className="flex justify-end w-full">
+                            <span className="bg-white px-4 text-black rounded-full
+                            text-2xl">
+                                +
+                            </span>
+                        </p>
                     </div>
                 ))}
             </div>
