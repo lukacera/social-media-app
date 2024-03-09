@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { FaMoon, FaHome } from "react-icons/fa";
-import { IoMdPersonAdd } from "react-icons/io";
+import { HiUserGroup } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
 export const Sidebar = (): ReactNode => {
@@ -14,7 +14,7 @@ export const Sidebar = (): ReactNode => {
             linkTo: "/"
         },
         {
-            icon: < IoMdPersonAdd />,
+            icon: < HiUserGroup />,
             linkTo: "/allProfiles"
         },
     ];
