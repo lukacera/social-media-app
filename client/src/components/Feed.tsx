@@ -1,24 +1,17 @@
 import { ReactNode } from "react"
-import { POSTS, createRandomUser } from "../helpers/fakerHelper";
+import { POSTS } from "../helpers/fakerHelper";
 import { FaHeart, FaCommentAlt } from "react-icons/fa";
-import { useState } from "react";
 export const Feed = (): ReactNode => {
-    const profileUser = createRandomUser()
 
-    type postImgUrls = string[]
-    const postImgUrls: postImgUrls = [];
-    POSTS.forEach(post => {
-        postImgUrls.push(post.url)
-    })
     return (
         <div className="flex flex-col items-center gap-10 overflow-auto
-                removeWebkit" id="main">
+                removeWebkit">
             <h2 className="mt-10 text-4xl tracking-widest font-bold">Feed</h2>
             {/* All posts div */}
-            <div className="flex flex-col gap-20 mt-20">
+            <div className="flex flex-col gap-20 my-20">
                 {POSTS.map((post, index) => (
                     // Single post div
-                    <div key={index} className="max-w-[50rem] mb-20
+                    <div key={index} className="max-w-[50rem]
                     flex flex-col gap-5">
                         <div className="flex flex-col items-center
                             gap-10 cursor-pointer">

@@ -38,3 +38,6 @@ export const POSTS: Post[] = faker.helpers.multiple(createPost, {
 export const USERS: User[] = faker.helpers.multiple(createRandomUser, {
     count: 5,
 });
+export const usersAllProfiles: User[] = faker.helpers.multiple(createRandomUser, {
+    count: 20,
+});

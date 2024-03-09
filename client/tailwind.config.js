@@ -6,8 +6,9 @@ export default {
   ], theme: {
     extend: {
       colors: {
+        backgroundDark: "#1a1919",
         borderGray: "#7a7d7d",
-        profileColor: "#333333",
+        profileColor: "#26282b",
         linearGradientStart: "#65ade3",
         linearGradientEnd: "#000000"
       }
