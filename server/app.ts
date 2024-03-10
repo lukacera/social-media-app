@@ -1,7 +1,8 @@
 const express = require("express");
-const app = express()
+const app: Application = express()
 require("dotenv").config()
-import { Request, Response } from "express";
+import { Application, Request, Response } from "express";
+import { App } from "supertest/types";
 const cors = require("cors")
 const mongoose = require("mongoose")
 
