@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainPage from "./pages/MainPage"
+
 const App = (): ReactNode => {
     const router = createBrowserRouter([
         {
@@ -8,7 +9,7 @@ const App = (): ReactNode => {
             element: <MainPage />
         },
         {
-            path: "/allProfiles",
+            path: "/profiles",
             element: <MainPage />
         }
     ])

@@ -4,9 +4,10 @@ import { IoMdPersonAdd } from "react-icons/io";
 // Helper functions
 import { usersAllProfiles, User } from "../helpers/fakerHelper";
 
-import { ChangeEvent, ReactNode, useState } from "react";
+import { ChangeEvent, ReactNode, useEffect, useState } from "react";
 
 const AllProfiles = (): ReactNode => {
+
     const [searchProfile, setSearchProfile] = useState('')
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const searchValue = e.target.value;
@@ -27,6 +28,7 @@ const AllProfiles = (): ReactNode => {
                     type="text" placeholder="Search for profiles" />
             </div>
             <div className="flex flex-wrap gap-20 justify-center">
+
                 {usersAllProfilesFilter.length === 0 &&
                     <p className="text-2xl">No profiles found!</p>
                 }

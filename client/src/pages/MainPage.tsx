@@ -18,7 +18,7 @@ function App(): ReactNode {
         // URL decides which component will render
         if (currentURL === '/') {
             return <Feed />;
-        } else if (currentURL === '/allProfiles') {
+        } else if (currentURL === '/profiles') {
             return <AllProfiles />;
         }
     };

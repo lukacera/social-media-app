@@ -15,7 +15,7 @@ export const Sidebar = (): ReactNode => {
         },
         {
             icon: < HiUserGroup />,
-            linkTo: "/allProfiles"
+            linkTo: "/profiles"
         },
     ];
     return (
@@ -25,8 +25,8 @@ export const Sidebar = (): ReactNode => {
             flex-col gap-20 list-none">
                 {/* Ikonice u sidebaru */}
                 {sidebarIcons.map((icon, index) => (
-                    <Link className="liSidebar" to={icon.linkTo}>
-                        <li key={index}>
+                    <Link className="liSidebar" to={icon.linkTo} key={index}>
+                        <li >
                             {icon.icon}
                         </li>
                     </Link>
