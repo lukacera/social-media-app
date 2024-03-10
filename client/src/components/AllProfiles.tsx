@@ -18,10 +18,12 @@ const AllProfiles = (): ReactNode => {
     ))
     return (
         <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
-            <div className="flex flex-col items-center gap-5">
-                <h2 className="text-4xl">All profiles</h2>
+            <div className="flex flex-col items-center gap-7">
+                <h2 data-testid="allProfiles-header"
+                    className="text-4xl">All profiles</h2>
                 <input onChange={handleInputChange}
-                    className="px-5 py-2 w-[30rem] text-black focus:outline-none"
+                    className="px-5 py-3 w-[30rem] text-black 
+                    focus:outline-none rounded-full"
                     type="text" placeholder="Search for profiles" />
             </div>
             <div className="flex flex-wrap gap-20 justify-center">
