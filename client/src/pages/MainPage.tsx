@@ -39,7 +39,7 @@ function App(): ReactNode {
                         <GiBackup style={{ fill: "url(#blue-gradient)" }} />
                     </svg>
                 </div>
-                <h1 className="flex justify-start pl-20 items-center text-4xl
+                <h1 data-testid="cypress-title" className="flex justify-start pl-20 items-center text-4xl
                     font-[Inter] tracking-widest">Bondify</h1>
                 {/* Profile div */}
                 <div className="flex justify-center items-center">
