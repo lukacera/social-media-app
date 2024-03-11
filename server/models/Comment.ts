@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
-
-const commentSchema = new Schema({
+import { commentType } from '../types/commentType';
+const commentSchema = new Schema<commentType>({
     creator: {
         type: Schema.ObjectId,
         ref: "User"

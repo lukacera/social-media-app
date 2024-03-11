@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
-
-const postSchema = new Schema({
+import { postType } from '../types/postType';
+const postSchema = new Schema<postType>({
     creator: {
         type: Schema.ObjectId,
         ref: "User"

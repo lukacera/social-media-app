@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
-
-const userSchema = new Schema({
+import { userType } from '../types/userType';
+const userSchema = new Schema<userType>({
     name: {
         type: String,
         required: true
@@ -14,7 +14,7 @@ const userSchema = new Schema({
         required: true
     },
     username: {
-        type: Number,
+        type: String,
         required: true
     },
     birthday: {
