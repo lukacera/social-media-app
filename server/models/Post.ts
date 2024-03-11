@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Model } from 'mongoose';
 import { postType } from '../types/postType';
 const postSchema = new Schema<postType>({
     creator: {
@@ -31,4 +31,7 @@ const postSchema = new Schema<postType>({
     }
 })
 
-module.exports = model("Post", postSchema)
+
+const postModel: Model<postType> = model<postType>("Post", postSchema);
+
+export default postModel

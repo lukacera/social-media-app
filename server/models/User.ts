@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Model } from 'mongoose';
 import { userType } from '../types/userType';
 const userSchema = new Schema<userType>({
     name: {
@@ -18,7 +18,7 @@ const userSchema = new Schema<userType>({
         required: [true, "User must have an username!"]
     },
     birthday: {
-        type: Number,
+        type: Date,
         required: [true, "User must have a birthday!"]
     },
     avatar: {
@@ -39,7 +39,7 @@ const userSchema = new Schema<userType>({
     ],
     password: {
         type: String,
-        required: [true, "User must have a password!"]
+        required: [true, "User must have a name!"]
     },
     profCreatedAt: {
         type: Date,
@@ -48,4 +48,6 @@ const userSchema = new Schema<userType>({
 
 })
 
-module.exports = model("User", userSchema)
+const UserModel: Model<userType> = model<userType>("User", userSchema);
+
+export default UserModel

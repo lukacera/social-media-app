@@ -1,5 +1,6 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Model } from 'mongoose';
 import { commentType } from '../types/commentType';
+
 const commentSchema = new Schema<commentType>({
     creator: {
         type: Schema.ObjectId,
@@ -21,4 +22,7 @@ const commentSchema = new Schema<commentType>({
     }
 })
 
-module.exports = model("Comment", commentSchema)
+
+const commentModel: Model<commentType> = model<commentType>("Comment", commentSchema);
+
+export default commentModel
