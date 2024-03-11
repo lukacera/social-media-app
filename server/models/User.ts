@@ -3,23 +3,23 @@ import { userType } from '../types/userType';
 const userSchema = new Schema<userType>({
     name: {
         type: String,
-        required: true
+        required: [true, "User must have a name!"]
     },
     surname: {
         type: String,
-        required: true
+        required: [true, "User must have a surname!"]
     },
     age: {
         type: Number,
-        required: true
+        required: [true, "User must have a age!"]
     },
     username: {
         type: String,
-        required: true
+        required: [true, "User must have an username!"]
     },
     birthday: {
         type: Number,
-        required: true
+        required: [true, "User must have a birthday!"]
     },
     avatar: {
         type: String,
@@ -39,7 +39,7 @@ const userSchema = new Schema<userType>({
     ],
     password: {
         type: String,
-        required: true
+        required: [true, "User must have a password!"]
     },
     profCreatedAt: {
         type: Date,

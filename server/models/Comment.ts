@@ -7,7 +7,7 @@ const commentSchema = new Schema<commentType>({
     },
     text: {
         type: String,
-        required: true
+        required: [true, "Comments can't be empty!"]
     },
     likes: [
         {

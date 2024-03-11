@@ -11,7 +11,7 @@ const postSchema = new Schema<postType>({
     },
     text: {
         type: String,
-        required: true
+        required: [true, "Posts must have some text!!"]
     },
     comments: [
         {
