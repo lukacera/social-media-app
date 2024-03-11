@@ -40,8 +40,12 @@ const userSchema = new Schema<userType>({
     password: {
         type: String,
         required: true
+    },
+    profCreatedAt: {
+        type: Date,
+        default: Date.now()
     }
 
-}, { timestamps: true })
+})
 
 module.exports = model("User", userSchema)

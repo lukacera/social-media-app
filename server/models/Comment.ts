@@ -14,7 +14,11 @@ const commentSchema = new Schema<commentType>({
             type: Schema.ObjectId,
             ref: "User"
         }
-    ]
-}, { timestamps: true })
+    ],
+    commentCreatedAt: {
+        type: Date,
+        default: Date.now()
+    }
+})
 
 module.exports = model("Comment", commentSchema)

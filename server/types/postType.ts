@@ -5,6 +5,7 @@ export type postType = {
     img: string,
     text: string,
     comments: Types.ObjectId[],
-    likes: Types.ObjectId[]
+    likes: Types.ObjectId[],
+    postCreatedAt: Date
 }
 

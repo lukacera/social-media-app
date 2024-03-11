@@ -9,4 +9,5 @@ export type userType = {
     friends: Types.ObjectId[];
     posts: Types.ObjectId[];
     password: string;
+    profCreatedAt: Date
 } 

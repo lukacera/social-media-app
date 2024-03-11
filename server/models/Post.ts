@@ -24,7 +24,11 @@ const postSchema = new Schema<postType>({
             type: Schema.ObjectId,
             ref: "User"
         }
-    ]
-}, { timestamps: true })
+    ],
+    postCreatedAt: {
+        type: Date,
+        default: Date.now()
+    }
+})
 
 module.exports = model("Post", postSchema)
