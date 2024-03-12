@@ -21,7 +21,7 @@ describe('Check "/home" route', () => {
         expect(response.status).toBe(200);
     });
 });
-describe('Check "/profiles" route', () => {
+describe('Check "/users/api" route', () => {
     afterEach(() => {
         jest.restoreAllMocks();
     });
@@ -31,7 +31,7 @@ describe('Check "/profiles" route', () => {
         const mockUsers = [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }];
         jest.spyOn(User, 'find').mockResolvedValueOnce(mockUsers);
 
-        const response = await request(app).get('/profiles');
+        const response = await request(app).get('/api/users');
 
         expect(response.status).toBe(200);
         expect(response.body).toEqual({ users: mockUsers });
@@ -41,13 +41,13 @@ describe('Check "/profiles" route', () => {
         const mockUsers = [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }];
         jest.spyOn(User, 'find').mockRejectedValueOnce(new Error('Failed to get all users!'));
 
-        const response = await request(app).get('/profiles');
+        const response = await request(app).get('/failURL');
         expect(response.status).toBe(404);
     });
 });
 
 
-describe('Check "/profiles/:id" route', () => {
+describe('Check "/api/users/:id" route', () => {
     afterEach(() => {
         jest.restoreAllMocks();
     });
@@ -56,21 +56,21 @@ describe('Check "/profiles/:id" route', () => {
     // TEST GET METHOD FOR USER
 
     // 1. CLIENT REQUESTS TO GET USER THAT IS NONEXISTING IN DB
-    it('GET method single profile, 404', async () => {
+    it('GET method single user, 404', async () => {
         // Wrong id
         const userId = 'sampleUserId';
-        const response = await request(app).get(`/profiles/${userId}`);
+        const response = await request(app).get(`/api/users/${userId}`);
         expect(response.status).toBe(404)
     });
 
     // 2. CLIENT REQUESTS FOR USER THAT IS IN DB
-    it('GET method single profile, 200', async () => {
+    it('GET method single user, 200', async () => {
 
         const userId = new Types.ObjectId();
         const targetUser = { name: "Luka", age: 99 }
         jest.spyOn(User, 'findById').mockResolvedValueOnce(targetUser);
 
-        const response = await request(app).get(`/profiles/${userId}`);
+        const response = await request(app).get(`/api/users/${userId}`);
 
         expect(response.status).toBe(200);
         expect(response.body).toEqual({ user: targetUser });
@@ -192,7 +192,7 @@ describe('Check "/profiles/:id" route', () => {
         const userId = "invalidUserID";
         jest.spyOn(User, 'deleteOne').mockRejectedValueOnce("Invalid user ID");
 
-        const response = await request(app).delete(`/profiles/${userId}`);
+        const response = await request(app).delete(`/api/users/${userId}`);
 
         expect(response.status).toBe(404);
     });
