@@ -29,6 +29,7 @@ describe('Check "/profiles" route', () => {
     afterEach(() => {
         jest.restoreAllMocks();
     });
+
     // 1. CLIENT REQUESTS ALL USERS FROM DB
     it('Loads all users, SUCCESS!', async () => {
         const mockUsers = [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }];
@@ -54,6 +55,10 @@ describe('Check "/profiles/:id" route', () => {
     afterEach(() => {
         jest.restoreAllMocks();
     });
+
+
+    // TEST GET METHOD FOR USER
+
     // 1. CLIENT REQUESTS TO GET USER THAT IS NONEXISTING IN DB
     it('GET method single profile, 404', async () => {
         // Wrong id
@@ -75,6 +80,8 @@ describe('Check "/profiles/:id" route', () => {
         expect(response.body).toEqual({ user: targetUser });
     });
 
+    // TEST PATCH METHOD FOR USER
+
     it("EDIT user's profile, bad ID", async () => {
         // Wrong id
         const userId = 'sampleUserId';
@@ -88,6 +95,8 @@ describe('Check "/profiles/:id" route', () => {
         expect(response.status).toBe(200)
         expect(response.body).toEqual({ "status": "Edited!!" })
     })
+
+    // TEST DELETE METHOD FOR USER
 
     // 1. CLIENT REQUESTS TO DELETE USER THAT IS NONEXISTENT IN DB
     it("DELETE user's profile, FAIL", async () => {
@@ -111,6 +120,8 @@ describe('Check "/profiles/:id" route', () => {
         const response = await request(app).delete(`/profiles/${userId}`);
         expect(response.status).toBe(204)
     });
+
+    // TEST POST METHOD FOR USER
 
     // 1. ADDING NEW USER, WITHOUT ALL REQUIRED PARAMATERS, FAIL SAVING TO DB
     describe('newUser function', () => {
@@ -198,33 +209,4 @@ describe('Check "/profiles/:id" route', () => {
             expect(res.json).toHaveBeenCalledWith({ message: 'User created successfully' });
         });
     });
-    /*
-    describe('Handle friend requests', () => {
-        it("Sends friend request with false ID", async () => {
-            // Wrong id
-            const userId = 'kdfks324324';
-            const response = await request(app).post(`/profiles/${userId}/friend-request`)
-            expect(response.status).toBe(404)
-        })
-        it("Sends friend request, good ID", async () => {
-            // Good id
-            const userId = new Types.ObjectId();
-            const response = await request(app).post(`/profiles/${userId}/friend-request`)
-            expect(response.status).toBe(201);
-        })
-
-
-        it("Deletes friend request, bad ID", async () => {
-            // Wrong id
-            const userId = 'kdfks324324';
-            const response = await request(app).delete(`/profiles/${userId}/friend-request`)
-            expect(response.status).toBe(404);
-        })
-        it("Deletes friend request, good ID", async () => {
-            // Good id
-            const userId = new Types.ObjectId();
-            const response = await request(app).delete(`/profiles/${userId}/friend-request`)
-            expect(response.status).toBe(204)
-        })
-    }*/
 })
