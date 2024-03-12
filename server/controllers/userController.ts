@@ -22,18 +22,17 @@ export const getAllusers = async (req: Request, res: Response) => {
 // GETTING USER FROM DB
 export const getUser = async (req: Request, res: Response) => {
     const id = req.params.id;
-
-    try {
-        const targetUser = await User.findById(id)
+    if (isValidObjectId(id)) {
+        const targetUser = await User.findById(id) // Try to find user in DB
         if (!targetUser) {
             res.status(404).json({ error: "User not found" })
             return
         }
-        res.status(200).json({
+        res.status(200).json({  // If he is founded, return him to client
             user: targetUser
         })
-    } catch (error) {
-        console.log("Error while getting User: " + error)
+    } else { // If id is not ObjectID
+
         res.status(404).json({ error: "ID for GETTING USER from DB is invalid" });
     }
 }
@@ -70,6 +69,7 @@ export const newUser = async (req: Request, res: Response) => {
     try {
         const { age, name, surname, password, username } = req.body
 
+        // Check if username is taken, if it's not, make new user
         const usernameTaken = await User.findOne({ username: username })
         if (!usernameTaken) {
             const user = new User<userType>({
@@ -98,13 +98,18 @@ export const newUser = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
-        await User.deleteOne({ "_id": id });
+        if (isValidObjectId(id)) {
+            await User.deleteOne({ "_id": id });
 
-        // Status code for deleting is 204, request has been successful,
-        // but nothing is sent back
-        res.status(204).end();
+            // Status code for deleting is 204, request has been successful,
+            // but nothing is sent back
+            res.status(204).json({ message: `User with id: ${id} is successfully deleted` });
+            return
+        }
+        // If id is not type of ObjectId
+        res.status(404).json({ error: "Id is not ObjectId!" });
+
     } catch (error) {
-        console.log("Error occurred while trying to delete User from DB! ", error);
         res.status(404).json({ error: "Error while deleting User from DB" });
     }
 }
