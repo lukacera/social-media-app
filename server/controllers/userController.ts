@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Types } from "mongoose";
+import { Query, Types, isValidObjectId, UpdateWriteOpResult } from "mongoose";
 // User model
 import User from "../models/User";
 
@@ -39,16 +39,30 @@ export const getUser = async (req: Request, res: Response) => {
 }
 
 // EDIT USER FROM DB
-export const editUser = (req: Request, res: Response) => {
-    const id = req.params.id
-    if (!Types.ObjectId.isValid(id)) {
-        res.status(404).end()
-    } else {
-        res.status(200).json({
-            "status": "Edited!!"
-        })
+export const editUser = async (req: Request, res: Response) => {
+    const updates = req.body;
+    const id = req.params.id;
+
+    if (!isValidObjectId(id)) {
+        return res.status(500).json({ error: "Id that client sent is not valid ObjectId!" });
     }
-}
+    else {
+        if (!updates) {
+            return res.status(200).json({ message: "No updates were provided." });
+        }
+        const result: UpdateWriteOpResult = await User.updateOne(
+            { _id: id },
+            { $set: updates });
+
+        // Check if there is document with that id
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ error: "Couldn't find document with that Id to edit" });
+        }
+
+        // Successfully updated
+        return res.status(200).json({ message: "Update succesful" });
+    }
+};
 
 // MAKE NEW USER AND INSERT IT INTO DB
 
