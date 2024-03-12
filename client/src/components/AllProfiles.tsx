@@ -1,22 +1,39 @@
 import "../assets/index.css";
 import { IoMdPersonAdd } from "react-icons/io";
 
-// Helper functions
-import { usersAllProfiles, User } from "../helpers/fakerHelper";
+
 
 import { ChangeEvent, ReactNode, useEffect, useState } from "react";
+import { userType } from "../../../server/types/userType";
+import { getAllProfiles } from "../api/getAllProfilesApi";
 
 const AllProfiles = (): ReactNode => {
+    const [users, setUsers] = useState<userType[]>([])
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const data = await getAllProfiles()
+            setUsers(data.users)
 
-    const [searchProfile, setSearchProfile] = useState('')
+        }
+
+        fetchUsers()
+    }, [])
+    const [searchProfile, setSearchProfile] = useState<string>('')
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const searchValue = e.target.value;
         setSearchProfile(searchValue)
     }
-    // Compare search to existing profiles
-    const usersAllProfilesFilter: User[] = usersAllProfiles.filter(profile => (
-        profile.username.toLowerCase().includes(searchProfile.toLowerCase())
-    ))
+
+
+    let filteredUsers: userType[];
+    if (users.length > 0) {
+        filteredUsers = users.filter(user => {
+            return user.username.toLowerCase().includes(searchProfile.toLowerCase())
+        })
+    } else {
+        filteredUsers = []
+    }
+
     return (
         <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
             <div className="flex flex-col items-center gap-7">
@@ -29,13 +46,13 @@ const AllProfiles = (): ReactNode => {
             </div>
             <div className="flex flex-wrap gap-20 justify-center">
 
-                {usersAllProfilesFilter.length === 0 &&
+                {users.length === 0 &&
                     <p className="text-2xl">No profiles found!</p>
                 }
-                {usersAllProfilesFilter.map((profile, index) => (
+                {filteredUsers && filteredUsers.map((user: userType, index: number) => (
                     <div className="profileWrapper" key={index}>
-                        <img className="w-10 rounded-full" src={profile.avatar} alt="" />
-                        <p>{profile.username}</p>
+                        <img className="w-10 rounded-full" src={user.avatar} alt="" />
+                        <p>{user.username}</p>
                         <p className="flex justify-end w-full">
                             <span className="bg-white px-2 text-black rounded-full
                             text-2xl">
