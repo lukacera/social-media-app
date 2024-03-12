@@ -17,10 +17,6 @@ const userSchema = new Schema<userType>({
         type: String,
         required: [true, "User must have an username!"]
     },
-    birthday: {
-        type: Date,
-        required: [true, "User must have a birthday!"]
-    },
     password: {
         type: String,
         required: [true, "User must have a name!"]

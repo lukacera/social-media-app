@@ -4,7 +4,6 @@ export type userType = {
     surname: string;
     age: number;
     username: string;
-    birthday: Date;
     password: string;
     avatar?: string;
     friends?: Types.ObjectId[];
