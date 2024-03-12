@@ -4,10 +4,10 @@ export type userType = {
     surname: string;
     age: number;
     username: string;
-    birthday: number;
-    avatar: string;
-    friends: Types.ObjectId[];
-    posts: Types.ObjectId[];
+    birthday: Date;
     password: string;
-    profCreatedAt: Date
+    avatar?: string;
+    friends?: Types.ObjectId[];
+    posts?: Types.ObjectId[];
+    profCreatedAt?: Date
 } 

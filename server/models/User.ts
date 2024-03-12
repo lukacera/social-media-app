@@ -21,6 +21,10 @@ const userSchema = new Schema<userType>({
         type: Date,
         required: [true, "User must have a birthday!"]
     },
+    password: {
+        type: String,
+        required: [true, "User must have a name!"]
+    },
     avatar: {
         type: String,
         default: ""
@@ -37,10 +41,6 @@ const userSchema = new Schema<userType>({
             ref: 'Post'
         }
     ],
-    password: {
-        type: String,
-        required: [true, "User must have a name!"]
-    },
     profCreatedAt: {
         type: Date,
         default: Date.now()
