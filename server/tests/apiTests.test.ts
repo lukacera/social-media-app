@@ -83,9 +83,9 @@ describe('Check "/profiles/:id" route', () => {
     it("DELETE user's profile, FAIL", async () => {
 
         const userId = "invalidUserID";
-        jest.spyOn(User, 'deleteOne').mockRejectedValueOnce(new Error("Invalid user ID"));
+        jest.spyOn(User, 'deleteOne').mockRejectedValueOnce("Invalid user ID");
 
-        const response = await request(app).get(`/profiles/${userId}`);
+        const response = await request(app).delete(`/profiles/${userId}`);
 
         expect(response.status).toBe(404);
     });
