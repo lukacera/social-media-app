@@ -1,7 +1,8 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import { FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const SignIn = () => {
+const SignIn = (): ReactNode => {
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="w-[30rem] h-[45rem] bg-gradient-to-tr from-linearGradientStart
@@ -33,9 +34,12 @@ const SignIn = () => {
                         </button>
                         <div className="flex flex-col gap-5">
                             <p>If you don't have account, please sign up below</p>
-                            <button className="signInButton">
-                                Sign up
-                            </button>
+                            <Link to="/signup">
+                                <p className="signInButton flex justify-center">
+                                    Sign up
+                                </p>
+                            </Link>
+
                         </div>
                     </div>
                 </form>
