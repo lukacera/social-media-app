@@ -1,12 +1,5 @@
 import { faker } from '@faker-js/faker';
-
-interface User {
-    userId: string,
-    username: string,
-    email: string,
-    avatar: string,
-    password: string
-}
+import { userType } from '../../../server/types/userType';
 
 interface Post {
     username: string,
@@ -14,12 +7,12 @@ interface Post {
     url: string,
     createdAt: string,
 }
-export function createRandomUser(): User {
+export function createRandomUser(): userType {
     return {
-        userId: faker.string.uuid(),
+        name: faker.person.firstName(),
+        surname: faker.person.lastName(),
+        age: Math.floor(Math.random() * 50),
         username: faker.internet.userName(),
-        email: faker.internet.email(),
-        avatar: faker.image.avatar(),
         password: faker.internet.password()
     }
 }
@@ -35,9 +28,9 @@ export function createPost(): Post {
 export const POSTS: Post[] = faker.helpers.multiple(createPost, {
     count: 10
 })
-export const USERS: User[] = faker.helpers.multiple(createRandomUser, {
+export const USERS: userType[] = faker.helpers.multiple(createRandomUser, {
     count: 5,
 });
-export const usersAllProfiles: User[] = faker.helpers.multiple(createRandomUser, {
+export const usersAllProfiles: userType[] = faker.helpers.multiple(createRandomUser, {
     count: 20,
 });
