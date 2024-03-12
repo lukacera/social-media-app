@@ -1,13 +1,13 @@
 import request from "supertest";
 import app from "../app";
-import { ObjectId, Types } from "mongoose";
+import { Types } from "mongoose";
 import { Request, Response } from 'express';
 // Types of data
 import { userType } from "../types/userType";
 // Models
 import User from "../models/User"
 
-import { newUser, deleteUser } from "../controllers/userController";
+import { newUser, deleteUser, editUser } from "../controllers/userController";
 
 
 
@@ -22,10 +22,6 @@ describe('Check "/home" route', () => {
     });
 });
 describe('Check "/profiles" route', () => {
-    beforeEach(async () => {
-        // Clear the User collection
-        await User.deleteMany({});
-    });
     afterEach(() => {
         jest.restoreAllMocks();
     });
@@ -80,19 +76,113 @@ describe('Check "/profiles/:id" route', () => {
         expect(response.body).toEqual({ user: targetUser });
     });
 
+
+
     // TEST PATCH ( edit existing documents ) METHOD FOR USER
 
+    // 1. CLIENT SENDS QUERY IN PATCH REQ THAT IS NOT TYPE OF OBJECTID
     it("EDIT user's profile, bad ID", async () => {
         // Wrong id
+        const wrongId = 'dfgdfg';
+        const req = { params: { id: wrongId } } as unknown as Request;
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        } as unknown as Response;
+
+        await editUser(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(500);
 
     })
-    it("EDIT user's profile, good ID", async () => {
-        // Good id
-        const userId = new Types.ObjectId();
-        const response = await request(app).patch(`/profiles/${userId}`);
-        expect(response.status).toBe(200)
-        expect(response.body).toEqual({ "status": "Edited!!" })
+    // 2. CLIENT SENDS GOOD ID, BUT NO DOCUMENT WITH THAT ID IS FOUND IN DB
+    it("EDIT user's profile, ID is good, but there is no document with that ID", async () => {
+        const id = new Types.ObjectId();
+        const update: Partial<userType> = {
+            name: "Okp"
+        }
+        const req = {
+            params: { id: id },
+            body: update
+        } as unknown as Request;
+
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        } as unknown as Response;
+
+        await editUser(req, res)
+        expect(res.status).toHaveBeenCalledWith(404)
+        expect(res.json).toHaveBeenCalledWith({ error: "Couldn't find document with that Id to edit" })
     })
+
+    // 3. CLIENT SENDS GOOD ID, DOCUMENT WITH THAT ID IS FOUND
+    // BUT HE DID NOT SPECIFY ANY UPDATES
+    it("EDIT user's profile, ID is good, but no updates specified", async () => {
+        const id = new Types.ObjectId();
+        const update = null
+        const req = {
+            params: { id: id },
+            body: update
+        } as unknown as Request;
+
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        } as unknown as Response;
+
+        await editUser(req, res)
+        expect(res.status).toHaveBeenCalledWith(200)
+        expect(res.json).toHaveBeenCalledWith({ message: "No updates were provided." })
+    })
+
+    // 4. CLIENT SPECIFIES UPDATE AND DOCUMENT IS FOUND, SO PATCH IS SUCCESS
+    describe("EDIT user's profile, both ID and updates are good", () => {
+        const userData = {
+            name: 'Test',
+            surname: 'User',
+            age: 30,
+            birthday: new Date(),
+            password: 'testPassword',
+            username: 'Ceraa04',
+            avatar: '',
+        };
+
+        let userId: Types.ObjectId;
+
+        beforeAll(async () => {
+            // Create a user record in the database, for testing
+            const user = await User.create(userData);
+            userId = user._id;
+        });
+
+        // Delete that user record that was made in beforeAll
+        afterAll(async () => {
+            await User.deleteOne({ _id: userId })
+        })
+
+        it("Updates document succesful", async () => {
+            const update: Partial<userType> = {
+                name: "Jovan",
+                age: 99
+            }
+            const req = {
+                params: { id: userId },
+                body: update
+            } as unknown as Request;
+
+            const res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            } as unknown as Response;
+
+            await editUser(req, res)
+            expect(res.status).toHaveBeenCalledWith(200)
+            expect(res.json).toHaveBeenCalledWith({ message: "Update succesful" })
+        })
+    })
+
+
 
     // TEST DELETE METHOD FOR USER
 
@@ -125,6 +215,8 @@ describe('Check "/profiles/:id" route', () => {
             expect(res.status).toHaveBeenCalledWith(204);
         });
     })
+
+
 
 
     // TEST POST METHOD FOR USER
@@ -193,6 +285,7 @@ describe('Check "/profiles/:id" route', () => {
             expect(res.json).toHaveBeenCalledWith({ error: "Username is already taken" });
         });
     });
+
     // 3. ADDING NEW USER, WITH ALL REQUIRED PARAMATERS, SAVING TO DB IS SUCCESS
     describe('newUser function', () => {
         afterAll(async () => {
