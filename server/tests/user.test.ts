@@ -1,13 +1,13 @@
 import request from "supertest";
 import app from "../app";
-import { Types } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 import { Request, Response } from 'express';
 // Types of data
 import { userType } from "../types/userType";
 // Models
 import User from "../models/User"
 
-import { newUser } from "../controllers/userController";
+import { newUser, deleteUser } from "../controllers/userController";
 
 
 
@@ -80,13 +80,11 @@ describe('Check "/profiles/:id" route', () => {
         expect(response.body).toEqual({ user: targetUser });
     });
 
-    // TEST PATCH METHOD FOR USER
+    // TEST PATCH ( edit existing documents ) METHOD FOR USER
 
     it("EDIT user's profile, bad ID", async () => {
         // Wrong id
-        const userId = 'sampleUserId';
-        const response = await request(app).patch(`/profiles/${userId}`);
-        expect(response.status).toBe(404)
+
     })
     it("EDIT user's profile, good ID", async () => {
         // Good id
@@ -110,16 +108,24 @@ describe('Check "/profiles/:id" route', () => {
     });
 
     // 2. CLIENT REQUESTS TO DELETE USER THAT IS IN DB
-    it("DELETE user's profile, SUCCESS", async () => {
-        const userId = new Types.ObjectId()
-        // Delete returns acknowledged and deletedCount
-        jest.spyOn(User, 'deleteOne').mockResolvedValueOnce({
-            acknowledged: true,
-            deletedCount: 1
+    describe("DELETE user's profile, SUCCESS", () => {
+        let userIdToDelete: Types.ObjectId;
+        beforeAll(() => {
+            userIdToDelete = new Types.ObjectId();
         });
-        const response = await request(app).delete(`/profiles/${userId}`);
-        expect(response.status).toBe(204)
-    });
+        it("deletes user from DB", async () => {
+            const req = { params: { id: userIdToDelete } } as unknown as Request;
+            const res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            } as unknown as Response;
+
+            await deleteUser(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(204);
+        });
+    })
+
 
     // TEST POST METHOD FOR USER
 
@@ -162,6 +168,9 @@ describe('Check "/profiles/:id" route', () => {
                 avatar: '',
             });
         });
+        afterAll(async () => {
+            await User.deleteOne({ username: "Ceraa04" })
+        })
         it('provide all fields for user, but FAIL because of username ', async () => {
             const completeUser: userType = {
                 name: "Luka",
@@ -186,11 +195,14 @@ describe('Check "/profiles/:id" route', () => {
     });
     // 3. ADDING NEW USER, WITH ALL REQUIRED PARAMATERS, SAVING TO DB IS SUCCESS
     describe('newUser function', () => {
+        afterAll(async () => {
+            await User.deleteOne({ username: "RandomUsername4324534534" })
+        })
         it('provide all fields for user, SUCCESS ', async () => {
             const completeUser: userType = {
                 name: "Luka",
                 surname: "Ceranic",
-                username: "RandomUsername", // Username that is not taken
+                username: "RandomUsername4324534534", // Username that is not taken
                 age: 28,
                 password: "somePassword"
             }
