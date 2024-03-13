@@ -10,7 +10,6 @@ import { connectToDB } from "./config/connectDB";
 // Routers
 import userRouter from "./routes/userRouter"
 
-import { userType } from "./types/userType";
 
 connectToDB()
 
@@ -18,6 +17,7 @@ app.use(cors())
 
 // Parse incoming client json requests
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // Loading home page
 app.get("/home", (req: Request, res: Response) => {
