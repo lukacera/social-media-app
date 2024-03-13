@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { userType } from "../../../server/types/userType";
 import { newUser } from "../api/newUserApi";
