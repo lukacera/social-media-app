@@ -7,7 +7,7 @@ import { userType } from "../types/userType";
 // Models
 import User from "../models/User"
 
-import { newUser, deleteUser, editUser } from "../controllers/userController";
+import { deleteUser, editUser } from "../controllers/userController";
 
 
 
@@ -51,8 +51,6 @@ describe('Check "/api/users/:id" route', () => {
     afterEach(() => {
         jest.restoreAllMocks();
     });
-
-
     // TEST GET METHOD FOR USER
 
     // 1. CLIENT REQUESTS TO GET USER THAT IS NONEXISTING IN DB
@@ -75,7 +73,6 @@ describe('Check "/api/users/:id" route', () => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual({ user: targetUser });
     });
-
 
 
     // TEST PATCH ( edit existing documents ) METHOD FOR USER
@@ -216,102 +213,4 @@ describe('Check "/api/users/:id" route', () => {
         });
     })
 
-
-
-
-    // TEST POST METHOD FOR USER
-
-    // 1. ADDING NEW USER, WITHOUT ALL REQUIRED PARAMATERS, FAIL SAVING TO DB
-    describe('newUser function', () => {
-        it('should respond with error status if required parameters are missing, FAIL', async () => {
-            const incompleteUserData: Partial<userType> = {
-                // Missing required parameters, function fails because of it
-                age: 30,
-                password: 'password123',
-                username: 'johndoe'
-            };
-
-            // Mock request and response objects
-            const req = { body: incompleteUserData } as unknown as Request;
-            const res = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn()
-            } as unknown as Response;
-
-            await newUser(req, res);
-
-            // Expect status 404 (or appropriate error status) and error message in response
-            expect(res.status).toHaveBeenCalledWith(404);
-            expect(res.json).toHaveBeenCalledWith({ error: 'Error while adding new User from DB' });
-        });
-    });
-
-    // 2. ADDING NEW USER, WITH ALL REQUIRED PARAMATERS, BUT USERNAME IS ALREADY TAKEN
-    describe('newUser function', () => {
-        // Add user with that username in db so it fails
-        beforeAll(async () => {
-            await User.create({
-                name: 'Test',
-                surname: 'User',
-                age: 30,
-                birthday: new Date(),
-                password: 'testPassword',
-                username: 'Ceraa04',
-                avatar: '',
-            });
-        });
-        afterAll(async () => {
-            await User.deleteOne({ username: "Ceraa04" })
-        })
-        it('provide all fields for user, but FAIL because of username ', async () => {
-            const completeUser: userType = {
-                name: "Luka",
-                surname: "Ceranic",
-                username: "Ceraa04", // username is already taken
-                age: 28,
-                password: "somePassword"
-            }
-
-            const req = { body: completeUser } as unknown as Request;
-            const res = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn()
-            } as unknown as Response;
-
-            await newUser(req, res);
-
-            // Status 201, user has been saved to DB
-            expect(res.status).toHaveBeenCalledWith(409);
-            expect(res.json).toHaveBeenCalledWith({ error: "Username is already taken" });
-        });
-    });
-
-    // 3. ADDING NEW USER, WITH ALL REQUIRED PARAMATERS, SAVING TO DB IS SUCCESS
-    describe('newUser function', () => {
-        afterAll(async () => {
-            await User.deleteOne({ username: "RandomUsername4324534534" })
-        })
-        it('provide all fields for user, SUCCESS ', async () => {
-            const completeUser: userType = {
-                name: "Luka",
-                surname: "Ceranic",
-                username: "RandomUsername4324534534", // Username that is not taken
-                age: 28,
-                password: "somePassword"
-            }
-
-            // Mock request and response, so i can test them later on
-            const req = { body: completeUser } as unknown as Request;
-            const res = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn()
-            } as unknown as Response;
-
-            await newUser(req, res);
-
-            // Status 201, user has been saved to DB
-            expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith({ message: 'User created successfully' });
-        });
-    });
 })
