@@ -19,7 +19,7 @@ const userSchema = new Schema<userType>({
     },
     password: {
         type: String,
-        required: [true, "User must have a name!"]
+        required: [true, "User must have a password!"]
     },
     avatar: {
         type: String,
