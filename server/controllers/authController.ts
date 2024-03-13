@@ -1,5 +1,5 @@
-import { Request, Response } from "express"
-const jwt = require("jsonwebtoken");
+import { NextFunction, Request, Response } from "express"
+import jwt from 'jsonwebtoken';
 const bycrypt = require("bcryptjs")
 const asyncHandler = require("express-async-handler")
 
@@ -8,11 +8,11 @@ import { userType } from "../types/userType"
 import { Types } from "mongoose";
 
 
-// @desc GENERATE JWT
+// @desc GENERATE JWT TOKEN
 
 const generateToken = (id: Types.ObjectId) => {
-    return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "10d"
+    return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET || "", {
+        expiresIn: "1d"
     })
 }
 
@@ -61,7 +61,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
 
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { username, password } = req.body
-
+    if (!username || !password) return res.status(400).json({ error: "Please provide all credentials!" })
     const user = await User.findOne({ username: username })
 
     // If user is found and password is correct(using compare function
@@ -78,4 +78,14 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     }
 
     res.status(400).json({ error: "Invalid credentials!" })
+})
+
+// @desc Gets current user's profile data
+// @route "/api/auth/myProfile"
+interface CustomRequest extends Request {
+    user: unknown
+}
+// Send all info about user that is logged in with json
+export const getMyProfile = asyncHandler(async (req: CustomRequest, res: Response, next: NextFunction) => {
+    res.status(200).json({ usersData: req.user })
 })
