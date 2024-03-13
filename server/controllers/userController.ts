@@ -6,7 +6,9 @@ import User from "../models/User";
 // User type
 import { userType } from "../types/userType";
 
-// GETTING ALL USERS FROM DB
+// @desc  Get all users from DB
+// @route GET "/api/users"
+
 export const getAllusers = async (req: Request, res: Response) => {
     try {
         const users = await User.find();
@@ -19,7 +21,9 @@ export const getAllusers = async (req: Request, res: Response) => {
     }
 }
 
-// GETTING USER FROM DB
+// @desc  Get user from DB by ID
+// @route GET "/api/users/:userID"
+
 export const getUser = async (req: Request, res: Response) => {
     const id = req.params.id;
     if (isValidObjectId(id)) {
@@ -37,7 +41,9 @@ export const getUser = async (req: Request, res: Response) => {
     }
 }
 
-// EDIT USER FROM DB
+// @desc  Edit user from DB by ID
+// @route PATCH "/api/users/:userID"
+
 export const editUser = async (req: Request, res: Response) => {
     const updates = req.body;
     const id = req.params.id;
@@ -63,38 +69,10 @@ export const editUser = async (req: Request, res: Response) => {
     }
 };
 
-// MAKE NEW USER AND INSERT IT INTO DB
 
-export const newUser = async (req: Request, res: Response) => {
-    try {
-        const { age, name, surname, password, username } = req.body
+// @desc  Delete user from DB by id
+// @route DELETE "/api/users/:userID"
 
-        // Check if username is taken, if it's not, make new user
-        const usernameTaken = await User.findOne({ username: username })
-        if (!usernameTaken) {
-            const user = new User<userType>({
-                age: age,
-                name: name,
-                surname: surname,
-                password: password,
-                username: username,
-                avatar: req.body.avatar || ""
-            })
-            await user.save()
-
-            res.status(201).json({ message: "User created successfully" })
-            return
-        }
-        // 409 status means that there was a conflict( username is already taken )
-        res.status(409).json({ error: "Username is already taken" });
-
-    } catch (error) {
-        console.log("Error occured on adding newUser to DB")
-        res.status(404).json({ error: "Error while adding new User from DB" })
-    }
-}
-
-// DELETING USER FROM DB
 export const deleteUser = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
