@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 .profileWrapper {
     @apply px-6 py-2 bg-profileColor rounded-full border-[1px] border-gray-600
@@ -15,14 +21,36 @@
     hover:to-linearGradientEnd
     cursor-pointer
 }
+.signInInputWrapper {
+    @apply flex items-center gap-5 
+    border-b-2 border-[#acafac] pb-3 pl-2
+}
+.signInButton {
+    @apply rounded-full px-8 py-4 
+    bg-white text-black max-w-[8rem] mx-auto font-exo
+    tracking-wide
+}
 ::-webkit-scrollbar {
     width: 10px;
 }
 ::-webkit-scrollbar-track {
     background-color: #f1f1f1; 
 }
-
 ::-webkit-scrollbar-thumb {
     background-color: #888; 
     border-radius: 5px; 
+}
+
+.signInInputWrapper > input[type=number]::-webkit-inner-spin-button,
+.signInInputWrapper > input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.dropdownButton {
+    @apply text-lg border-borderGray border-[2px] cursor-pointer
+    px-4 py-1 hover:bg-white hover:border-white hover:text-black
+}
+.dropdown:hover > .menu {
+    display: grid;
 }
