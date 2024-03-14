@@ -11,8 +11,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install server dependencies
+        run: |
+          cd server
+          npm install
         
       - name: Setup Node.js
         uses: actions/setup-node@v2
