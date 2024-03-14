@@ -22,7 +22,7 @@ function App(): ReactNode {
     })
     useEffect(() => {
         const fetchData = async () => {
-            const fetched_data: userType = await getCurrentUser();
+            const fetched_data = await getCurrentUser();
             setUserProfileData(() => ({
                 username: fetched_data.username,
                 age: fetched_data.age,
@@ -33,6 +33,9 @@ function App(): ReactNode {
         }
         fetchData()
     }, [])
+    useEffect(() => {
+        console.log(userProfileData)
+    }, [userProfileData])
     const renderComponentBasedOnURL = (): ReactNode => {
         const currentURL = window.location.pathname;
         // URL decides which component will render
