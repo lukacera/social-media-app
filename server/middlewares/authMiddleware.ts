@@ -14,7 +14,7 @@ interface CustomRequest extends Request {
 
 export const protect = asyncHandler(async (req: CustomRequest, res: Response, next: NextFunction) => {
     // Extract token from Authorization header
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.headers.authorization?.startsWith("Bearer ") ? req.headers.authorization.split(" ")[1] : undefined;
 
     if (!token) {
         // No token provided
