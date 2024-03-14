@@ -5,6 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ], theme: {
     extend: {
+      fontFamily: {
+        'madimi-one': ['Madimi One', 'sans-serif'],
+        merryweather: ["Merriweather", "serif"],
+        exo: ["Exo 2", "sans-serif"]
+      },
       colors: {
         backgroundDark: "#1a1919",
         borderGray: "#7a7d7d",

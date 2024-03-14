@@ -1,19 +1,39 @@
 import "../assets/index.css";
 // Imports 
 import { GiBackup } from "react-icons/gi";
-import { createRandomUser, USERS } from "../helpers/fakerHelper";
+import { USERS } from "../helpers/fakerHelper";
+import { getCurrentUser } from "../api/getCurrentUserApi";
+
 
 // Components
 import { Sidebar } from "../components/Sidebar";
 import { Feed } from "../components/Feed";
 import AllProfiles from "../components/AllProfiles";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+
+import { userType } from "../../../server/types/userType";
 function App(): ReactNode {
-    const profileUser = createRandomUser()
+    const [userProfileData, setUserProfileData] = useState<Partial<userType>>({
+        age: 0,
+        name: "",
+        password: "",
+        surname: "",
+        username: ""
+    })
+    useEffect(() => {
+        const fetchData = async () => {
+            const fetched_data: userType = await getCurrentUser();
+            setUserProfileData(() => ({
+                username: fetched_data.username,
+                age: fetched_data.age,
+                name: fetched_data.name,
+                surname: fetched_data.surname,
+                avatar: fetched_data.avatar
+            }))
+        }
+        fetchData()
+    }, [])
     const renderComponentBasedOnURL = (): ReactNode => {
-        window.scroll({
-            top: 0
-        })
         const currentURL = window.location.pathname;
         // URL decides which component will render
         if (currentURL === '/') {
@@ -40,13 +60,13 @@ function App(): ReactNode {
                     </svg>
                 </div>
                 <h1 data-testid="cypress-title" className="flex justify-start pl-20 items-center text-4xl
-                    font-[Inter] tracking-widest">Bondify</h1>
+                    font-madimi-one tracking-widest">Bondify</h1>
                 {/* Profile div */}
                 <div className="flex justify-center items-center">
                     <div className="profileWrapper">
                         <img className="w-12 h-12 rounded-full"
-                            src={profileUser.avatar} alt="" />
-                        <p className="profileName">{profileUser.username}</p>
+                            src={userProfileData.avatar} alt="" />
+                        <p className="profileName">{userProfileData.username}</p>
                     </div>
                 </div>
             </div>
