@@ -14,7 +14,7 @@ router
 
 // ROUTES FOR HANDLING USER'S User
 router
-    .route("/:id")
+    .route("/:username")
     .get(getUser)
     .patch(editUser)
     .delete(deleteUser)
@@ -23,7 +23,7 @@ router
 
 // ROUTES FOR HANDLING FRIEND REQUEST
 router
-    .route("/:id/friend-request")
+    .route("/:username/friend-request")
     .post(sendFriendRequest)
     .delete(deleteFriendRequest)
 
