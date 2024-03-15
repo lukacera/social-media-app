@@ -2,47 +2,55 @@ import "../assets/index.css";
 // Imports 
 import { GiBackup } from "react-icons/gi";
 import { USERS } from "../helpers/fakerHelper";
-import { getCurrentUser } from "../api/getCurrentUserApi";
+import { ReactNode, useState, useEffect } from "react";
 
-
+import { getUser } from "../api/getUserApi";
+import { userType } from "../../../server/types/userType";
 // Components
 import { Sidebar } from "../components/Sidebar";
 import { Feed } from "../components/Feed";
 import AllProfiles from "../components/AllProfiles";
-import { ReactNode, useEffect, useState } from "react";
+import CurrentUser from "../components/CurrentUser";
+import ViewProfile from "../components/ViewProfile";
 
-import { userType } from "../../../server/types/userType";
 function App(): ReactNode {
+
+    // Use partial because password is not provided
     const [userProfileData, setUserProfileData] = useState<Partial<userType>>({
         age: 0,
         name: "",
-        password: "",
         surname: "",
-        username: ""
+        username: "",
+        avatar: ""
     })
+
+    // Fetch data from JWT and update userProfileData with it
+    /*
     useEffect(() => {
         const fetchData = async () => {
-            const fetched_data = await getCurrentUser();
+            const fetched_data = await getUser();
             setUserProfileData(() => ({
                 username: fetched_data.username,
                 age: fetched_data.age,
                 name: fetched_data.name,
                 surname: fetched_data.surname,
-                avatar: fetched_data.avatar
+                avatar: fetched_data.avatar.length > 0 ? fetched_data.avatar :
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
             }))
         }
         fetchData()
     }, [])
-    useEffect(() => {
-        console.log(userProfileData)
-    }, [userProfileData])
+*/
+
     const renderComponentBasedOnURL = (): ReactNode => {
         const currentURL = window.location.pathname;
         // URL decides which component will render
         if (currentURL === '/') {
             return <Feed />;
-        } else if (currentURL === '/profiles') {
+        } else if (currentURL === '/users') {
             return <AllProfiles />;
+        } else if (currentURL === '/viewProfile') {
+            return <ViewProfile />
         }
     };
     const renderComponent = renderComponentBasedOnURL()
@@ -64,20 +72,17 @@ function App(): ReactNode {
                 </div>
                 <h1 data-testid="cypress-title" className="flex justify-start pl-20 items-center text-4xl
                     font-madimi-one tracking-widest">Bondify</h1>
-                {/* Profile div */}
-                <div className="flex justify-center items-center">
-                    <div className="profileWrapper">
-                        <img className="w-12 h-12 rounded-full"
-                            src={userProfileData.avatar} alt="" />
-                        <p className="profileName">{userProfileData.username}</p>
-                    </div>
-                </div>
+                {/* Profile div 
+                    < CurrentUser userProfileData={userProfileData} />
+                */}
+
             </div>
 
             <div className=" grid grid-cols-[10%_70%_20%]">
                 {/* Sidebar */}
                 < Sidebar />
                 {/* Feed div */}
+
                 <div className="overflow-auto">
                     {renderComponent}
                 </div>
@@ -88,7 +93,9 @@ function App(): ReactNode {
                     {USERS.map((user, index) => (
                         <div className="profileWrapper" key={index}>
                             <img className="w-12 h-12 rounded-full"
-                                src={user.avatar} alt={user.username} />
+                                src={user.avatar ? user.avatar
+                                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+                                } alt={user.username} />
                             <p className="profileName">{user.username}</p>
                         </div>
                     ))}

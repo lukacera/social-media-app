@@ -15,7 +15,7 @@ export const Sidebar = (): ReactNode => {
         },
         {
             icon: < HiUserGroup />,
-            linkTo: "/profiles"
+            linkTo: "/users"
         },
     ];
     return (
