@@ -1,11 +1,11 @@
 import { baseUrl } from "../constants/baseURL";
 
-// Get info about user that is currently logged in
-export const getCurrentUser = async () => {
+// Get info about user by username
+export const getUser = async (username: string) => {
     // Get JWT from localstorage
     const token = localStorage.getItem("token")
     try {
-        const response = await fetch(`${baseUrl}/auth/myProfile`, {
+        const response = await fetch(`${baseUrl}/users/${username}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -18,8 +18,8 @@ export const getCurrentUser = async () => {
         }
         const data = await response.json();
 
-        // JSON is in {usersData: data} format
-        return data.usersData;
+        // JSON is in {user: data} format
+        return data.user;
     } catch (error) {
         throw new Error('Operation failed!');
     }
