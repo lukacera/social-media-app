@@ -63,20 +63,32 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     if (!username || !password) return res.status(400).json({ error: "Please provide all credentials!" })
     const user = await User.findOne({ username: username })
 
-    // If user is found and password is correct(using compare function
-    // from bycrypt), log user in
-    if (user && (await bycrypt.compare(password, user.password))) {
+    if (user) {
+        // Returns boolean
+        const checkPassword = await bycrypt.compare(password, user.password);
+
+        // If password is not correct, return status 400
+        if (!checkPassword) {
+            return res.status(400).json({
+                error: "Password is incorrect"
+            })
+        }
+
+        // Everything is correct, send data
         res.status(200).json({
-            _id: user.id,
-            name: user.name,
-            surname: user.surname,
-            username: user.username,
-            token: generateToken(user._id)
+            userData: {
+                _id: user.id,
+                name: user.name,
+                surname: user.surname,
+                username: user.username,
+                token: generateToken(user._id)
+            }
+
         })
         return
     }
-
-    res.status(400).json({ error: "Invalid credentials!" })
+    // Username not found
+    res.status(400).json({ error: "Invalid username" })
 })
 
 
