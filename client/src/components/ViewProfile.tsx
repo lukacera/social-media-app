@@ -1,54 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { userType } from "../../../server/types/userType";
-import { getUser } from "../api/getUserApi";
 
-const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
-
-  // Initialize loading state, set to false later on when program is done
-  // with fetching
-  const [loading, setLoading] = useState<boolean>(true)
-
-  // Initialize state before fetching
-  const [userData, setUserData] = useState<Partial<userType>>({
-    age: 0,
-    name: "",
-    surname: "",
-    username: "",
-    avatar: "",
-    friends: [],
-    posts: []
-  })
-
-  // Fetch data from REST API on every change of username
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetched_data = await getUser(username);
-        if (fetched_data) {
-          setUserData(() => ({
-            age: fetched_data.age,
-            name: fetched_data.name,
-            surname: fetched_data.surname,
-            avatar: fetched_data.avatar,
-            username: fetched_data.username,
-            friends: fetched_data.friends,
-            posts: fetched_data.posts
-          }));
-        } else {
-          throw new Error("User not found!");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-      // Set loading to false, which means that fetching is done
-      setLoading(false);
-    };
-    fetchData();
-  }, [username]);
+// Get userData as prop from mainPage
+const ViewProfile: React.FC<{ userData: userType }> = ({ userData }) => {
   return (
 
     <div className="h-full grid justify-center">
-      {userData.username && (
+      {userData.username != "" && (
         <div className="flex flex-col gap-16 text-xl mt-16">
           <div className="flex flex-col place-items-center gap-10 
             w-[70%] mx-auto">
@@ -85,9 +43,6 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
             </p>
           </div>
         </div>
-      )}
-      {!loading && userData.username?.length === 0 && (
-        <p className="flex items-center text-[3rem] tracking-wider">Page not found!</p>
       )}
     </div>
   )
