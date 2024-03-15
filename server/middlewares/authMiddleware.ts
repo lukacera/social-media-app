@@ -10,7 +10,7 @@ interface CustomRequest extends Request {
     user: any
 }
 
-// @ desc Protects route, so only signed User can access it
+// Protects route, so only signed User can access it
 
 export const protect = asyncHandler(async (req: CustomRequest, res: Response, next: NextFunction) => {
     // Extract token from Authorization header

@@ -39,8 +39,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
             name: name,
             surname: surname,
             password: hashedPassword,
-            username: username,
-            avatar: req.body.avatar || ""
+            username: username
         })
 
         await user.save()
@@ -71,7 +70,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
             _id: user.id,
             name: user.name,
             surname: user.surname,
-            username: "User's username is:" + user.username,
+            username: user.username,
             token: generateToken(user._id)
         })
         return
@@ -80,12 +79,15 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     res.status(400).json({ error: "Invalid credentials!" })
 })
 
-// @desc Gets current user's profile data
-// @route "/api/auth/myProfile"
+
+// Extend request with user, that is added with protect middleware
 interface CustomRequest extends Request {
     user: unknown
 }
-// Send all info about user that is logged in with json
+
+// @desc Send all info about user that is logged in with json
+// @route "/api/auth/myProfile"
+
 export const getMyProfile = asyncHandler(async (req: CustomRequest, res: Response, next: NextFunction) => {
     res.status(200).json({ usersData: req.user })
 })
