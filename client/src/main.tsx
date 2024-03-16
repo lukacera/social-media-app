@@ -2,9 +2,11 @@ import ReactDOM from 'react-dom/client';
 // Import pages
 import { App } from './Router';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <BrowserRouter>
     <App />
-  </React.StrictMode>,
+
+  </BrowserRouter>
 
 );
