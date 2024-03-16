@@ -7,7 +7,7 @@ import { userType } from "../types/userType";
 // Models
 import User from "../models/User"
 
-import { deleteUser, editUser } from "../controllers/userController";
+import { deleteUser, editUser, getUser } from "../controllers/userController";
 
 
 
@@ -62,17 +62,43 @@ describe('Check "/api/users/:id" route', () => {
     });
 
     // 2. CLIENT REQUESTS FOR USER THAT IS IN DB
-    it('GET method single user, 200', async () => {
+    describe('GET method single user, 200', () => {
+        const userData = {
+            name: 'Test',
+            surname: 'User',
+            age: 30,
+            birthday: new Date(),
+            password: 'testPassword',
+            username: 'testUsername123',
+            avatar: '',
+        };
 
-        const userId = new Types.ObjectId();
-        const targetUser = { name: "Luka", age: 99 }
-        jest.spyOn(User, 'findById').mockResolvedValueOnce(targetUser);
+        let userId: Types.ObjectId;
 
-        const response = await request(app).get(`/api/users/${userId}`);
+        beforeAll(async () => {
+            // Create a user record in the database, for testing
+            const user = await User.create(userData);
+            userId = user._id;
+        });
 
-        expect(response.status).toBe(200);
-        expect(response.body).toEqual({ user: targetUser });
-    });
+        // Delete that user record that was made in beforeAll
+        afterAll(async () => {
+            await User.deleteOne({ _id: userId })
+        })
+        it('GET method single user, 200', async () => {
+            const username = "testUsername123";
+
+            const req = { params: { username: username } } as unknown as Request;
+            const res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            } as unknown as Response;
+
+            await getUser(req, res)
+            expect(res.status).toHaveBeenCalledWith(200)
+        });
+    })
+
 
 
     // TEST PATCH ( edit existing documents ) METHOD FOR USER

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Query, Types, isValidObjectId, UpdateWriteOpResult } from "mongoose";
+import { isValidObjectId, UpdateWriteOpResult } from "mongoose";
 // User model
 import User from "../models/User";
 
@@ -21,23 +21,29 @@ export const getAllusers = async (req: Request, res: Response) => {
     }
 }
 
-// @desc  Get user from DB by ID
-// @route GET "/api/users/:userID"
+// @desc  Get user from DB by username
+// @route GET "/api/users/:username"
 
 export const getUser = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    if (isValidObjectId(id)) {
-        const targetUser = await User.findById(id) // Try to find user in DB
-        if (!targetUser) {
-            res.status(404).json({ error: "User not found" })
-            return
-        }
-        res.status(200).json({  // If he is founded, return him to client
-            user: targetUser
-        })
-    } else { // If id is not ObjectID
+    const username = req.params.username;
+    if (username) {
+        try {
+            const targetUser = await User.findOne({ username: username }) // Try to find user in DB
+                .populate("friends")
 
-        res.status(404).json({ error: "ID for GETTING USER from DB is invalid" });
+            if (!targetUser) {
+                res.status(404).json({ error: "User not found" })
+                return
+            }
+            res.status(200).json({  // If he is founded, return him to client
+                user: targetUser
+            })
+        } catch (error) {
+            console.log("Error while getting user from DB! " + error)
+        }
+
+    } else { // Username not provided
+        res.status(404).json({ error: "OPERATION FOR GETTING USER FROM DB FAILED" });
     }
 }
 
