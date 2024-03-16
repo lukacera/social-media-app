@@ -1,6 +1,6 @@
 // Imports 
 import { ReactNode, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import { userType } from "../../../server/types/userType";
 
@@ -16,6 +16,7 @@ import { getUser } from "../api/getUserApi";
 import { getCurrentUser } from "../api/getCurrentUserApi";
 
 function MainPage(): ReactNode {
+    const navigate = useNavigate()
     // Get data for current user
     const [currentUserData, setCurrentUserData] = useState<userType>({
         age: 0,
@@ -43,7 +44,6 @@ function MainPage(): ReactNode {
 
 
 
-    const [isError, setisError] = useState<boolean>(false)
     // Initialize state of data on first render
     const [targetUserData, settargetUserData] = useState<userType>({
         age: 0,
@@ -78,20 +78,19 @@ function MainPage(): ReactNode {
                     }
                     settargetUserData(targetUserData)
                 } catch (error) {
-                    // If error occured
-                    setisError(true);
+                    // If error occured, redirect to errorPage
+                    navigate("/*")
                 }
 
             }
-            // If url is exactly /users/ , set errorPage to true, because no username is "" 
-
+            // /users/ means that no username was provided, so render errorPage
             else if (currentURL === "/users/") {
-                setisError(true)
+                navigate("/*")
             }
         }
 
         fetchData()
-    }, [username, currentURL, currentUserData.username])
+    }, [username, currentURL, currentUserData.username, navigate])
 
     const renderComponentBasedOnURL = (): ReactNode => {
         // URL decides which component will render
@@ -101,29 +100,23 @@ function MainPage(): ReactNode {
 
             return <AllProfiles currentUser={currentUserData} />;
         } else if (currentURL === `/users/${username}`) {
-            // If there was no error, render profile
-            if (!isError) {
-                return <ViewProfile userData={targetUserData} isCurrentUser={isCurrentUser} />
-            }
+            return <ViewProfile userData={targetUserData} isCurrentUser={isCurrentUser} />
+
         }
     };
     const renderComponent = renderComponentBasedOnURL()
     return (
         <>
-            {isError ? ( // If Profile was
-                <ErrorPage />
-            ) : (
-                <div className="grid grid-rows-[15%,85%] h-screen bg-white dark:bg-backgroundDark text-white font-[Nunito]">
-                    <HeaderNav />
-                    <main className=" grid grid-cols-[10%_70%_20%]">
-                        <Sidebar />
-                        <div className="overflow-auto">
-                            {renderComponent}
-                        </div>
-                        <Messages />
-                    </main>
-                </div>
-            )}
+            <div className="grid grid-rows-[15%,85%] h-screen bg-white dark:bg-backgroundDark text-white font-[Nunito]">
+                <HeaderNav />
+                <main className=" grid grid-cols-[10%_70%_20%]">
+                    <Sidebar />
+                    <div className="overflow-auto">
+                        {renderComponent}
+                    </div>
+                    <Messages />
+                </main>
+            </div>
         </>
 
 
