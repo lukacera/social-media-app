@@ -3,9 +3,6 @@ import { isValidObjectId, UpdateWriteOpResult } from "mongoose";
 // User model
 import User from "../models/User";
 
-// User type
-import { userType } from "../types/userType";
-
 // @desc  Get all users from DB
 // @route GET "/api/users"
 
@@ -30,6 +27,7 @@ export const getUser = async (req: Request, res: Response) => {
         try {
             const targetUser = await User.findOne({ username: username }) // Try to find user in DB
                 .populate("friends")
+                .populate("friendRequests")
 
             if (!targetUser) {
                 res.status(404).json({ error: "User not found" })
