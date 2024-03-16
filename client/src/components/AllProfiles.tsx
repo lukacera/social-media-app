@@ -10,7 +10,6 @@ import { userType } from "../../../server/types/userType";
 const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
     // Initialize state for loading
     const [loading, setLoading] = useState<boolean>(true)
-
     const [users, setUsers] = useState<userType[]>([])
 
     // Fetch all profiles on first render, and set loading to false
@@ -18,6 +17,7 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
         const fetchUsers = async () => {
             try {
                 let data = await getAllProfiles()
+
                 // Display all profiles except for current user one
                 data = data.filter(user => user.username !== currentUser.username)
                 setUsers(data)
@@ -26,11 +26,10 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
                 console.error("Error occured while fetching all profiles from DB: " + error)
             }
             setLoading(false)
-
         }
         fetchUsers()
 
-    }, [])
+    }, [currentUser.username])
 
     // Handle search bar on input
     const [searchProfile, setSearchProfile] = useState<string>('')
@@ -67,7 +66,7 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
                         <p className="text-2xl">No profiles found!</p>
                     }
 
-                    {filteredUsers && filteredUsers.map((user: userType, index: number) => (
+                    {!loading && filteredUsers && filteredUsers.map((user: userType, index: number) => (
                         <div className="profileWrapper" key={index}>
                             <Link to={`/users/${user.username}`}>
                                 <div className="flex place-items-center">
