@@ -40,7 +40,7 @@ const SignUp = (): ReactNode => {
             // On successful signup, navigate to login page
             navigate("/")
         } catch (error) {
-            console.log("Error occured while trying to save User " + error)
+            console.error("Error occured while trying to save User " + error)
         }
     }
     return (

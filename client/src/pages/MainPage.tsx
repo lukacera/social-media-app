@@ -55,7 +55,7 @@ function MainPage(): ReactNode {
 
     const renderComponentBasedOnURL = (): ReactNode => {
         // URL decides which component will render
-        if (currentURL === '/') {
+        if (currentURL === '/home') {
             return <Feed />;
         } else if (currentURL === '/users') {
             return <AllProfiles />;

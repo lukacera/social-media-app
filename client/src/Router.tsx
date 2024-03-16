@@ -2,17 +2,11 @@ import MainPage from './pages/MainPage';
 import Login from './pages/Login';
 import ErrorPage from './pages/ErrorPage';
 import SignUp from './pages/signUp';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import React from 'react';
 
 export const App: React.FC = () => {
     const token = localStorage.getItem("token");
-    const location = useLocation();
-    useEffect(() => {
-        console.log("Router has rendered.");
-        console.log('pathname:', location.pathname)
-
-    }, [location.pathname]);
     return (
         <Routes>
             {!token && (

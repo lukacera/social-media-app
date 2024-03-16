@@ -21,7 +21,7 @@ const AllProfiles: React.FC = () => {
                 setUsers(data.users)
             }
             catch (error) {
-                console.log("Error occured while fetching all profiles from DB: " + error)
+                console.error("Error occured while fetching all profiles from DB: " + error)
             }
             setLoading(false)
 

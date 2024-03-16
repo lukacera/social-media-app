@@ -17,13 +17,10 @@ export const loginUser = async (username: string, password: string) => {
         });
         const data = await response.json()
         if (!response.ok) {
-            console.log(data)
-            console.log('Failed to fetch profiles');
             // Data.error returns string, that consists of error
             return data.error
         }
         // Set token in localStorage
-        console.log(data.token)
         localStorage.setItem("token", data.userData.token)
 
         // Return object with values for user that is logged in

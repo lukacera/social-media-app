@@ -21,8 +21,8 @@ const Login = (): ReactNode => {
             setErrorValidation(fetched_data)
             return
         }
-
-        navigate("/")
+        // Signup successful, redirect to home page
+        navigate("/home")
     }
     return (
         <div className="flex justify-center items-center h-screen bg-slate-300">
@@ -58,7 +58,7 @@ const Login = (): ReactNode => {
                         <div className="grid place-items-center gap-5">
                             {/* Place error message if something went wrong */}
                             {errorValidation && (
-                                <p className="text-red-500 text-xl">
+                                <p className="text-black text-xl">
                                     {errorValidation}
                                 </p>
                             )}

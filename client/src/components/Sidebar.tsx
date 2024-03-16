@@ -11,7 +11,7 @@ export const Sidebar = (): ReactNode => {
     const sidebarIcons: IconType[] = [
         {
             icon: <FaHome />,
-            linkTo: "/"
+            linkTo: "/home"
         },
         {
             icon: < HiUserGroup />,

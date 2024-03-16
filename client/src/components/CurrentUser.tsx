@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "../api/getCurrentUserApi";
 import { Link } from "react-router-dom";
-const CurrentUser: React.FC = () => {
+const CurrentUser: React.FC<{ token: string | null }> = ({ token }) => {
     // Get token from local storage
-    const token = localStorage.getItem("token");
 
     // Declare type 
     interface CurrentUser {
@@ -49,7 +48,7 @@ const CurrentUser: React.FC = () => {
                                 </p>
                             </Link>
                             {/* Remove token from localStorage when user clicks on logout button & redirect to login */}
-                            <Link to={"/login"} onClick={() => localStorage.removeItem("token")}>
+                            <Link to={"/"} onClick={() => localStorage.removeItem("token")}>
                                 <p className="dropdownButton">
                                     Logout
                                 </p>
@@ -62,9 +61,9 @@ const CurrentUser: React.FC = () => {
             {/* If no user is logged in, instead of profileWrapper, put login button */}
             {!token && (
                 <div className="grid place-items-center">
-                    <Link to={"/login"}>
+                    <Link to={"/"}>
                         <p className="px-5 py-3 text-xl font-[Nunito] tracking-wide  
-                        bg-profileColor border-borderGray border-[1px]
+                        bg-profileColor border-borderGray text-white border-[1px]
                         hover:bg-white hover:text-black hover:border-none">
                             LOGIN
                         </p>
