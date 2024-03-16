@@ -1,13 +1,13 @@
 import "../assets/index.css";
 import { IoMdPersonAdd } from "react-icons/io";
-
 import { Link } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
-import { userType } from "../../../server/types/userType";
 import { getAllProfiles } from "../api/getAllProfilesApi";
+import { userType } from "../../../server/types/userType";
+
 // Return user by username
 
-const AllProfiles: React.FC = () => {
+const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
     // Initialize state for loading
     const [loading, setLoading] = useState<boolean>(true)
 
@@ -17,8 +17,10 @@ const AllProfiles: React.FC = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const data = await getAllProfiles()
-                setUsers(data.users)
+                let data = await getAllProfiles()
+                // Display all profiles except for current user one
+                data = data.filter(user => user.username !== currentUser.username)
+                setUsers(data)
             }
             catch (error) {
                 console.error("Error occured while fetching all profiles from DB: " + error)
