@@ -3,7 +3,7 @@ import { getCurrentUser } from "../api/getCurrentUserApi";
 import { Link } from "react-router-dom";
 const CurrentUser: React.FC<{ token: string | null }> = ({ token }) => {
     // Get token from local storage
-
+    console.log("currentUser")
     // Declare type 
     interface CurrentUser {
         username: string,
@@ -19,15 +19,19 @@ const CurrentUser: React.FC<{ token: string | null }> = ({ token }) => {
     // Fetch data from server
     useEffect(() => {
         const fetchData = async () => {
-            const fetched_data = await getCurrentUser();
-            setCurrentUserData(() => ({
-                avatar: fetched_data.avatar,
-                username: fetched_data.username
-            }))
-        }
+            const fetchedData = await getCurrentUser();
 
-        fetchData()
-    }, [])
+            // Ensure avatar is always a string
+            const avatar = fetchedData.avatar || ""; // Use an empty string as default if avatar is undefined
+            setCurrentUserData(prevUserData => ({
+                ...prevUserData,
+                avatar,
+                username: fetchedData.username
+            }));
+        };
+
+        fetchData();
+    }, []);
     return (
         <>
             {/* If user is logged in, display his profileWrapper */}

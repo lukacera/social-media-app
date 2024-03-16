@@ -1,5 +1,4 @@
 // Imports 
-import { USERS } from "../helpers/fakerHelper";
 import { ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
@@ -11,14 +10,14 @@ import { Feed } from "../components/Feed";
 import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
-
+import Messages from "../components/Messages";
 // API
 import { getUser } from "../api/getUserApi";
 import { getCurrentUser } from "../api/getCurrentUserApi";
 
 function MainPage(): ReactNode {
     // Get data for current user
-    const [currentUser, setCurrentUser] = useState<userType>({
+    const [currentUserData, setCurrentUserData] = useState<userType>({
         age: 0,
         name: "",
         password: "",
@@ -28,27 +27,25 @@ function MainPage(): ReactNode {
         friends: [],
         posts: []
     });
-    // State for detecting if profile that user wants to visit is actually his
+
+    // Logged in user 
     const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false)
 
     // Fetch currentUser's info on first render
     useEffect(() => {
         const fetchCurrentUser = async () => {
             const user = await getCurrentUser();
-            setCurrentUser(user);
+            setCurrentUserData(user);
         };
 
         fetchCurrentUser();
-    }, []);
+    }, [isCurrentUser]);
 
 
-    const currentURL = window.location.pathname;
-    // Get username from params
-    const { username } = useParams<{ username?: string }>();
 
-    const [isErrorPage, setIsErrorPage] = useState<boolean>(false)
+    const [isError, setisError] = useState<boolean>(false)
     // Initialize state of data on first render
-    const [userData, setUserData] = useState<userType>({
+    const [targetUserData, settargetUserData] = useState<userType>({
         age: 0,
         name: "",
         password: "",
@@ -60,31 +57,41 @@ function MainPage(): ReactNode {
         profCreatedAt: undefined
     });
 
-    // Fetch data from getUser API, by usernamefetchData
+
+    const currentURL = window.location.pathname;
+    // Get username from params
+    const { username } = useParams<{ username?: string }>();
+
+    // Fetch data from getUser API
     useEffect(() => {
         const fetchData = async () => {
             if (username) {
                 try {
-                    // Try to fetch userData from DB, if it fails,
-                    // setUserData will not be called
-                    const userData = await getUser(username);
-                    if (userData.username === currentUser.username) {
+                    // Try to fetch targetUserData from DB, if it fails,
+                    // settargetUserData will not be called
+                    const targetUserData = await getUser(username);
+
+                    if (targetUserData.username === currentUserData.username) {
                         setIsCurrentUser(true)
+                    } else {
+                        setIsCurrentUser(false)
                     }
-                    setUserData(userData)
-                } catch (error) { // If error occured, render ErrorPage
-                    setIsErrorPage(true);
+                    settargetUserData(targetUserData)
+                } catch (error) {
+                    // If error occured
+                    setisError(true);
                 }
 
             }
             // If url is exactly /users/ , set errorPage to true, because no username is "" 
+
             else if (currentURL === "/users/") {
-                setIsErrorPage(true)
+                setisError(true)
             }
         }
 
         fetchData()
-    }, [username, currentURL])
+    }, [username, currentURL, currentUserData.username])
 
     const renderComponentBasedOnURL = (): ReactNode => {
         // URL decides which component will render
@@ -92,48 +99,30 @@ function MainPage(): ReactNode {
             return <Feed />;
         } else if (currentURL === '/users') {
 
-            return <AllProfiles currentUser={currentUser} />;
+            return <AllProfiles currentUser={currentUserData} />;
         } else if (currentURL === `/users/${username}`) {
             // If there was no error, render profile
-            if (!isErrorPage) {
-                return <ViewProfile userData={userData} isCurrentUser={isCurrentUser} />
+            if (!isError) {
+                return <ViewProfile userData={targetUserData} isCurrentUser={isCurrentUser} />
             }
         }
     };
     const renderComponent = renderComponentBasedOnURL()
     return (
         <>
-            {!isErrorPage && (
-                <div className="grid grid-rows-[15%,85%] h-screen bg-white
-            dark:bg-backgroundDark text-white font-[Nunito]">
-                    {/* Header nav */}
-                    < HeaderNav />
-                    {/* Main part of page*/}
+            {isError ? ( // If Profile was
+                <ErrorPage />
+            ) : (
+                <div className="grid grid-rows-[15%,85%] h-screen bg-white dark:bg-backgroundDark text-white font-[Nunito]">
+                    <HeaderNav />
                     <main className=" grid grid-cols-[10%_70%_20%]">
-                        {/* Sidebar */}
-                        < Sidebar />
-                        {/* Feed div, component is rendered by URL */}
+                        <Sidebar />
                         <div className="overflow-auto">
                             {renderComponent}
                         </div>
-                        {/* Message div, right sidebar */}
-                        <div className="border-l-2 border-borderGray flex
-                                flex-col items-center gap-10 pt-10">
-                            <h3 className="text-2xl">Messages</h3>
-                            {USERS.map((user, index) => (
-                                <div className="profileWrapper" key={index}>
-                                    <img className="w-12 h-12 rounded-full"
-                                        src={user.avatar} alt={user.username} />
-                                    <p className="profileName">{user.username}</p>
-                                </div>
-                            ))}
-                        </div>
-
+                        <Messages />
                     </main>
                 </div>
-            )}
-            {isErrorPage && (
-                <ErrorPage />
             )}
         </>
 

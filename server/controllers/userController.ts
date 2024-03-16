@@ -16,8 +16,8 @@ export const getAllusers = async (req: Request, res: Response) => {
             users: users
         })
     } catch (error) {
-        console.log("Error while getting all users: " + error)
-        res.status(404).json({ error: "Error while getting all users from DB" });
+        console.error("Error while getting all users: " + error)
+        res.status(400).json({ error: "Error while getting all users from DB" });
     }
 }
 

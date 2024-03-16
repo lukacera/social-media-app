@@ -5,7 +5,6 @@ import { deleteFriendRequest, sendFriendRequest } from "../controllers/friendReq
 import { getUser, deleteUser, editUser, getAllusers } from "../controllers/userController";
 const express = require("express");
 const router: Router = express.Router()
-
 // ROUTE FOR HANDLING /PROFILES
 router
     .route("/")
@@ -22,10 +21,11 @@ router
 
 
 // ROUTES FOR HANDLING FRIEND REQUEST
+/*
 router
     .route("/:username/friend-request")
     .post(sendFriendRequest)
     .delete(deleteFriendRequest)
-
+*/
 
 export default router;

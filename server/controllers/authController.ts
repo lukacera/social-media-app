@@ -20,12 +20,29 @@ const generateToken = (id: Types.ObjectId) => {
 // @route POST "/api/auth/signUp"
 
 export const registerUser = asyncHandler(async (req: Request, res: Response) => {
-    const { age, name, surname, password, username } = req.body
+    const { age, name, surname, password, confirmPassword, username } = req.body
     // Check if username is taken, if it's not, make new user
     if (!age || !name || !surname || !username || !password) {
         return res.status(400).json({ message: "Please provide all info for user!" })
     }
 
+    // If username length is over 16 characters, return error
+    if (username.length > 16) {
+        return res.status(400).json({ error: "Username cannot exceed 16 characters. Please choose a shorter username." })
+    }
+
+    // Username is less that 4 characters, return error
+    else if (username.length < 4) {
+        return res.status(400).json({ error: "Username must be at least 4 characters long. Please choose a longer username." })
+    }
+
+    // Password is too short
+    if (password.length <= 8) {
+        return res.status(400).json({ error: "Password is too weak. It needs to have at least 8 characters" })
+    }
+    if (password !== confirmPassword) {
+        return res.status(400).json({ error: "Passwords do not match." })
+    }
     // Check if the username is already taken by some other USER
     const usernameTaken = await User.findOne({ username: username })
     if (!usernameTaken) {
@@ -44,9 +61,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
 
         await user.save()
         res.status(201).json({
-            message: "User created successfully",
-            hashedPassword: hashedPassword,
-            token: generateToken(user._id)
+            message: "User created successfully"
         })
         return
     }
