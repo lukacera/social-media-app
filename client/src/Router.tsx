@@ -9,8 +9,9 @@ export const App: React.FC = () => {
     const token = localStorage.getItem("token");
     const location = useLocation();
     useEffect(() => {
+        console.log(location.pathname)
         // Empty useEffect hook, have to declare location even though
-        // it's used nowhere, so that program acknowledge that path changed.
+        // it's not used, so that program acknowledges that path has changed.
         // That is useful for checking if token is type of "null" or "string"
     }, [location.pathname]);
     return (
@@ -29,7 +30,6 @@ export const App: React.FC = () => {
                         errorElement={<ErrorPage />} />
                     <Route path="/users" element={<MainPage />}>
                         <Route path=":username" element={<MainPage />} />
-                        <Route path="*" element={<ErrorPage />} />
                     </Route>
                     <Route path="*" element={<ErrorPage />} />
                 </>

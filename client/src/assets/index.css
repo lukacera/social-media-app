@@ -54,3 +54,6 @@
 .dropdown:hover > .menu {
     display: grid;
 }
+.pageNotFoundParagraph {
+    @apply grid place-items-center text-[3rem] tracking-wider
+}
