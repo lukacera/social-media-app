@@ -69,25 +69,23 @@ describe('Check "/api/users/:id" route', () => {
             age: 30,
             birthday: new Date(),
             password: 'testPassword',
-            username: 'testUsername123',
+            username: 'BettieChandler',
             avatar: '',
         };
 
-        let userId: Types.ObjectId;
+        let username: string;
 
         beforeAll(async () => {
             // Create a user record in the database, for testing
             const user = await User.create(userData);
-            userId = user._id;
+            username = user.username;
         });
 
         // Delete that user record that was made in beforeAll
         afterAll(async () => {
-            await User.deleteOne({ _id: userId })
+            await User.deleteOne({ username: username })
         })
         it('GET method single user, 200', async () => {
-            const username = "testUsername123";
-
             const req = { params: { username: username } } as unknown as Request;
             const res = {
                 status: jest.fn().mockReturnThis(),
