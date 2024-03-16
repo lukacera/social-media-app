@@ -1,18 +1,24 @@
 import request from "supertest";
 import app from "../app";
 import User from "../models/User";
-
+import { userType } from "../types/userType";
 describe("Check send friend request", () => {
-    describe("Sends friend request to username that is existing", () => {
-        const userData = {
-            name: 'Test',
-            surname: 'User',
-            age: 30,
-            birthday: new Date(),
+    describe("Sends friend request to user that is existing and still not friends", () => {
+        const userData: userType = {
+            name: 'Celia',
+            surname: 'Jeanette',
+            age: 34,
             password: 'testPassword',
-            username: 'testUsername123',
-            avatar: ''
+            username: 'DennisHarvey'
         };
+        const currentUserData: userType = {
+            name: "Lyons",
+            age: 50,
+            password: "hdfg23245",
+            surname: "Okgo",
+            username: "Emilyhatrri",
+            friendRequests: []
+        }
         let username: string
         beforeAll(async () => {
             const user = await User.create(userData)
