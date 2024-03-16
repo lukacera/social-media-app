@@ -21,11 +21,17 @@ const HeaderNav: React.FC = () => {
                 </Link>
 
             </div>
-            <div className="flex justify-start pl-20 items-center text-4xl
-                        font-madimi-one tracking-widest">
+            <div className="flex justify-between px-20 items-center tracking-widest">
                 <Link to={token ? "/home" : "/"}>
-                    <h1 data-testid="cypress-title" >Bondify</h1>
+                    <h1 className="text-4xl font-madimi-one " data-testid="cypress-title" >Bondify</h1>
                 </Link>
+                <p className="flex items-center gap-3 font-merryweather">
+                    <span className="text-xl">New post</span>
+                    <span className="text-2xl px-4 py-2 bg-white 
+                    text-black rounded-full cursor-pointer">
+                        +
+                    </span>
+                </p>
             </div>
             {/* Profile div */}
             < CurrentUser token={token} />

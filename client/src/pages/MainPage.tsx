@@ -1,7 +1,6 @@
 // Imports 
 import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ErrorPage from "./ErrorPage";
 import { userType } from "../../../server/types/userType";
 
 // Components
