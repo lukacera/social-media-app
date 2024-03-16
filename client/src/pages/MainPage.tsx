@@ -1,18 +1,47 @@
 // Imports 
 import { USERS } from "../helpers/fakerHelper";
 import { ReactNode, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import ErrorPage from "./ErrorPage";
+import { userType } from "../../../server/types/userType";
+
 // Components
 import { Sidebar } from "../components/Sidebar";
 import { Feed } from "../components/Feed";
 import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
-import { useParams } from "react-router-dom";
-import ErrorPage from "./ErrorPage";
+
+// API
 import { getUser } from "../api/getUserApi";
-import { userType } from "../../../server/types/userType";
+import { getCurrentUser } from "../api/getCurrentUserApi";
+
 function MainPage(): ReactNode {
-    // Get currentUrl that will be used for rendering componetns
+    // Get data for current user
+    const [currentUser, setCurrentUser] = useState<userType>({
+        age: 0,
+        name: "",
+        password: "",
+        surname: "",
+        username: "",
+        avatar: "",
+        friends: [],
+        posts: []
+    });
+    // State for detecting if profile that user wants to visit is actually his
+    const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false)
+
+    // Fetch currentUser's info on first render
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            const user = await getCurrentUser();
+            setCurrentUser(user);
+        };
+
+        fetchCurrentUser();
+    }, []);
+
+
     const currentURL = window.location.pathname;
     // Get username from params
     const { username } = useParams<{ username?: string }>();
@@ -36,8 +65,12 @@ function MainPage(): ReactNode {
         const fetchData = async () => {
             if (username) {
                 try {
-                    // Try to fetch userData from DB, if it fails, setUserData will not be called
+                    // Try to fetch userData from DB, if it fails,
+                    // setUserData will not be called
                     const userData = await getUser(username);
+                    if (userData.username === currentUser.username) {
+                        setIsCurrentUser(true)
+                    }
                     setUserData(userData)
                 } catch (error) { // If error occured, render ErrorPage
                     setIsErrorPage(true);
@@ -58,11 +91,12 @@ function MainPage(): ReactNode {
         if (currentURL === '/home') {
             return <Feed />;
         } else if (currentURL === '/users') {
-            return <AllProfiles />;
+
+            return <AllProfiles currentUser={currentUser} />;
         } else if (currentURL === `/users/${username}`) {
             // If there was no error, render profile
             if (!isErrorPage) {
-                return <ViewProfile userData={userData} />
+                return <ViewProfile userData={userData} isCurrentUser={isCurrentUser} />
             }
         }
     };
