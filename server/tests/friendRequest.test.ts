@@ -6,6 +6,8 @@ import { generateToken } from "../controllers/authController";
 
 
 describe("Check send friend request", () => {
+
+    // 1. CASE, SUCCESSFUL FRIEND REQUEST TO TARGET USER
     describe("Send request to user that current user did not send request yet", () => {
         const mockTargetUserData_success: userType = {
             name: 'Celia',
@@ -50,6 +52,8 @@ describe("Check send friend request", () => {
         })
     })
 
+
+    // 2. CASE, FRIEND REQUEST FAILED, CURRENT USER ALREADY SENT REQUEST TO TARGET USER
     describe("Send request to user that current user sent request already", () => {
         const mockTargetUser_data_requestSentAlready: userType = {
             name: 'Celia',
@@ -94,4 +98,49 @@ describe("Check send friend request", () => {
         })
     })
 
+
+    // 3. CASE, FRIEND REQUEST FAILED, CURRENT USER IS ALREADY FRIENDS WITH TARGET USER
+    describe("Send request to user that current user sent request already", () => {
+        const mockTargetUser_data_alreadyFriends: userType = {
+            name: 'Celia',
+            surname: 'Jeanette',
+            age: 34,
+            password: 'testPassword',
+            username: 'DennisHarvey',
+            friends: ["Emilyhatrri"]
+        };
+        const mockCurrentUser_data_alreadyFriends: userType = {
+            name: "Lyons",
+            age: 50,
+            password: "hdfg23245",
+            surname: "Okgo",
+            username: "Emilyhatrri"
+        }
+
+        let mockCurrentUser_alreadyFriends: any
+        let mockTargetUser_alreadyFriends: userType
+        let token: string
+
+        // Initialize users before running test
+        beforeAll(async () => {
+            mockCurrentUser_alreadyFriends = await User.create(mockCurrentUser_data_alreadyFriends)
+            mockTargetUser_alreadyFriends = await User.create(mockTargetUser_data_alreadyFriends)
+            token = generateToken(mockCurrentUser_alreadyFriends._id)
+        })
+
+        // Delete users after test is completed
+        afterAll(async () => {
+            await User.deleteOne({ username: mockCurrentUser_data_alreadyFriends.username })
+            await User.deleteOne({ username: mockTargetUser_data_alreadyFriends.username })
+        })
+
+        it("Run test", async () => {
+            const response = await request(app)
+                .post(`/api/users/${mockTargetUser_data_alreadyFriends.username}/friendRequest`)
+                .set('Authorization', `Bearer ${token}`)
+
+            expect(response.body).toEqual({ "message": `User ${mockCurrentUser_data_alreadyFriends.username} is already friends with ${mockTargetUser_data_alreadyFriends.username}` })
+            expect(response.status).toBe(400)
+        })
+    })
 })
