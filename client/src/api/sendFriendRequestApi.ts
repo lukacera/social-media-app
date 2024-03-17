@@ -1,9 +1,9 @@
 import { baseUrl } from "../constants/baseURL";
-export const deleteFriendRequest = async (targetUsername: string) => {
+export const sendFriendRequest = async (targetUsername: string) => {
     const token = localStorage.getItem("token")
     try {
         const response = await fetch(`${baseUrl}/users/${targetUsername}/friendRequest`, {
-            method: "DELETE",
+            method: "POST",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -11,12 +11,12 @@ export const deleteFriendRequest = async (targetUsername: string) => {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to delete request');
+            throw new Error('Failed to send request');
         }
 
         const data = response.json()
         return data;
     } catch (error) {
-        throw new Error('Operation failed!');
+        throw new Error(`THERE WAS AN ERROR IN SENDING NEW REQUEST TO ${targetUsername} ! ` + error);
     }
 };
