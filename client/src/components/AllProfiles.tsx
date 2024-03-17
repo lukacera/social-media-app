@@ -1,10 +1,10 @@
 import "../assets/index.css";
-import { IoMdPersonAdd } from "react-icons/io";
+
 import { Link } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getAllProfiles } from "../api/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";
-
+import FriendStatus from "./FriendStatus";
 // Return user by username
 
 const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
@@ -74,12 +74,7 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
                                     <p className="pl-10 text-[1.2rem]">{user.username}</p>
                                 </div>
                             </Link>
-                            <p className="flex justify-end w-full">
-                                <span className="bg-white px-2 text-black rounded-full
-                                text-2xl">
-                                    < IoMdPersonAdd />
-                                </span>
-                            </p>
+                            <FriendStatus currentUser={currentUser} targetUser={user} key={index} />
                         </div>
                     ))}
                 </div>
