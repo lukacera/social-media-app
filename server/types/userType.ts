@@ -6,7 +6,7 @@ export type userType = {
     username: string;
     password: string;
     avatar?: string;
-    friends?: Types.ObjectId[];
+    friends?: string[];
     posts?: Types.ObjectId[];
     friendRequests?: string[];
     profCreatedAt?: Date

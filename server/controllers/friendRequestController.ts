@@ -8,11 +8,7 @@ import { userType } from "../types/userType";
 
 
 interface CustomRequest extends Request {
-    user: {
-        friendRequests: userType[],
-        friends: userType[],
-        username: string
-    }
+    user: userType
 }
 
 // @desc  Send friend request to other user by username
@@ -48,9 +44,9 @@ export const sendFriendRequest = asyncHandler(async (req: CustomRequest, res: Re
     }
 
     // Check if user that is logged is already friends with targetUser 
-    if (currentUser.friends && !isRequestSent) {
-        for (const friend of currentUser.friends) {
-            if (friend.username === targetUser?.username) {
+    if (targetUser.friends && !isRequestSent) {
+        for (const friend of targetUser.friends) {
+            if (friend === currentUser.username) {
                 areFriends = true;
                 break;
             }

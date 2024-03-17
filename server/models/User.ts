@@ -26,12 +26,7 @@ const userSchema = new Schema<userType>({
         type: String,
         default: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
     },
-    friends: [
-        {
-            type: Schema.ObjectId,
-            ref: 'User'
-        }
-    ],
+    friends: [{ type: String }],
     friendRequests: [{ type: String }],
     posts: [
         {
