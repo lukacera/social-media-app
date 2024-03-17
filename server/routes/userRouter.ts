@@ -25,6 +25,6 @@ router
 router
     .route("/:username/friendRequest")
     .post(protect, sendFriendRequest)
-    .delete(deleteFriendRequest)
+    .delete(protect, deleteFriendRequest)
 
 export default router;
