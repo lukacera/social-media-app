@@ -8,9 +8,11 @@
 @tailwind utilities;
 
 
+
 .profileWrapper {
     @apply px-6 py-2 bg-profileColor rounded-full border-[1px] border-gray-600
-    flex items-center gap-5 w-[20rem] overflow-hidden cursor-pointer
+    flex items-center gap-5 w-[20rem]  
+    overflow-hidden cursor-pointer
 }
 .profileName {
     @apply border-l-2 text-lg tracking-wide max-w-[12rem] text-wrap flex pl-5

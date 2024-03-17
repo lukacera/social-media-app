@@ -13,7 +13,6 @@ interface CustomRequest extends Request {
 // Protects route, so only signed User can access it
 
 export const protect = asyncHandler(async (req: CustomRequest, res: Response, next: NextFunction) => {
-    console.log("Protect!")
     // Extract token from Authorization header
     const token = req.headers.authorization?.startsWith("Bearer ") ? req.headers.authorization.split(" ")[1] : undefined;
 

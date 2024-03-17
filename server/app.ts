@@ -9,7 +9,7 @@ import { connectToDB } from "./config/connectDB";
 // Routers
 import userRouter from "./routes/userRouter"
 import authRouter from "./routes/authRouter"
-
+import { protect } from "./middlewares/authMiddleware";
 connectToDB()
 
 app.use(cors())
