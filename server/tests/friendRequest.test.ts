@@ -12,36 +12,29 @@ describe("Check send friend request", () => {
     interface customType extends userType {
         _id: Types.ObjectId
     }
+    let currentUser: customType;
+    let targetUser: userType;
+    let token: string
     // 1. CASE, SUCCESSFUL FRIEND REQUEST TO TARGET USER
     describe("Send request to user that current user did not send request yet", () => {
 
-        // Mock current user
-        const mockTargetUserData_success: userType = {
-            name: 'Celia',
-            surname: 'Jeanette',
-            age: 34,
-            password: 'testPassword',
-            username: 'DennisHarvey',
-            friendRequests: []
-        };
-
-        // Mock target user
-        const mockCurrentUserData_success: userType = {
-            name: "Lyons",
-            age: 50,
-            password: "hdfg23245",
-            surname: "Okgo",
-            username: "Emilyhatrri"
-        }
-
-        let currentUser: customType;
-        let targetUser: userType;
-        let token: string
-
         // Initialize users before running test
         beforeAll(async () => {
-            currentUser = await User.create(mockCurrentUserData_success)
-            targetUser = await User.create(mockTargetUserData_success)
+            currentUser = await User.create({
+                name: "Lyons",
+                age: 50,
+                password: "hdfg23245",
+                surname: "Okgo",
+                username: "Emilyhatrri"
+            })
+            targetUser = await User.create({
+                name: 'Celia',
+                surname: 'Jeanette',
+                age: 34,
+                password: 'testPassword',
+                username: 'DennisHarvey',
+                friendRequests: []
+            })
             token = generateToken(currentUser._id)
         })
 
@@ -65,48 +58,38 @@ describe("Check send friend request", () => {
     // 2. CASE, FRIEND REQUEST FAILED, CURRENT USER ALREADY SENT REQUEST TO TARGET USER
     describe("Send request to user that current user sent request already", () => {
 
-        // Mock current user
-        const mockTargetUser_data_requestSentAlready: userType = {
-            name: 'Celia',
-            surname: 'Jeanette',
-            age: 34,
-            password: 'testPassword',
-            username: 'DennisHarvey',
-            friendRequests: ["Emilyhatrri"]
-        };
-
-        // Mock target user
-        const mockCurrentUser_data_requestSentAlready: userType = {
-            name: "Lyons",
-            age: 50,
-            password: "hdfg23245",
-            surname: "Okgo",
-            username: "Emilyhatrri"
-        }
-
-        let mockCurrentUser_requestSentAlready: customType
-        let mockTargetUser_requestSentAlready: userType
-        let token: string
-
         // Initialize users before running test
         beforeAll(async () => {
-            mockCurrentUser_requestSentAlready = await User.create(mockCurrentUser_data_requestSentAlready)
-            mockTargetUser_requestSentAlready = await User.create(mockTargetUser_data_requestSentAlready)
-            token = generateToken(mockCurrentUser_requestSentAlready._id)
+            currentUser = await User.create({
+                name: "Lyons",
+                age: 50,
+                password: "hdfg23245",
+                surname: "Okgo",
+                username: "Emilyhatrri"
+            })
+            targetUser = await User.create({
+                name: 'Celia',
+                surname: 'Jeanette',
+                age: 34,
+                password: 'testPassword',
+                username: 'DennisHarvey',
+                friendRequests: ["Emilyhatrri"]
+            })
+            token = generateToken(currentUser._id)
         })
 
         // Delete users after test is completed
         afterAll(async () => {
-            await User.deleteOne({ username: mockTargetUser_data_requestSentAlready.username })
-            await User.deleteOne({ username: mockCurrentUser_data_requestSentAlready.username })
+            await User.deleteOne({ username: currentUser.username })
+            await User.deleteOne({ username: targetUser.username })
         })
 
         it("Run test", async () => {
             const response = await request(app)
-                .post(`/api/users/${mockTargetUser_requestSentAlready.username}/friendRequest`)
+                .post(`/api/users/${targetUser.username}/friendRequest`)
                 .set('Authorization', `Bearer ${token}`)
 
-            expect(response.body).toEqual({ "message": `User ${mockCurrentUser_data_requestSentAlready.username} already sent a request to ${mockTargetUser_requestSentAlready.username}` })
+            expect(response.body).toEqual({ "message": `User ${currentUser.username} already sent a request to ${targetUser.username}` })
             expect(response.status).toBe(400)
         })
     })
@@ -115,46 +98,38 @@ describe("Check send friend request", () => {
     // 3. CASE, FRIEND REQUEST FAILED, CURRENT USER IS ALREADY FRIENDS WITH TARGET USER
     describe("Send request to user that current user sent request already", () => {
 
-        // Mock current user
-        const mockTargetUser_data_alreadyFriends: userType = {
-            name: 'Celia',
-            surname: 'Jeanette',
-            age: 34,
-            password: 'testPassword',
-            username: 'DennisHarvey',
-            friends: ["Emilyhatrri"]
-        };
-
-        // Mock target user
-        const mockCurrentUser_data_alreadyFriends: userType = {
-            name: "Lyons",
-            age: 50,
-            password: "hdfg23245",
-            surname: "Okgo",
-            username: "Emilyhatrri"
-        }
-
-        let mockCurrentUser_alreadyFriends: customType;
-        let mockTargetUser_alreadyFriends: userType;
-        let token: string;
-
+        // Mock users before test
         beforeAll(async () => {
-            mockCurrentUser_alreadyFriends = await User.create(mockCurrentUser_data_alreadyFriends)
-            mockTargetUser_alreadyFriends = await User.create(mockTargetUser_data_alreadyFriends)
-            token = generateToken(mockCurrentUser_alreadyFriends._id)
+            currentUser = await User.create({
+                name: "Lyons",
+                age: 50,
+                password: "hdfg23245",
+                surname: "Okgo",
+                username: "Emilyhatrri"
+            }
+            )
+            targetUser = await User.create({
+                name: 'Celia',
+                surname: 'Jeanette',
+                age: 34,
+                password: 'testPassword',
+                username: 'DennisHarvey',
+                friends: ["Emilyhatrri"]
+            })
+            token = generateToken(currentUser._id)
         })
 
         afterAll(async () => {
-            await User.deleteOne({ username: mockCurrentUser_data_alreadyFriends.username })
-            await User.deleteOne({ username: mockTargetUser_data_alreadyFriends.username })
+            await User.deleteOne({ username: currentUser.username })
+            await User.deleteOne({ username: targetUser.username })
         })
 
         it("Run test", async () => {
             const response = await request(app)
-                .post(`/api/users/${mockTargetUser_data_alreadyFriends.username}/friendRequest`)
+                .post(`/api/users/${targetUser.username}/friendRequest`)
                 .set('Authorization', `Bearer ${token}`)
 
-            expect(response.body).toEqual({ "message": `User ${mockCurrentUser_data_alreadyFriends.username} is already friends with ${mockTargetUser_data_alreadyFriends.username}` })
+            expect(response.body).toEqual({ "message": `User ${currentUser.username} is already friends with ${targetUser.username}` })
             expect(response.status).toBe(400)
         })
     })
@@ -171,24 +146,20 @@ describe("Check send friend request", () => {
 
     // 5. CASE, THERE IS NO USER WITH USERNAME FROM PARAMS(TARGET USER)
     describe("Send request, but target user is not found in DB", () => {
-        let token: string;
-        // Mock current user
-        const mockCurrentUser: userType = {
-            name: "Lyons",
-            age: 50,
-            password: "hdfg23245",
-            surname: "Okgo",
-            username: "Emilyhatrri"
-        }
-
-        let currentUser2: customType
 
         beforeAll(async () => {
-            currentUser2 = await User.create(mockCurrentUser)
-            token = generateToken(currentUser2._id)
+            currentUser = await User.create({
+                name: "Lyons",
+                age: 50,
+                password: "hdfg23245",
+                surname: "Okgo",
+                username: "Emilyhatrri"
+            }
+            )
+            token = generateToken(currentUser._id)
         })
         afterAll(async () => {
-            await User.deleteOne({ username: currentUser2.username })
+            await User.deleteOne({ username: currentUser.username })
         })
 
         it("Run test", async () => {
@@ -197,6 +168,177 @@ describe("Check send friend request", () => {
                 .set('Authorization', `Bearer ${token}`)
             expect(response.status).toBe(400)
             expect(response.body).toEqual({ error: "Target user not found" })
+        })
+    })
+})
+
+
+describe("Check delete request", () => {
+    interface customType extends userType {
+        _id: Types.ObjectId
+    }
+    let currentUser: customType;
+    let targetUser: userType;
+    let token: string
+
+    // 1. CASE, DELETE REQUEST TO USER THAT IS IN DB, SUCCESS CASE
+    describe("Delete friend request, success", () => {
+        beforeAll(async () => {
+            currentUser = await User.create({
+                age: 44,
+                name: "Jonathan",
+                surname: "Smith",
+                password: "randomPassword",
+                username: "Johnnn"
+            })
+            targetUser = await User.create({
+                age: 44,
+                name: "Bryce",
+                surname: "Nolan",
+                password: "34trhgfb",
+                username: "Jokkop",
+                friendRequests: ["Johnnn"]
+            })
+            token = generateToken(currentUser._id)
+        })
+        afterAll(async () => {
+            await User.deleteOne({ username: currentUser.username })
+            await User.deleteOne({ username: targetUser.username })
+        })
+        it("Run test", async () => {
+            const response = await request(app)
+                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .set('Authorization', `Bearer ${token}`)
+            expect(response.status).toBe(200)
+            expect(response.body).toEqual({
+                message: `User ${currentUser.username} successfully deleted his friend request for ${targetUser.username}`
+            })
+
+            const updatedTargetUser = await User.findOne({ username: targetUser.username });
+            expect(updatedTargetUser?.friendRequests).toEqual([]);
+        })
+    })
+
+    // 2. CASE, TRY TO DELETE REQUEST TO USER, BUT REQUEST WAS NEVER SENT
+    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+
+        beforeAll(async () => {
+            currentUser = await User.create({
+                age: 44,
+                name: "Jonathan",
+                surname: "Smith",
+                password: "randomPassword",
+                username: "Johnnn"
+            })
+            // Initialize targetUser with no friend requests
+            targetUser = await User.create({
+                age: 44,
+                name: "Bryce",
+                surname: "Nolan",
+                password: "34trhgfb",
+                username: "Jokkop",
+                friendRequests: []
+            })
+            token = generateToken(currentUser._id)
+        })
+
+        afterAll(async () => {
+            await User.deleteOne({ username: currentUser.username })
+            await User.deleteOne({ username: targetUser.username })
+        })
+
+        it("Run test", async () => {
+            const response = await request(app)
+                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .set('Authorization', `Bearer ${token}`)
+
+            expect(response.status).toBe(400)
+            expect(response.body).toEqual({
+                message: `Request was not deleted, because ${currentUser.username} never sent friend request to ${targetUser.username}`
+            })
+        })
+    })
+
+    // 3. CASE, TRY TO DELETE REQUEST TO INVALID USER
+    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+
+        beforeAll(async () => {
+            currentUser = await User.create({
+                age: 44,
+                name: "Jonathan",
+                surname: "Smith",
+                password: "randomPassword",
+                username: "Johnnn"
+            })
+            token = generateToken(currentUser._id)
+        })
+
+        afterAll(async () => {
+            await User.deleteOne({ username: currentUser.username })
+        })
+
+        it("Run test", async () => {
+            const response = await request(app)
+                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .set('Authorization', `Bearer ${token}`)
+            expect(response.status).toBe(404)
+            expect(response.body).toEqual({
+                message: "Target user not found"
+            })
+        })
+    })
+
+    // 4. CASE, INVALID JWT
+    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+
+        beforeAll(async () => {
+            targetUser = await User.create({
+                age: 44,
+                name: "Jonathan",
+                surname: "Smith",
+                password: "randomPassword",
+                username: "Johnnn"
+            })
+            token = "wrongToken"
+        })
+
+        afterAll(async () => {
+            await User.deleteOne({ username: targetUser.username })
+        })
+
+        it("Run test", async () => {
+            const response = await request(app)
+                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .set("Authorization", `Bearer ${token}`)
+
+            // 401 status code if authorization failed
+            expect(response.status).toBe(401)
+        })
+    })
+
+    // 5. CASE, NO TOKEN PROVIDED
+    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+
+        beforeAll(async () => {
+            targetUser = await User.create({
+                age: 44,
+                name: "Jonathan",
+                surname: "Smith",
+                password: "randomPassword",
+                username: "Johnnn"
+            })
+        })
+
+        afterAll(async () => {
+            await User.deleteOne({ username: targetUser.username })
+        })
+
+        it("Run test", async () => {
+            const response = await request(app)
+                .delete(`/api/users/${targetUser.username}/friendRequest`)
+
+            // 401 status code if authorization failed
+            expect(response.status).toBe(401)
         })
     })
 })
