@@ -54,6 +54,10 @@ export const sendFriendRequest = asyncHandler(async (req: CustomRequest, res: Re
     }
 
     if (!areFriends && !isRequestSent) {
+        await User.updateOne(
+            { username: targetUser.username },
+            { $push: { friendRequests: currentUser.username } }
+        )
         res.status(201).json({
             message: `User ${currentUser.username} successfully sent request to ${targetUser?.username}`
         })
