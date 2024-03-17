@@ -27,7 +27,9 @@ export const protect = asyncHandler(async (req: CustomRequest, res: Response, ne
         const decoded: any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || "");
 
         // Get user from token's Payload, exclude password from result
-        const user = await User.findById(decoded.id).select("-password");
+        const user = await User.findById(decoded.id)
+            .select("-password")
+            .populate("friends")
 
         if (!user) {
             throw new Error("User not found");

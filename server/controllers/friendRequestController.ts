@@ -21,43 +21,54 @@ interface CustomRequest extends Request {
 export const sendFriendRequest = asyncHandler(async (req: CustomRequest, res: Response) => {
     const username = req.params.username;
     const currentUser = req.user;
+
+    // Find user in DB by username, and populate friendRequests
     const targetUser = await User.findOne({ username: username })
+
     // Variable that will track if either current user and target user are friends or current user
     // already sent request to targetUser
-    let areFriends_isRequestSent: boolean = false;
+    let isRequestSent: boolean = false;
+    let areFriends: boolean = false
     if (currentUser.username === targetUser?.username) {
         return res.status(400).json({ error: "User cannot be friends with himself!" })
     }
     if (!targetUser?.username) {
         return res.status(400).json({ error: "Target user not found!" })
     }
-    // Check if user that is logged in already sent a request to targetUser 
-    if (currentUser.friendRequests) {
-        for (const request of currentUser.friendRequests) {
-            if (request.username === targetUser?.username) {
-                areFriends_isRequestSent = true;
+
+
+    // Check if user that is logged in already sent a request to targetUser
+    if (targetUser.friendRequests) {
+        for (const request of targetUser.friendRequests) {
+            if (request === currentUser.username) {
+                isRequestSent = true;
                 break;
             }
         }
     }
 
     // Check if user that is logged is already friends with targetUser 
-    if (currentUser.friends && !areFriends_isRequestSent) {
+    if (currentUser.friends && !isRequestSent) {
         for (const friend of currentUser.friends) {
             if (friend.username === targetUser?.username) {
-                areFriends_isRequestSent = true;
+                areFriends = true;
                 break;
             }
         }
     }
 
-    if (!areFriends_isRequestSent) {
+    if (!areFriends && !isRequestSent) {
         res.status(201).json({
             message: `User ${currentUser.username} successfully sent request to ${targetUser?.username}`
         })
+    }
+    else if (areFriends && !isRequestSent) {
+        res.status(400).json({
+            message: `User ${currentUser.username} is already friends with ${targetUser?.username}`
+        })
     } else {
         res.status(400).json({
-            message: `User ${currentUser.username} is not able to send request to ${targetUser?.username}`
+            message: `User ${currentUser.username} already sent a request to ${targetUser?.username}`
         })
     }
 

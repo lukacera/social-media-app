@@ -32,12 +32,7 @@ const userSchema = new Schema<userType>({
             ref: 'User'
         }
     ],
-    friendRequests: [
-        {
-            type: Schema.ObjectId,
-            ref: 'User'
-        }
-    ],
+    friendRequests: [{ type: String }],
     posts: [
         {
             type: Schema.ObjectId,

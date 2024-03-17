@@ -10,7 +10,7 @@ import { Types } from "mongoose";
 
 // @desc GENERATE JWT TOKEN
 
-const generateToken = (id: Types.ObjectId) => {
+export const generateToken = (id: Types.ObjectId) => {
     return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET || "", {
         expiresIn: "1d"
     })

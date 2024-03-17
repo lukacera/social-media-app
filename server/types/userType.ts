@@ -8,6 +8,6 @@ export type userType = {
     avatar?: string;
     friends?: Types.ObjectId[];
     posts?: Types.ObjectId[];
-    friendRequests?: Types.ObjectId[];
+    friendRequests?: string[];
     profCreatedAt?: Date
 } 
