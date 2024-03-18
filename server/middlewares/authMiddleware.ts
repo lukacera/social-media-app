@@ -38,7 +38,6 @@ export const protect = asyncHandler(async (req: CustomRequest, res: Response, ne
 
         next(); // Call next middleware
     } catch (error) {
-        console.error('Token verification failed:', error);
         res.status(401).json({ error: "Not authorized" });
     }
 });
