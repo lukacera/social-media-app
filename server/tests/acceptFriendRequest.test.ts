@@ -97,5 +97,36 @@ describe("Accept friend request", () => {
             })
         })
     })
+    // 3. CASE, UNAUTHORIZED USER TRIES TO ACCEPT FRIEND REQUEST, FAIL CASE
+    describe("Unauthorized user tries to accept friend request, fail case", () => {
+
+        beforeAll(async () => {
+            currentUser = await User.create({
+                age: 44,
+                name: "Jonathan",
+                surname: "Smith",
+                password: "randomPassword",
+                username: "Johnnn",
+                friendRequests: [],
+                friends: []
+            })
+            token = "wrongToken"
+        })
+
+        afterAll(async () => {
+            await User.deleteOne({ username: currentUser.username })
+        })
+
+        it("Run test", async () => {
+            const response = await request(app)
+                .post("/api/users/failCas345e/acceptFriendRequest")
+                .set('Authorization', `Bearer ${token}`)
+
+            expect(response.status).toBe(401)
+            expect(response.body).toEqual({
+                error: "Not authorized"
+            })
+        })
+    })
 
 })
