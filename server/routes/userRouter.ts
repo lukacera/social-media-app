@@ -18,7 +18,7 @@ router
 router
     .route("/:username")
     .get(getUser)
-    .patch(editUser)
+    .patch(protect, editUser)
     .delete(deleteUser)
 
 

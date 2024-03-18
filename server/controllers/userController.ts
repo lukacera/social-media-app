@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
-import { isValidObjectId, UpdateWriteOpResult } from "mongoose";
-// User model
+import { isValidObjectId } from "mongoose";
 import User from "../models/User";
+import { userType } from "../types/userType";
+const asyncHandler = require("express-async-handler")
 
+interface CustomRequest extends Request {
+    user: userType
+}
 // @desc  Get all users from DB
 // @route GET "/api/users"
 
@@ -45,33 +49,67 @@ export const getUser = async (req: Request, res: Response) => {
     }
 }
 
-// @desc  Edit user from DB by ID
-// @route PATCH "/api/users/:userID"
+// @desc  Edit currentUser
+// @route PATCH "/api/users/:username"
 
-export const editUser = async (req: Request, res: Response) => {
-    const updates = req.body;
-    const id = req.params.id;
+export const editUser = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const updates: userType = req.body;
+    const currentUser = req.user;
 
-    if (!isValidObjectId(id)) {
-        return res.status(500).json({ error: "Id that client sent is not valid ObjectId!" });
+
+    // Check if client is trying to edit user that exists in DB
+
+    const usernameParams = req.params.username;
+    const userFromParams = await User.findOne({ username: usernameParams })
+    if (!userFromParams) {
+        return res.status(400).json({ message: "User not found" })
     }
-    else {
-        if (!updates) {
-            return res.status(200).json({ message: "No updates were provided." });
-        }
-        const result: UpdateWriteOpResult = await User.updateOne(
-            { _id: id },
-            { $set: updates });
 
-        // Check if there is document with that id
-        if (result.matchedCount === 0) {
-            return res.status(404).json({ error: "Couldn't find document with that Id to edit" });
-        }
-
-        // Successfully updated
-        return res.status(200).json({ message: "Update succesful" });
+    // User cannot change his password
+    if (updates.password) {
+        return res.status(400).json({ message: "User cannot change his password" })
     }
-};
+
+    // Check if user wants to update his username with same username
+    if (updates.username && updates.username === currentUser.username) {
+        console.log(updates.username)
+        return res.status(400).json({ message: "User tried to update his username with the same username" })
+    }
+
+    // Check if username that user wants to update his profile with is already taken
+    if (updates.username) {
+        const isUsernameTaken = await User.findOne({ username: updates.username })
+        console.log(isUsernameTaken)
+        if (isUsernameTaken) {
+            return res.status(400).json({ message: "Username is already taken!" })
+        }
+    }
+
+
+    // Check if client is trying to edit only his profile
+    if (userFromParams?.username !== currentUser.username) {
+        return res.status(400).json({ message: "Current user can edit only his profile" });
+    }
+
+    // Check if updates were provided
+    if (!updates || Object.keys(updates).length === 0) {
+        return res.status(400).json({ message: "No updates were provided" });
+    }
+
+    // Update user
+    const result = await User.updateOne(
+        { username: currentUser.username },
+        { $set: updates });
+
+
+    // Check if update failed
+    if (result.matchedCount === 0) {
+        return res.status(404).json({ error: "Update failed! No documents were updated!" });
+    }
+
+    // Successfully updated
+    return res.status(200).json({ message: "Update succesful" });
+});
 
 
 // @desc  Delete user from DB by id
