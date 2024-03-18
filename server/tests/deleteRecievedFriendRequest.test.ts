@@ -12,9 +12,9 @@ let currentUser: customType;
 let targetUser: userType;
 let token: string
 
-describe("Check delete request", () => {
+describe("Check received delete request", () => {
 
-    // 1. CASE, DELETE REQUEST TO USER THAT IS IN DB, SUCCESS CASE
+    // 1. CASE, DELETE REQUEST FROM USER THAT IS IN DB, SUCCESS CASE
     describe("Delete friend request, success", () => {
         beforeAll(async () => {
             currentUser = await User.create({
@@ -22,15 +22,15 @@ describe("Check delete request", () => {
                 name: "Jonathan",
                 surname: "Smith",
                 password: "randomPassword",
-                username: "Johnnn"
+                username: "Johnnn",
+                friendRequests: ["Jokkop"]
             })
             targetUser = await User.create({
                 age: 44,
                 name: "Bryce",
                 surname: "Nolan",
                 password: "34trhgfb",
-                username: "Jokkop",
-                friendRequests: ["Johnnn"]
+                username: "Jokkop"
             })
             token = generateToken(currentUser._id)
         })
@@ -40,20 +40,20 @@ describe("Check delete request", () => {
         })
         it("Run test", async () => {
             const response = await request(app)
-                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .delete(`/api/users/${targetUser.username}/deleteReceivedRequest`)
                 .set('Authorization', `Bearer ${token}`)
             expect(response.status).toBe(200)
             expect(response.body).toEqual({
-                message: `User ${currentUser.username} successfully deleted his friend request for ${targetUser.username}`
+                message: `User ${targetUser.username} successfully deleted their friend request for ${currentUser.username}`
             })
 
-            const updatedTargetUser = await User.findOne({ username: targetUser.username });
-            expect(updatedTargetUser?.friendRequests).toEqual([]);
+            const updatedCurrentUser = await User.findOne({ username: currentUser.username });
+            expect(updatedCurrentUser?.friendRequests).toEqual([]);
         })
     })
 
     // 2. CASE, TRY TO DELETE REQUEST TO USER, BUT REQUEST WAS NEVER SENT
-    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+    describe("Delete friend request, but targetUser never sent request to currentUser, fail case", () => {
 
         beforeAll(async () => {
             currentUser = await User.create({
@@ -61,7 +61,8 @@ describe("Check delete request", () => {
                 name: "Jonathan",
                 surname: "Smith",
                 password: "randomPassword",
-                username: "Johnnn"
+                username: "Johnnn",
+                friendRequests: []
             })
             // Initialize targetUser with no friend requests
             targetUser = await User.create({
@@ -70,7 +71,6 @@ describe("Check delete request", () => {
                 surname: "Nolan",
                 password: "34trhgfb",
                 username: "Jokkop",
-                friendRequests: []
             })
             token = generateToken(currentUser._id)
         })
@@ -82,12 +82,12 @@ describe("Check delete request", () => {
 
         it("Run test", async () => {
             const response = await request(app)
-                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .delete(`/api/users/${targetUser.username}/deleteReceivedRequest`)
                 .set('Authorization', `Bearer ${token}`)
 
             expect(response.status).toBe(400)
             expect(response.body).toEqual({
-                message: `Request was not deleted, because ${currentUser.username} never sent friend request to ${targetUser.username}`
+                message: `Request was not deleted, because ${targetUser.username} never sent a friend request to ${currentUser.username}`
             })
         })
     })
@@ -112,7 +112,7 @@ describe("Check delete request", () => {
 
         it("Run test", async () => {
             const response = await request(app)
-                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .delete(`/api/users/${targetUser.username}/deleteReceivedRequest`)
                 .set('Authorization', `Bearer ${token}`)
             expect(response.status).toBe(404)
             expect(response.body).toEqual({
@@ -141,7 +141,7 @@ describe("Check delete request", () => {
 
         it("Run test", async () => {
             const response = await request(app)
-                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .delete(`/api/users/${targetUser.username}/deleteReceivedRequest`)
                 .set("Authorization", `Bearer ${token}`)
 
             // 401 status code if authorization failed
@@ -168,7 +168,7 @@ describe("Check delete request", () => {
 
         it("Run test", async () => {
             const response = await request(app)
-                .delete(`/api/users/${targetUser.username}/friendRequest`)
+                .delete(`/api/users/${targetUser.username}/deleteReceivedRequest`)
 
             // 401 status code if authorization failed
             expect(response.status).toBe(401)
