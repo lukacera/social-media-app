@@ -74,7 +74,7 @@ export const sendFriendRequest = asyncHandler(async (req: CustomRequest, res: Re
 
 })
 
-// @desc  Get user from DB by username
+// @desc  Delete friend request
 // @route DELETE "/api/users/:username/friendRequest"
 
 export const deleteFriendRequest = asyncHandler(async (req: CustomRequest, res: Response) => {
@@ -108,3 +108,25 @@ export const deleteFriendRequest = asyncHandler(async (req: CustomRequest, res: 
     });
 });
 
+
+// @desc  Accept friend request
+// @route POST "/api/users/:username/acceptFriendRequest"
+
+export const acceptFriendRequest = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const username = req.params.username
+    const targetUser = await User.findOne({ username: username })
+    const currentUser = req.user
+    if (targetUser) {
+        await User.updateOne({ username: currentUser.username },
+            {
+                $push: { friends: targetUser.username },
+                $pull: { friendRequests: targetUser.username }
+            })
+        await User.updateOne({ username: targetUser.username },
+            { $push: { friends: currentUser.username } })
+    }
+
+    return res.status(200).json({
+        message: `User ${currentUser.username} successfully accepted friend request from ${targetUser?.username}`
+    });
+})

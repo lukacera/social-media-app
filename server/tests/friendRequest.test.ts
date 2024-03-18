@@ -6,15 +6,18 @@ import { generateToken } from "../controllers/authController";
 import { Types } from "mongoose";
 
 
+interface customType extends userType {
+    _id: Types.ObjectId
+}
+let currentUser: customType;
+let targetUser: userType;
+let token: string
+
+
 describe("Check send friend request", () => {
 
     // Extend userType with ObjectId, used for generating JWT
-    interface customType extends userType {
-        _id: Types.ObjectId
-    }
-    let currentUser: customType;
-    let targetUser: userType;
-    let token: string
+
     // 1. CASE, SUCCESSFUL FRIEND REQUEST TO TARGET USER
     describe("Send request to user that current user did not send request yet", () => {
 
@@ -96,7 +99,7 @@ describe("Check send friend request", () => {
 
 
     // 3. CASE, FRIEND REQUEST FAILED, CURRENT USER IS ALREADY FRIENDS WITH TARGET USER
-    describe("Send request to user that current user sent request already", () => {
+    describe("Send request to user that currentUser is already friends with", () => {
 
         // Mock users before test
         beforeAll(async () => {
@@ -174,12 +177,6 @@ describe("Check send friend request", () => {
 
 
 describe("Check delete request", () => {
-    interface customType extends userType {
-        _id: Types.ObjectId
-    }
-    let currentUser: customType;
-    let targetUser: userType;
-    let token: string
 
     // 1. CASE, DELETE REQUEST TO USER THAT IS IN DB, SUCCESS CASE
     describe("Delete friend request, success", () => {
@@ -260,7 +257,7 @@ describe("Check delete request", () => {
     })
 
     // 3. CASE, TRY TO DELETE REQUEST TO INVALID USER
-    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+    describe("Delete friend request, but targetUser is invalid, fail case", () => {
 
         beforeAll(async () => {
             currentUser = await User.create({
@@ -289,7 +286,7 @@ describe("Check delete request", () => {
     })
 
     // 4. CASE, INVALID JWT
-    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+    describe("Delete friend request, but authorization failed, fail case", () => {
 
         beforeAll(async () => {
             targetUser = await User.create({
@@ -317,7 +314,7 @@ describe("Check delete request", () => {
     })
 
     // 5. CASE, NO TOKEN PROVIDED
-    describe("Delete friend request, but no request was ever sent to targetUser, fail case", () => {
+    describe("Delete friend request, but there is no currentUser, fail case", () => {
 
         beforeAll(async () => {
             targetUser = await User.create({
@@ -339,6 +336,66 @@ describe("Check delete request", () => {
 
             // 401 status code if authorization failed
             expect(response.status).toBe(401)
+        })
+    })
+})
+
+
+describe("Accept friend request", () => {
+
+    // 1. CASE, CURRENT USER SUCCESSFULLY ACCEPTS FRIEND REQUEST FROM TARGET USER
+    describe("Accept incoming friend request, success", () => {
+
+        beforeAll(async () => {
+            currentUser = await User.create({
+                age: 44,
+                name: "Jonathan",
+                surname: "Smith",
+                password: "randomPassword",
+                username: "Johnnn",
+                friendRequests: ["RandomUseer2"],
+                friends: []
+            })
+            targetUser = await User.create({
+                age: 44,
+                name: "Bryce",
+                surname: "Nolan",
+                password: "34trhgfb",
+                username: "RandomUseer2",
+                friends: []
+            })
+            token = generateToken(currentUser._id)
+
+        })
+
+        afterAll(async () => {
+            await User.deleteOne({ username: currentUser.username })
+            await User.deleteOne({ username: targetUser.username })
+        })
+
+        it("Run test", async () => {
+            const allUsers = await User.find()
+            console.log("This are all users: ")
+            console.log(allUsers)
+            const response = await request(app)
+                .post(`/api/users/${targetUser.username}/acceptFriendRequest`)
+                .set('Authorization', `Bearer ${token}`)
+            console.log("This is response: " + response)
+            expect(response.status).toBe(200)
+            expect(response.body).toEqual({
+                message: `User ${currentUser.username} successfully accepted friend request from ${targetUser.username}`
+            })
+            // Check if both current user and target user have each other in their friends array
+            // & that friend request from targetUser is no longer in currentUser's friend requests
+
+            const updatedCurrentUser = await User.findOne({ username: currentUser.username })
+            console.log("this is updated current user:")
+            console.log(updatedCurrentUser)
+            expect(updatedCurrentUser?.friends).toEqual([`${targetUser.username}`])
+            expect(updatedCurrentUser?.friendRequests).toEqual([])
+
+            const updatedTargetUser = await User.findOne({ username: targetUser.username });
+            expect(updatedTargetUser?.friends).toEqual([`${currentUser.username}`])
         })
     })
 })

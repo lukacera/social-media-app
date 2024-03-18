@@ -11,7 +11,6 @@ import { connectToDB } from "./config/connectDB";
 // Routers
 import userRouter from "./routes/userRouter"
 import authRouter from "./routes/authRouter"
-import friendReqRouter from "./routes/friendRequestRouter"
 
 
 connectToDB()
@@ -27,8 +26,7 @@ app.get("/home", (req: Request, res: Response) => {
     res.status(200).end()
 });
 
-app.use("/api/users", friendReqRouter, userRouter)
-
+app.use("/api/users", userRouter)
 app.use("/api/auth", authRouter)
 
 
