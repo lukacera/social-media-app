@@ -1,29 +1,20 @@
 import { Router } from "express";
 
 // Controllers functions
-import { deleteFriendRequest, sendFriendRequest, acceptFriendRequest } from "../controllers/friendRequestController";
+import { sendFriendRequest, acceptFriendRequest, deleteReceivedFriendRequest, deleteSentFriendRequest } from "../controllers/friendRequestController";
 import { getUser, deleteUser, editUser, getAllusers } from "../controllers/userController";
 const express = require("express");
 const router: Router = express.Router()
 import { protect } from "../middlewares/authMiddleware";
 
-// ROUTES FOR HANDLING USER'S FRIEND REQUESTS
-router
-    .route("/:username/friendRequest")
-    .post(protect, sendFriendRequest)
-    .delete(protect, deleteFriendRequest)
 
-router
-    .route("/:username/acceptFriendRequest")
-    .post(protect, acceptFriendRequest)
-
-// ROUTE FOR HANDLING /PROFILES
+// ROUTE FOR GETTING ALL USERS
 router
     .route("/")
     .get(getAllusers)
 
 
-// ROUTES FOR HANDLING USER'S User
+// ROUTES FOR HANDLING CRUD FOR SINGLE USER
 router
     .route("/:username")
     .get(getUser)
@@ -31,6 +22,26 @@ router
     .delete(deleteUser)
 
 
+// ROUTES FOR HANDLING USER'S FRIEND REQUESTS
+
+router
+    .route("/:username/friendRequest")
+    .post(protect, sendFriendRequest)
+
+
+router
+    .route("/:username/deleteReceivedRequest")
+    .delete(protect, deleteReceivedFriendRequest)
+
+
+router
+    .route("/:username/deleteSentRequest")
+    .delete(protect, deleteSentFriendRequest)
+
+
+router
+    .route("/:username/acceptFriendRequest")
+    .post(protect, acceptFriendRequest)
 
 
 export default router;

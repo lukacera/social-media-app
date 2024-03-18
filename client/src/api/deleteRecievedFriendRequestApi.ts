@@ -1,8 +1,8 @@
 import { baseUrl } from "../constants/baseURL";
-export const deleteFriendRequest = async (targetUsername: string) => {
+export const deleteReceivedFriendRequest = async (targetUsername: string) => {
     const token = localStorage.getItem("token")
     try {
-        const response = await fetch(`${baseUrl}/users/${targetUsername}/friendRequest`, {
+        const response = await fetch(`${baseUrl}/users/${targetUsername}/deleteReceivedRequest`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",

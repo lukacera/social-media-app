@@ -74,10 +74,44 @@ export const sendFriendRequest = asyncHandler(async (req: CustomRequest, res: Re
 
 })
 
-// @desc  Delete friend request
-// @route DELETE "/api/users/:username/friendRequest"
+// @desc  Delete received friend request
+// @route DELETE "/api/users/:username/deleteSentRequest"
 
-export const deleteFriendRequest = asyncHandler(async (req: CustomRequest, res: Response) => {
+export const deleteReceivedFriendRequest = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const username = req.params.username;
+
+    // Find targetUser in DB by username
+    const targetUser = await User.findOne({ username: username });
+
+    if (!targetUser) {
+        return res.status(404).json({ message: "Target user not found" });
+    }
+
+    // Get the target user from the protect middleware
+    const currentUser = req.user;
+
+    // Check if the current user received a request from the target user
+    if (currentUser?.friendRequests?.includes(targetUser.username)) {
+        await User.updateOne(
+            { username: currentUser.username },
+            { $pull: { friendRequests: targetUser.username } }
+        );
+        return res.status(200).json({
+            message: `User ${targetUser.username} successfully deleted their friend request for ${currentUser?.username}`
+        });
+    }
+
+    // If the target user never sent a request to the current user, return status 400
+    return res.status(400).json({
+        message: `Request was not deleted, because ${targetUser.username} never sent a friend request to ${currentUser?.username}`
+    });
+});
+
+
+// @desc  Delete sent friend request
+// @route DELETE "/api/users/:username/deleteSentFriendRequest"
+
+export const deleteSentFriendRequest = asyncHandler(async (req: CustomRequest, res: Response) => {
 
     const username = req.params.username;
 
@@ -116,15 +150,19 @@ export const acceptFriendRequest = asyncHandler(async (req: CustomRequest, res: 
     const username = req.params.username
     const targetUser = await User.findOne({ username: username })
     const currentUser = req.user
-    if (targetUser) {
-        await User.updateOne({ username: currentUser.username },
-            {
-                $push: { friends: targetUser.username },
-                $pull: { friendRequests: targetUser.username }
-            })
-        await User.updateOne({ username: targetUser.username },
-            { $push: { friends: currentUser.username } })
+    if (!targetUser) {
+        return res.status(400).json({
+            message: "Current user cannot accept requests from invalid users!"
+        })
     }
+    await User.updateOne({ username: currentUser.username },
+        {
+            $push: { friends: targetUser.username },
+            $pull: { friendRequests: targetUser.username }
+        })
+    await User.updateOne({ username: targetUser.username },
+        { $push: { friends: currentUser.username } })
+
 
     return res.status(200).json({
         message: `User ${currentUser.username} successfully accepted friend request from ${targetUser?.username}`
