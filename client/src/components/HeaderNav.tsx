@@ -1,7 +1,14 @@
 import React from "react";
-import CurrentUser from "../components/CurrentUser";
-import { GiBackup } from "react-icons/gi";
 import { Link } from "react-router-dom";
+
+// Components
+import CurrentUser from "../components/CurrentUser";
+import DisplayFriendRequests from "./DisplayFriendRequests";
+
+// Icons
+import { GiBackup } from "react-icons/gi";
+
+
 const HeaderNav: React.FC = () => {
     const token = localStorage.getItem("token");
     return (
@@ -21,18 +28,23 @@ const HeaderNav: React.FC = () => {
                 </Link>
 
             </div>
-            <div className="flex justify-between px-20 items-center tracking-widest">
+            <div className="flex justify-between ml-20 mr-10
+            items-center">
                 <Link to={token ? "/home" : "/"}>
-                    <h1 className="text-4xl font-madimi-one " data-testid="cypress-title" >Bondify</h1>
+                    <h1 className="text-4xl font-madimi-one tracking-widest" data-testid="cypress-title" >Bondify</h1>
                 </Link>
                 {token && (
-                    <p className="flex items-center gap-3 font-merryweather">
-                        <span className="text-xl">New post</span>
-                        <span className="text-2xl px-4 py-2 bg-white 
-                     text-black rounded-full cursor-pointer">
-                            +
-                        </span>
-                    </p>
+                    <div className="flex gap-20 items-center">
+                        <p className="flex items-center gap-3 font-merryweather">
+                            <span className="text-xl">New post</span>
+                            <span className="text-2xl px-4 py-2 bg-white 
+                                                 text-black rounded-full cursor-pointer">
+                                +
+                            </span>
+                        </p>
+                        < DisplayFriendRequests />
+                    </div>
+
                 )}
 
             </div>
