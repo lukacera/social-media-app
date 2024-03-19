@@ -12,6 +12,7 @@ import { connectToDB } from "./config/connectDB";
 import userRouter from "./routes/userRouter"
 import authRouter from "./routes/authRouter"
 
+app.use("/uploads", express.static('uploads'));
 
 connectToDB()
 
