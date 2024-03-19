@@ -56,7 +56,6 @@ export const editUser = asyncHandler(async (req: CustomRequest, res: Response) =
     const updates: userType = req.body;
     const currentUser = req.user;
 
-
     // Check if client is trying to edit user that exists in DB
 
     const usernameParams = req.params.username;
@@ -65,26 +64,10 @@ export const editUser = asyncHandler(async (req: CustomRequest, res: Response) =
         return res.status(400).json({ message: "User not found" })
     }
 
-    // User cannot change his password
-    if (updates.password) {
-        return res.status(400).json({ message: "User cannot change his password" })
+    // User can't change his password
+    if (updates.password || updates.username) {
+        return res.status(400).json({ message: "User cannot change his password or username" })
     }
-
-    // Check if user wants to update his username with same username
-    if (updates.username && updates.username === currentUser.username) {
-        console.log(updates.username)
-        return res.status(400).json({ message: "User tried to update his username with the same username" })
-    }
-
-    // Check if username that user wants to update his profile with is already taken
-    if (updates.username) {
-        const isUsernameTaken = await User.findOne({ username: updates.username })
-        console.log(isUsernameTaken)
-        if (isUsernameTaken) {
-            return res.status(400).json({ message: "Username is already taken!" })
-        }
-    }
-
 
     // Check if client is trying to edit only his profile
     if (userFromParams?.username !== currentUser.username) {
@@ -111,7 +94,32 @@ export const editUser = asyncHandler(async (req: CustomRequest, res: Response) =
     return res.status(200).json({ message: "Update succesful" });
 });
 
+// @desc Update user's profile image
+// @route PATCH "/api/users/:username/updateImg" 
 
+export const updateUserImg = asyncHandler(async (req: CustomRequest, res: Response) => {
+    // Extract necessary data from the request
+    const username = req.params.username;
+    if (req.user.username !== username) {
+        return res.status(401).json({ message: "User can only edit his profile picture!" })
+    }
+    console.log("This is usernmae: " + username)
+    console.log("This is current user: " + req.user.username)
+    // Uploaded file data
+    const file = req.file;
+
+    // Check if a file was uploaded
+    if (!file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    // Update the user's profile image field directly in the database
+    await User.updateOne({ username }, { avatar: file.path });
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Profile image updated successfully' });
+
+});
 // @desc  Delete user from DB by id
 // @route DELETE "/api/users/:userID"
 
