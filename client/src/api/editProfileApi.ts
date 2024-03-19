@@ -17,7 +17,7 @@ export const editProfile = async (targetUsername: string, update: UpdateType) =>
         });
 
         if (!response.ok) {
-            throw new Error('Failed to delete request');
+            throw new Error('Failed to update profile info');
         }
 
         const data = response.json()

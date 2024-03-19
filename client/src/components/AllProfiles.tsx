@@ -5,7 +5,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { getAllProfiles } from "../api/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";
 import FriendStatus from "./FriendStatus";
-// Return user by username
+import { getAvatarURL } from "../constants/avatarURL";
+
 
 const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
     // Initialize state for loading
@@ -70,7 +71,8 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
                         <div className="profileWrapper" key={index}>
                             <Link to={`/users/${user.username}`}>
                                 <div className="flex place-items-center">
-                                    <img className="w-10 rounded-full" src={user.avatar} alt="" />
+                                    <img className="w-[3rem] h-[3rem] rounded-full"
+                                        src={getAvatarURL(user.avatar || "")} alt="" />
                                     <p className="pl-10 text-[1.2rem]">{user.username}</p>
                                 </div>
                             </Link>

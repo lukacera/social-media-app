@@ -55,8 +55,8 @@ const EditProfileModal: React.FC<{
                     x
                 </span>
             </p>
-            <form className="grid place-items-center gap-5 
-            px-20 pb-10" onSubmit={handleSubmit}>
+            <form className="grid place-items-center gap-5 px-20 pb-10"
+                encType="multipart/form-data" onSubmit={handleSubmit}>
                 <h3 className="text-2xl tracking-wide">Edit your profile:</h3>
                 <div className="flex flex-col">
                     <label className="mt-4 mb-2" htmlFor="name">Name:</label>

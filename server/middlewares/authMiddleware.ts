@@ -15,7 +15,6 @@ interface CustomRequest extends Request {
 export const protect = asyncHandler(async (req: CustomRequest, res: Response, next: NextFunction) => {
     // Extract token from Authorization header
     const token = req.headers.authorization?.startsWith("Bearer ") ? req.headers.authorization.split(" ")[1] : undefined;
-
     if (!token) {
         // No token provided
         return res.status(401).json({ error: "No token detected!" });
@@ -28,7 +27,7 @@ export const protect = asyncHandler(async (req: CustomRequest, res: Response, ne
         // Get user from token's Payload, exclude password from result
         const user = await User.findById(decoded.id)
             .select("-password")
-
+        console.log(user?.username)
         if (!user) {
             throw new Error("User not found");
         }
