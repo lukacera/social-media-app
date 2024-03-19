@@ -24,7 +24,7 @@ const userSchema = new Schema<userType>({
     },
     avatar: {
         type: String,
-        default: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+        default: "uploads/2024-03-19T22:32:55.565ZdefaultPicture.png"
     },
     friends: [{ type: String }],
     friendRequests: [{ type: String }],
