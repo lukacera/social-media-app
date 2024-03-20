@@ -1,12 +1,9 @@
 import { Request, Response } from "express";
-import { isValidObjectId } from "mongoose";
 import User from "../models/User";
 import { userType } from "../types/userType";
+import CustomRequest from "../config/customRequest";
 const asyncHandler = require("express-async-handler")
 
-interface CustomRequest extends Request {
-    user: userType
-}
 // @desc  Get all users from DB
 // @route GET "/api/users"
 
@@ -26,12 +23,11 @@ export const getAllusers = async (req: Request, res: Response) => {
 // @route GET "/api/users/:username"
 
 export const getUser = async (req: Request, res: Response) => {
+
     const username = req.params.username;
     if (username) {
         try {
             const targetUser = await User.findOne({ username: username }) // Try to find user in DB
-                .populate("friends")
-                .populate("friendRequests")
 
             if (!targetUser) {
                 res.status(404).json({ error: "User not found" })
@@ -53,11 +49,11 @@ export const getUser = async (req: Request, res: Response) => {
 // @route PATCH "/api/users/:username"
 
 export const editUser = asyncHandler(async (req: CustomRequest, res: Response) => {
+
     const updates: userType = req.body;
     const currentUser = req.user;
 
     // Check if client is trying to edit user that exists in DB
-
     const usernameParams = req.params.username;
     const userFromParams = await User.findOne({ username: usernameParams })
     if (!userFromParams) {
@@ -98,13 +94,14 @@ export const editUser = asyncHandler(async (req: CustomRequest, res: Response) =
 // @route PATCH "/api/users/:username/updateImg" 
 
 export const updateUserImg = asyncHandler(async (req: CustomRequest, res: Response) => {
+
     // Extract necessary data from the request
     const username = req.params.username;
+
     if (req.user.username !== username) {
         return res.status(401).json({ message: "User can only edit his profile picture!" })
     }
-    console.log("This is usernmae: " + username)
-    console.log("This is current user: " + req.user.username)
+
     // Uploaded file data
     const file = req.file;
 
@@ -120,25 +117,5 @@ export const updateUserImg = asyncHandler(async (req: CustomRequest, res: Respon
     res.status(200).json({ message: 'Profile image updated successfully' });
 
 });
-// @desc  Delete user from DB by id
-// @route DELETE "/api/users/:userID"
 
-export const deleteUser = async (req: Request, res: Response) => {
-    try {
-        const id = req.params.id;
-        if (isValidObjectId(id)) {
-            await User.deleteOne({ "_id": id });
-
-            // Status code for deleting is 204, request has been successful,
-            // but nothing is sent back
-            res.status(204).json({ message: `User with id: ${id} is successfully deleted` });
-            return
-        }
-        // If id is not type of ObjectId
-        res.status(404).json({ error: "Id is not ObjectId!" });
-
-    } catch (error) {
-        res.status(404).json({ error: "Error while deleting User from DB" });
-    }
-}
 
