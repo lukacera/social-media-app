@@ -30,7 +30,7 @@ const ProfileImg: React.FC<{ isCurrentUser: boolean, userData: userType }> = ({ 
         <div className="flex flex-col place-items-center gap-10 w-[70%] mx-auto">
             <div className="relative">
                 {image ? (
-                    <img className="w-[25em] h-[22rem] rounded-full" src={getAvatarURL(userData.avatar || "")} alt="User picture" />
+                    <img className="w-[25em] h-[22rem] rounded-full" src={image} alt="User picture" />
                 ) : (
                     <img className="w-[25em] h-[22rem] rounded-full" src={getAvatarURL(userData.avatar || "")} alt="User picture" />
                 )}
