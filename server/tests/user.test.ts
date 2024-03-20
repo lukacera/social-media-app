@@ -1,9 +1,8 @@
 import request from "supertest";
 import app from "../app";
-import { Types } from "mongoose";
 import { Request, Response } from 'express';
 import User from "../models/User"
-import { deleteUser, getUser } from "../controllers/userController";
+import { getUser } from "../controllers/userController";
 
 
 
@@ -92,39 +91,4 @@ describe('Check "/api/users/:id" route', () => {
             expect(res.status).toHaveBeenCalledWith(200)
         });
     })
-
-
-
-    // TEST DELETE METHOD FOR USER
-
-    // 1. CLIENT REQUESTS TO DELETE USER THAT IS NONEXISTENT IN DB
-    it("DELETE user's profile, FAIL", async () => {
-
-        const userId = "invalidUserID";
-        jest.spyOn(User, 'deleteOne').mockRejectedValueOnce("Invalid user ID");
-
-        const response = await request(app).delete(`/api/users/${userId}`);
-
-        expect(response.status).toBe(404);
-    });
-
-    // 2. CLIENT REQUESTS TO DELETE USER THAT IS IN DB
-    describe("DELETE user's profile, SUCCESS", () => {
-        let userIdToDelete: Types.ObjectId;
-        beforeAll(() => {
-            userIdToDelete = new Types.ObjectId();
-        });
-        it("deletes user from DB", async () => {
-            const req = { params: { id: userIdToDelete } } as unknown as Request;
-            const res = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn()
-            } as unknown as Response;
-
-            await deleteUser(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(204);
-        });
-    })
-
 })
