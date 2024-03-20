@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
-
+import { userType } from './userType';
 export type postType = {
-    creator: Types.ObjectId;
+    creator: userType;
     img: string,
     text: string,
     comments: Types.ObjectId[],

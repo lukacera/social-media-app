@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 export type userType = {
+    _id?: Types.ObjectId;
     name: string;
     surname: string;
     age: number;
