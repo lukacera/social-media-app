@@ -1,6 +1,5 @@
 import { Response } from "express";
 import Post from "../models/Post";
-import { postType } from "../types/postType";
 const asyncHandler = require("express-async-handler")
 import CustomRequest from "../config/customRequest";
 
@@ -9,13 +8,14 @@ import CustomRequest from "../config/customRequest";
 
 export const createPost = asyncHandler(async (req: CustomRequest, res: Response) => {
     const creator = req.user._id;
-    const { text, img } = req.body;
-    console.log(text)
+    const { text } = req.body;
+    const img = req.file
+
     // Create a new post instance
     const newPost = new Post({
         creator: creator,
         text: text,
-        img: img || "",
+        img: img?.path || "",
         postCreatedAt: new Date()
     });
 
@@ -36,6 +36,6 @@ export const createPost = asyncHandler(async (req: CustomRequest, res: Response)
 export const getAllPosts = asyncHandler(async (req: CustomRequest, res: Response) => {
 
     const allPosts = await Post.find().populate("creator");
-    res.status(201).json({ success: true, posts: allPosts });
+    res.status(201).json({ posts: allPosts });
 
 });
