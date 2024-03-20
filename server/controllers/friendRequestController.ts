@@ -1,12 +1,7 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 const asyncHandler = require("express-async-handler")
 import User from "../models/User"
-import { userType } from "../types/userType";
-
-
-interface CustomRequest extends Request {
-    user: userType
-}
+import CustomRequest from "../config/customRequest";
 
 // @desc  Send friend request to other user by username
 // @route POST "/api/users/:username/friendRequest"

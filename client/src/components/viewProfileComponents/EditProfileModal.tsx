@@ -48,7 +48,7 @@ const EditProfileModal: React.FC<{
     }
     return !isEditOpen ? null : (
         <div className="flex flex-col bg-profileColor
-            fixed left-[33%] top-[30%] rounded-lg">
+            fixed left-[33%] top-[28%] rounded-lg">
             <p className=" flex justify-end p-5">
                 <span className="cursor-pointer text-[1.6rem]"
                     onClick={() => closeModal(false)}>

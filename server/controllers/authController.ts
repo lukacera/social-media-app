@@ -6,7 +6,7 @@ const asyncHandler = require("express-async-handler")
 import User from "../models/User"
 import { userType } from "../types/userType"
 import { Types } from "mongoose";
-
+import CustomRequest from "../config/customRequest";
 
 // @desc GENERATE JWT TOKEN
 
@@ -106,11 +106,6 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     res.status(400).json({ error: "Invalid username" })
 })
 
-
-// Extend request with user, that is added with protect middleware
-interface CustomRequest extends Request {
-    user: unknown
-}
 
 // @desc Send all info about user that is logged in with json
 // @route "/api/auth/myProfile"

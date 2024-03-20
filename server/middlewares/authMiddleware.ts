@@ -1,14 +1,10 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 
 import jwt from 'jsonwebtoken';
 const asyncHandler = require("express-async-handler");
 
 import User from "../models/User"
-
-// Extend request with user
-interface CustomRequest extends Request {
-    user: any
-}
+import CustomRequest from "../config/customRequest";
 
 // Protects route, so only signed User can access it
 
@@ -27,14 +23,14 @@ export const protect = asyncHandler(async (req: CustomRequest, res: Response, ne
         // Get user from token's Payload, exclude password from result
         const user = await User.findById(decoded.id)
             .select("-password")
-        console.log(user?.username)
+        console.log(user?._id)
         if (!user) {
             throw new Error("User not found");
         }
 
         // Attach user information to the req object
         req.user = user;
-
+        console.log(req.user._id)
         next(); // Call next middleware
     } catch (error) {
         res.status(401).json({ error: "Not authorized" });
