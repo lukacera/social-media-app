@@ -1,5 +1,5 @@
-import { userType } from "../../../server/types/userType";
-import { baseUrl } from "../constants/baseURL";
+import { userType } from "../../../../server/types/userType";
+import { baseUrl } from "../../constants/baseURL";
 
 // Username and password are not updatable
 type UpdateType = Omit<Omit<userType, "password">, "username">;

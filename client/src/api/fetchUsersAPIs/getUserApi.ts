@@ -1,5 +1,5 @@
-import { userType } from "../../../server/types/userType";
-import { baseUrl } from "../constants/baseURL";
+import { userType } from "../../../../server/types/userType";
+import { baseUrl } from "../../constants/baseURL";
 
 // Get info about user by username
 export const getUser = async (username: string) => {

@@ -1,4 +1,4 @@
-import { baseUrl } from "../constants/baseURL";
+import { baseUrl } from "../../constants/baseURL";
 
 // Log user in and get JWT for that user
 export const loginUser = async (username: string, password: string) => {

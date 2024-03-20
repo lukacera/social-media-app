@@ -1,4 +1,4 @@
-import { baseUrl } from "../constants/baseURL";
+import { baseUrl } from "../../constants/baseURL";
 export const deleteReceivedFriendRequest = async (targetUsername: string) => {
     const token = localStorage.getItem("token")
     try {

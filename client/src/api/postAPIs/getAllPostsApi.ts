@@ -1,5 +1,5 @@
-import { baseUrl } from "../constants/baseURL";
-import { postType } from "../../../server/types/postType";
+import { baseUrl } from "../../constants/baseURL";
+import { postType } from "../../../../server/types/postType";
 export const getAllPosts = async () => {
     interface PostsData {
         posts: postType[]

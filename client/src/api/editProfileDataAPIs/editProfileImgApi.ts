@@ -1,4 +1,4 @@
-import { baseUrl } from "../constants/baseURL";
+import { baseUrl } from "../../constants/baseURL";
 
 export const editProfileImg = async (currentUserUsername: string, file: File) => {
     const token = localStorage.getItem("token")
@@ -6,7 +6,6 @@ export const editProfileImg = async (currentUserUsername: string, file: File) =>
     // Get file from params
     const formData = new FormData();
     formData.append('profileImg', file);
-    console.log(formData)
     try {
         const response = await fetch(`${baseUrl}/users/${currentUserUsername}/updateImg`, {
             method: "PATCH",

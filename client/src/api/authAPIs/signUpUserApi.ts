@@ -1,5 +1,5 @@
-import { baseUrl } from "../constants/baseURL";
-import { userType } from "../../../server/types/userType";
+import { baseUrl } from "../../constants/baseURL";
+import { userType } from "../../../../server/types/userType";
 
 export const registerUser = async (userData: userType) => {
     try {

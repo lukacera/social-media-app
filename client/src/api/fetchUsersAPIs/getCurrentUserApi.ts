@@ -1,5 +1,5 @@
-import { baseUrl } from "../constants/baseURL";
-import { userType } from "../../../server/types/userType";
+import { baseUrl } from "../../constants/baseURL";
+import { userType } from "../../../../server/types/userType";
 // Get info about user that is logged in
 export const getCurrentUser = async () => {
     interface UserData {
