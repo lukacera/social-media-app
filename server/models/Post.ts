@@ -3,7 +3,8 @@ import { postType } from '../types/postType';
 const postSchema = new Schema<postType>({
     creator: {
         type: Schema.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: [true, "Post must have it's creator!"]
     },
     img: {
         type: String,
@@ -11,7 +12,7 @@ const postSchema = new Schema<postType>({
     },
     text: {
         type: String,
-        required: [true, "Posts must have some text!!"]
+        required: [true, "Posts must have some text!"]
     },
     comments: [
         {
@@ -27,7 +28,7 @@ const postSchema = new Schema<postType>({
     ],
     postCreatedAt: {
         type: Date,
-        default: Date.now()
+        required: true
     }
 })
 
