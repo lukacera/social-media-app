@@ -3,21 +3,12 @@ import User from "../models/User";
 import { userType } from "../types/userType";
 import CustomRequest from "../config/customRequest";
 const asyncHandler = require("express-async-handler")
+import { getAllDocuments } from "./genericController";
 
 // @desc  Get all users from DB
 // @route GET "/api/users"
 
-export const getAllusers = async (req: Request, res: Response) => {
-    try {
-        const users = await User.find();
-        res.status(200).json({
-            users: users
-        })
-    } catch (error) {
-        console.error("Error while getting all users: " + error)
-        res.status(400).json({ error: "Error while getting all users from DB" });
-    }
-}
+export const getAllusers = getAllDocuments(User)
 
 // @desc  Get user from DB by username
 // @route GET "/api/users/:username"
