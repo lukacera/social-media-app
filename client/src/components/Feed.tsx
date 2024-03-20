@@ -14,9 +14,9 @@ export const Feed = (): ReactNode => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const data = await getAllPosts()
-                // Display all profiles except for current user one
-                setPosts(data)
+                const data = await getAllPosts();
+                const reversedData = data.reverse()
+                setPosts(reversedData)
             }
             catch (error) {
                 console.error("Error occured while fetching all posts from DB: " + error)
@@ -35,10 +35,12 @@ export const Feed = (): ReactNode => {
                 <div className="flex flex-col gap-20 my-20">
                     {posts && posts?.length > 0 && posts.map((post, index) => (
                         // Single post div
-                        <div key={index} className="w-[30rem] flex flex-col gap-20">
-                            <PostCreatorInfo post={post} />
-                            <div className="flex flex-col gap-10">
+                        <div key={index} className="w-[30rem] flex flex-col gap-16">
+                            <div className="grid gap-10">
+                                <PostCreatorInfo post={post} />
                                 < PostContent post={post} />
+                            </div>
+                            <div className="flex flex-col">
                                 < LikeComment post={post} />
                             </div>
                         </div >
