@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
 import CurrentUser from "../components/CurrentUser";
 import DisplayFriendRequests from "./DisplayFriendRequests";
-
+import CreatePostModal from "./postComponents/CreatePostModal";
+import CreatePostButton from "./postComponents/CreatePostButton";
 // Icons
 import { GiBackup } from "react-icons/gi";
 
-
 const HeaderNav: React.FC = () => {
     const token = localStorage.getItem("token");
+    const [createStatus, setCreateStatus] = useState<boolean>(false)
+
+    const handleOpenModal = () => {
+        setCreateStatus(true)
+    }
     return (
         <div className="grid grid-cols-[10%_70%_20%] border-b-2 border-borderGray">
             <div className="text-6xl flex justify-center
@@ -35,14 +40,15 @@ const HeaderNav: React.FC = () => {
                 </Link>
                 {token && (
                     <div className="flex gap-20 items-center">
-                        <p className="flex items-center gap-3 font-merryweather">
-                            <span className="text-xl">New post</span>
-                            <span className="text-2xl px-4 py-2 bg-white 
-                                                 text-black rounded-full cursor-pointer">
-                                +
-                            </span>
-                        </p>
+                        <CreatePostButton handleOpenModal={setCreateStatus} />
+
+                        {/* If createStatus is true, it means that form for creating post should be open */}
+                        {createStatus && (
+                            <CreatePostModal closeModal={setCreateStatus} />
+                        )}
+
                         < DisplayFriendRequests />
+
                     </div>
 
                 )}
