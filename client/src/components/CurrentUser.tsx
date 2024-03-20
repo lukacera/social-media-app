@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "../api/getCurrentUserApi";
+import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
 import { Link } from "react-router-dom";
 import { getAvatarURL } from "../constants/avatarURL";
 const CurrentUser: React.FC<{ token: string | null }> = ({ token }) => {

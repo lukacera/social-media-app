@@ -10,9 +10,10 @@ import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
 import Messages from "../components/Messages";
+
 // API
-import { getUser } from "../api/getUserApi";
-import { getCurrentUser } from "../api/getCurrentUserApi";
+import { getUser } from "../api/fetchUsersAPIs/getUserApi";
+import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
 
 function MainPage(): ReactNode {
     const navigate = useNavigate()

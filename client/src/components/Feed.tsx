@@ -1,5 +1,5 @@
 import { ReactNode, useState, useEffect } from "react"
-import { getAllPosts } from "../api/getAllPostsApi";
+import { getAllPosts } from "../api/postAPIs/getAllPostsApi";
 import { postType } from "../../../server/types/postType";
 
 // Components
@@ -16,6 +16,7 @@ export const Feed = (): ReactNode => {
             try {
                 const data = await getAllPosts();
                 const reversedData = data.reverse()
+                console.log(reversedData)
                 setPosts(reversedData)
             }
             catch (error) {

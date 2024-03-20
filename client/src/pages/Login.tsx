@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react"
 import { FaUser, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/loginUserApi";
+import { loginUser } from "../api/authAPIs/loginUserApi";
 import { ReactNode } from "react";
 
 const Login = (): ReactNode => {

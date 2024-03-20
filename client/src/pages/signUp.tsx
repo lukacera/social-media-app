@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { userType } from "../../../server/types/userType";
-import { registerUser } from "../api/signUpUserApi";
+import { registerUser } from "../api/authAPIs/signUpUserApi";
 const SignUp = (): ReactNode => {
     interface ExtendUserType extends userType {
         confirmPassword: string

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { userType } from "../../../../server/types/userType";
 import { getAvatarURL } from "../../constants/avatarURL";
-import { editProfileImg } from "../../api/editProfileImgApi";
+import { editProfileImg } from "../../api/editProfileDataAPIs/editProfileImgApi";
 const ProfileImg: React.FC<{ isCurrentUser: boolean, userData: userType }> = ({ isCurrentUser, userData }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [image, setImage] = useState<string | undefined>(undefined);

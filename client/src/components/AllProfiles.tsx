@@ -2,7 +2,7 @@ import "../assets/index.css";
 
 import { Link } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
-import { getAllProfiles } from "../api/getAllProfilesApi";
+import { getAllProfiles } from "../api/fetchUsersAPIs/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";
 import FriendStatus from "./FriendStatus";
 import { getAvatarURL } from "../constants/avatarURL";

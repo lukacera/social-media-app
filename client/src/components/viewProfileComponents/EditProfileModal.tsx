@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react"
 import { userType } from "../../../../server/types/userType";
-import { editProfile } from "../../api/editProfileApi";
+import { editProfile } from "../../api/editProfileDataAPIs/editProfileApi";
 
 const EditProfileModal: React.FC<{
     isEditOpen: boolean,
     userData: userType,
     closeModal: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ isEditOpen, userData, closeModal }) => {
+
+    // Set initial state for update to be current User data
     const [update, setUpdate] = useState({
         name: userData.name,
         surname: userData.surname,

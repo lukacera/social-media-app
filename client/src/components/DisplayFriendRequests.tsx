@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { getCurrentUser } from "../api/getCurrentUserApi";
+import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
 import { IoMdPersonAdd } from "react-icons/io";
 import { TiCancel } from "react-icons/ti";
 import { FaCheck } from "react-icons/fa";
-import { acceptFriendRequest } from "../api/acceptFriendRequestApi";
-import { deleteReceivedFriendRequest } from "../api/deleteRecievedFriendRequestApi";
+import { acceptFriendRequest } from "../api/friendRequestAPIs/acceptFriendRequestApi";
+import { deleteReceivedFriendRequest } from "../api/friendRequestAPIs/deleteRecievedFriendRequestApi";
 
 const DisplayFriendRequests: React.FC = () => {
 
@@ -57,7 +57,7 @@ const DisplayFriendRequests: React.FC = () => {
             <div className="relative">
                 <p className="flex gap-3 items-center cursor-pointer"
                     onClick={() => setDropdown(!dropdown)}>
-                    <span className="text-4xl">
+                    <span className="text-4xl z-0">
                         < IoMdPersonAdd />
                     </span>
                     <span className="text-xl">{friendRequests.length}</span>

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { IoMdPersonAdd } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
-import { deleteSentFriendRequest } from "../api/deleteSentFriendRequestApi";
-import { sendFriendRequest } from '../api/sendFriendRequestApi';
+import { deleteSentFriendRequest } from "../api/friendRequestAPIs/deleteSentFriendRequestApi";
+import { sendFriendRequest } from '../api/friendRequestAPIs/sendFriendRequestApi';
 import { userType } from '../../../server/types/userType';
 
 
