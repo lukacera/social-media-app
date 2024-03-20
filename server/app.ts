@@ -11,6 +11,7 @@ import { connectToDB } from "./config/connectDB";
 // Routers
 import userRouter from "./routes/userRouter"
 import authRouter from "./routes/authRouter"
+import postRouter from "./routes/postRouter"
 
 app.use("/uploads", express.static('uploads'));
 
@@ -29,6 +30,7 @@ app.get("/home", (req: Request, res: Response) => {
 
 app.use("/api/users", userRouter)
 app.use("/api/auth", authRouter)
+app.use("/api/posts", postRouter)
 
 
 
