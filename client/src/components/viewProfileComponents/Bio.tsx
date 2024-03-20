@@ -1,6 +1,6 @@
 import React from "react"
 import { FaPen } from "react-icons/fa";
-import { userType } from "../../../server/types/userType";
+import { userType } from "../../../../server/types/userType";
 
 const Bio: React.FC<{
     isCurrentUser: boolean,

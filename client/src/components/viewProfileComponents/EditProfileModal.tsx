@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { userType } from "../../../server/types/userType";
-import { editProfile } from "../api/editProfileApi";
+import { userType } from "../../../../server/types/userType";
+import { editProfile } from "../../api/editProfileApi";
 
 const EditProfileModal: React.FC<{
     isEditOpen: boolean,

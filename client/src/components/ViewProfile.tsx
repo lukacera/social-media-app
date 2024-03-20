@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { userType } from "../../../server/types/userType";
 
-import Bio from "./Bio";
-import ProfileImg from "./ProfileImg";
-import EditProfileModal from "./EditProfileModal";
+import Bio from "./viewProfileComponents/Bio";
+import ProfileImg from "./viewProfileComponents/ProfileImg";
+import EditProfileModal from "./viewProfileComponents/EditProfileModal";
 
 // Get userData as prop from mainPage
 const ViewProfile: React.FC<{ userData: userType, isCurrentUser: boolean }> = ({ userData, isCurrentUser }) => {
