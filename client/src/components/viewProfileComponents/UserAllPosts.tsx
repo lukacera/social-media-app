@@ -7,7 +7,7 @@ import SinglePostComponent from '../postComponents/SinglePostComponent';
 
 const UserAllPosts: React.FC<{ userData: userType }> = ({ userData }) => {
     return (
-        <div className="my-12">
+        <div className="my-12 grid place-items-center gap-20">
             {/* Convert type from array of ObjectID to array of postTypes */}
             {(userData.posts as unknown as postType[])?.map((post: postType, index: number) => (
                 <div key={index}>
