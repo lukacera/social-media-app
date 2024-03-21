@@ -19,10 +19,7 @@ connectToDB()
 
 
 // Specify vercel deploy link for CLIENT side
-app.use(cors({
-    origin: 'https://social-media-app-kohl-seven.vercel.app'
-
-}));
+app.use(cors());
 
 
 // Parse incoming client json requests
