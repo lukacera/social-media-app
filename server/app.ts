@@ -17,8 +17,9 @@ app.use("/uploads", express.static('uploads'));
 
 connectToDB()
 
-app.use(cors())
-
+app.use(cors({
+    origin: 'https://social-media-a86w5yp0l-ceraa04s-projects.vercel.app'
+}));
 // Parse incoming client json requests
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
