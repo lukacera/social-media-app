@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors")
 
-import { Application, Request, Response } from "express";
+import { Application, NextFunction, Request, Response } from "express";
 const app: Application = express()
 require("dotenv").config()
 
@@ -17,9 +17,14 @@ app.use("/uploads", express.static('uploads'));
 
 connectToDB()
 
-app.use(cors({
-    origin: 'https://social-media-a86w5yp0l-ceraa04s-projects.vercel.app'
-}));
+// Enable CORS for all routes
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://social-media-h20odcb5b-ceraa04s-projects.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
+
 // Parse incoming client json requests
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
