@@ -2,7 +2,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { userType } from "../../../server/types/userType";
-
 // Components
 import { Sidebar } from "../components/Sidebar";
 import { Feed } from "../components/Feed";

@@ -23,14 +23,13 @@ export const protect = asyncHandler(async (req: CustomRequest, res: Response, ne
         // Get user from token's Payload, exclude password from result
         const user = await User.findById(decoded.id)
             .select("-password")
-        console.log(user?._id)
         if (!user) {
             throw new Error("User not found");
         }
 
         // Attach user information to the req object
         req.user = user;
-        console.log(req.user._id)
+
         next(); // Call next middleware
     } catch (error) {
         res.status(401).json({ error: "Not authorized" });
