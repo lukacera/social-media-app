@@ -28,6 +28,9 @@ app.get("/home", (req: Request, res: Response) => {
     res.status(200).end()
 });
 
+app.use("/", (req: Request, res: Response) => {
+    res.status(400).send("Home pagE!")
+})
 app.use("/api/users", userRouter)
 app.use("/api/auth", authRouter)
 app.use("/api/posts", postRouter)
