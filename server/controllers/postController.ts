@@ -4,6 +4,11 @@ import User from "../models/User";
 const asyncHandler = require("express-async-handler")
 import CustomRequest from "../config/customRequest";
 import { getAllDocuments } from "./genericController";
+import { isValidObjectId } from "mongoose";
+// @desc Get all posts
+// @route "/api/posts/getAllPosts"
+
+export const getAllPosts = getAllDocuments(Post, "creator")
 
 
 // @desc Create new post
@@ -40,7 +45,34 @@ export const createPost = asyncHandler(async (req: CustomRequest, res: Response)
 
 });
 
-// @desc Get all posts
-// @route "/api/posts/getAllPosts"
+// @desc Delete post from DB
+// @route /api/posts/:postId
 
-export const getAllPosts = getAllDocuments(Post, "creator")
+export const deletePost = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const currentUser = req.user._id;
+    const postId = req.params.postId
+
+    if (!isValidObjectId(postId)) {
+        return res.status(400).json({ message: "Id is invalid! " })
+    }
+    const postToDelete = await Post.findById(postId)
+
+    // Check if post is not found
+    if (!postToDelete) {
+        return res.status(400).json({ message: "Post not found! " })
+    }
+
+    const postCreator = postToDelete.creator._id;
+
+    // Check if user is trying to delete post that was not made by him
+    if (!postCreator?.equals(currentUser)) {
+        return res.status(400).json({ message: "User can delete only his posts!" })
+    }
+
+
+    // All checks passed, delete post
+    await postToDelete.deleteOne()
+
+    res.status(200).json({ message: "Post deleted successfully" });
+
+});
