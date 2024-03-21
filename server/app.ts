@@ -17,13 +17,7 @@ app.use("/uploads", express.static('uploads'));
 
 connectToDB()
 
-// Enable CORS for all routes
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://social-media-h20odcb5b-ceraa04s-projects.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+app.use(cors())
 
 // Parse incoming client json requests
 app.use(express.json())
