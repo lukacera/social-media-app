@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "types": [
       "cypress",
-      "node"
+      "node",
+      "mongoose"
     ],
     /* Bundler mode */
     "moduleResolution": "bundler",
