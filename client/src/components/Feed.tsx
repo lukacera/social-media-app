@@ -2,10 +2,7 @@ import { ReactNode, useState, useEffect } from "react"
 import { getAllPosts } from "../api/postAPIs/getAllPostsApi";
 import { postType } from "../../../server/types/postType";
 
-// Components
-import LikeComment from "./postComponents/likeCommentComponent";
-import PostContent from "./postComponents/PostContent";
-import PostCreatorInfo from "./postComponents/PostCreatorInfo";
+import SinglePostComponent from "./postComponents/SinglePostComponent";
 
 export const Feed = (): ReactNode => {
     const [posts, setPosts] = useState<postType[]>()
@@ -16,7 +13,6 @@ export const Feed = (): ReactNode => {
             try {
                 const data = await getAllPosts();
                 const reversedData = data.reverse()
-                console.log(reversedData)
                 setPosts(reversedData)
             }
             catch (error) {
@@ -35,20 +31,20 @@ export const Feed = (): ReactNode => {
             {!loading && (
                 <div className="flex flex-col gap-20 my-20">
                     {posts && posts?.length > 0 && posts.map((post, index) => (
-                        // Single post div
-                        <div key={index} className="w-[30rem] flex flex-col gap-16">
-                            <div className="grid gap-10">
-                                <PostCreatorInfo post={post} />
-                                < PostContent post={post} />
-                            </div>
-                            <div className="flex flex-col">
-                                < LikeComment post={post} />
-                            </div>
-                        </div >
+                        <div key={index}>
+                            <SinglePostComponent post={post} />
+
+                        </div>
                     ))}
                     {
                         posts && posts.length === 0 && (
-                            <p>There are no posts currently!</p>
+                            <p className="text-3xl tracking-wider
+                            grid place-items-center gap-20">
+                                <span>There are no posts currently!</span>
+                                <span>
+                                    Press + next to "New post" in header to make new post
+                                </span>
+                            </p>
                         )
                     }
                 </div >
