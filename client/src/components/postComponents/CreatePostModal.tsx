@@ -9,7 +9,9 @@ const CreatePostModal: React.FC<{
   const navigate = useNavigate()
 
   const [previewImage, setPreviewImage] = useState<string>("");
-  const [imageFile, setImageFile] = useState<File>(null);
+  const emptyFile = new File([], "");
+
+  const [imageFile, setImageFile] = useState<File>(emptyFile);
   const [postContent, setPostContent] = useState<string>('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);

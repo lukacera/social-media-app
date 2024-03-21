@@ -13,9 +13,6 @@ const HeaderNav: React.FC = () => {
     const token = localStorage.getItem("token");
     const [createStatus, setCreateStatus] = useState<boolean>(false)
 
-    const handleOpenModal = () => {
-        setCreateStatus(true)
-    }
     return (
         <div className="grid grid-cols-[10%_70%_20%] border-b-2 border-borderGray">
             <div className="text-6xl flex justify-center
@@ -27,7 +24,7 @@ const HeaderNav: React.FC = () => {
                             <stop stopColor="#65ade3" offset="0%" />
                             <stop stopColor="#094572" offset="100%" />
                         </linearGradient>
-                        {/* @ts-expect-error Style can be declared here */}
+
                         <GiBackup style={{ fill: "url(#blue-gradient)" }} />
                     </svg>
                 </Link>
