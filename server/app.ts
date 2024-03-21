@@ -17,7 +17,13 @@ app.use("/uploads", express.static('uploads'));
 
 connectToDB()
 
-app.use(cors())
+
+// Specify vercel deploy link for CLIENT side
+app.use(cors({
+    origin: 'https://social-media-app-kohl-seven.vercel.app/'
+
+}));
+
 
 // Parse incoming client json requests
 app.use(express.json())
