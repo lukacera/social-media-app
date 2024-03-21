@@ -1,5 +1,6 @@
 import { Response } from "express";
 import Post from "../models/Post";
+import User from "../models/User";
 const asyncHandler = require("express-async-handler")
 import CustomRequest from "../config/customRequest";
 import { getAllDocuments } from "./genericController";
@@ -23,6 +24,13 @@ export const createPost = asyncHandler(async (req: CustomRequest, res: Response)
 
     // Save the new post to the database
     await newPost.save();
+    const user = await User.findById(creator);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    user.posts?.push(newPost._id);
+    await user.save();
+
 
     // Fetch the new post from the database with populated creator field
     const populatedPost = await Post.findById(newPost._id).populate('creator');
