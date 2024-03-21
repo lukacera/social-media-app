@@ -4,7 +4,7 @@
   "private": true,
   "main": "./dist/app.js",
   "scripts": {
-    "start": "nodemon app.ts",
+    "start": "node app.ts",
     "build": "tsc",
     "test": "jest --watchAll",
     "vercel-build": "echo ok"
