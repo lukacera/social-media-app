@@ -18,12 +18,20 @@ export const getUser = async (req: Request, res: Response) => {
     const username = req.params.username;
     if (username) {
         try {
-            const targetUser = await User.findOne({ username: username }) // Try to find user in DB
+            const targetUser = await User.findOne({ username: username })
+                .populate({
+                    path: "posts",
+                    populate: {
+                        path: "creator",
+                        model: "User"
+                    }
+                });
 
             if (!targetUser) {
                 res.status(404).json({ error: "User not found" })
                 return
             }
+
             res.status(200).json({  // If he is founded, return him to client
                 user: targetUser
             })
