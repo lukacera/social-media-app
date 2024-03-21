@@ -20,7 +20,7 @@ connectToDB()
 
 // Specify vercel deploy link for CLIENT side
 app.use(cors({
-    origin: 'http://localhost:5173/'
+    origin: 'https://social-media-app-kohl-seven.vercel.app'
 
 }));
 
