@@ -14,6 +14,7 @@ import postRouter from "./routes/postRouter"
 
 // Middlewares
 connectToDB()
+app.use(allowCors);
 
 app.use("/uploads", express.static('uploads'));
 app.use(express.json())
@@ -26,7 +27,6 @@ app.use("/api/posts", postRouter)
 app.get("/home", (req: Request, res: Response) => {
     res.status(200).end()
 });
-app.use(allowCors);
 
 
 // If app did not recognize route till this point, it means it's 404
