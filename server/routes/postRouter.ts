@@ -8,7 +8,7 @@ import { upload } from "../config/multerConfig";
 import { uploadToCloudinary } from "../config/multerConfig";
 router
     .route("/createPost")
-    .post(protect, upload.single("postImg"), createPost)
+    .post(protect, upload.single("postImg"), uploadToCloudinary, createPost)
 
 router
     .route("/getAllPosts")

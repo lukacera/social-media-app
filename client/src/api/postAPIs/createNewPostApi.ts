@@ -15,6 +15,7 @@ export const createNewPost = async (file: File, text: string) => {
         });
 
         if (!response.ok) {
+            console.log(response)
             throw new Error('Failed to create new post');
         }
 
