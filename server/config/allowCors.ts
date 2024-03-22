@@ -23,7 +23,7 @@ const allowCors = (fn: (req: Request, res: Response) => Promise<void> | void) =>
 
 const handler = async (req: Request, res: Response) => {
     const d = new Date();
-    res.end(d.toString());
+    res.end("Okkkkkkkk");
 };
 
 export default allowCors(handler);
