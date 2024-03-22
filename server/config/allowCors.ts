@@ -1,5 +1,10 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, Application } from "express";
+import authRouter from "../routes/authRouter";
+import postRouter from "../routes/postRouter";
+import userRouter from "../routes/userRouter";
+const express = require("express");
 
+const app: Application = express()
 const allowCors = (fn: (req: Request, res: Response) => Promise<void> | void) => async (
     req: Request,
     res: Response,
@@ -22,7 +27,12 @@ const allowCors = (fn: (req: Request, res: Response) => Promise<void> | void) =>
 };
 
 const handler = async (req: Request, res: Response) => {
-    const d = new Date();
+    app.use("/api/users", userRouter)
+    app.use("/api/auth", authRouter)
+    app.use("/api/posts", postRouter)
+    app.get("/home", (req: Request, res: Response) => {
+        res.status(200).end()
+    });
     res.end("Okkkkkkkk");
 };
 
