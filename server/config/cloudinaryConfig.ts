@@ -1,6 +1,5 @@
 const cloudinary = require('cloudinary').v2
 require("dotenv").config()
-import { Multer, FileFilterCallback } from "multer";
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -12,6 +11,6 @@ export async function handleUpload(file: Express.Multer.File) {
     const res = await cloudinary.uploader.upload(file.path, {
         resource_type: "auto",
     });
-    console.log(res)
-    return res;
+    console.log(res.public_id)
+    return res.public_id;
 }

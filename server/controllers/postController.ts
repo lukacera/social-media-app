@@ -11,24 +11,27 @@ import { isValidObjectId } from "mongoose";
 export const getAllPosts = getAllDocuments(Post, "creator")
 
 
+interface CustomRequestPost extends CustomRequest {
+    publicId: string,
+}
 // @desc Create new post
 // @route "/api/posts/createPost"
 
-export const createPost = asyncHandler(async (req: CustomRequest, res: Response) => {
+export const createPost = asyncHandler(async (req: CustomRequestPost, res: Response) => {
     const creator = req.user._id;
     const { text } = req.body;
-    const img = req.file
 
     // Create a new post instance
     const newPost = new Post({
         creator: creator,
         text: text,
-        img: img?.path || "",
+        img: req.publicId,
         postCreatedAt: new Date()
     });
 
     // Save the new post to the database
     await newPost.save();
+    console.log("Post created")
     const user = await User.findById(creator);
     if (!user) {
         throw new Error('User not found');

@@ -7,7 +7,7 @@ const express = require("express");
 const router: Router = express.Router()
 import { upload } from "../config/multerConfig"
 import { protect } from "../middlewares/authMiddleware";
-
+import { uploadToCloudinary } from "../config/multerConfig";
 // ROUTE FOR GETTING ALL USERS
 router
     .route("/")
@@ -24,7 +24,21 @@ router
 // ROUTE FOR UPDATING USER'S PROFILE IMAGE
 router
     .route("/:username/updateImg")
-    .patch(protect, upload.single("profileImg"), updateUserImg)
+    .patch(protect, upload.single("img"), (req, res, next) => {
+        // ID of image in cloudinary, which will be stored in mongo
+        if (req.file) {
+            uploadToCloudinary(req, res, next)
+                .then(publicId => {
+                    next();
+                })
+                .catch(error => {
+                    console.error("Error uploading image to Cloudinary:", error);
+                    res.status(500).send("Error while uploading image to Cloudinary!");
+                });
+        } else {
+            next();
+        }
+    }, updateUserImg);
 
 
 // ROUTES FOR HANDLING USER'S FRIEND REQUESTS

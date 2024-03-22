@@ -91,8 +91,10 @@ export const editUser = asyncHandler(async (req: CustomRequest, res: Response) =
 
 // @desc Update user's profile image
 // @route PATCH "/api/users/:username/updateImg" 
-
-export const updateUserImg = asyncHandler(async (req: CustomRequest, res: Response) => {
+interface CustomRequestPost extends CustomRequest {
+    publicId: string,
+}
+export const updateUserImg = asyncHandler(async (req: CustomRequestPost, res: Response) => {
 
     // Extract necessary data from the request
     const username = req.params.username;
@@ -101,16 +103,8 @@ export const updateUserImg = asyncHandler(async (req: CustomRequest, res: Respon
         return res.status(401).json({ message: "User can only edit his profile picture!" })
     }
 
-    // Uploaded file data
-    const file = req.file;
-
-    // Check if a file was uploaded
-    if (!file) {
-        return res.status(400).json({ message: 'No file uploaded' });
-    }
-
     // Update the user's profile image field directly in the database
-    await User.updateOne({ username }, { avatar: file.path });
+    await User.updateOne({ username }, { avatar: req.publicId });
 
     // Respond with a success message
     res.status(200).json({ message: 'Profile image updated successfully' });

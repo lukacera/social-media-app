@@ -5,7 +5,7 @@ export const editProfileImg = async (currentUserUsername: string, file: File) =>
 
     // Get file from params
     const formData = new FormData();
-    formData.append('profileImg', file);
+    formData.append('img', file);
     try {
         const response = await fetch(`${baseUrl}/users/${currentUserUsername}/updateImg`, {
             method: "PATCH",

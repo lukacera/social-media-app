@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
 import { Link } from "react-router-dom";
-import { getAvatarURL } from "../constants/avatarURL";
+import { getImgURL } from "../constants/imgURL";
 const CurrentUser: React.FC<{ token: string | null }> = ({ token }) => {
     // Get token from local storage
     console.log("currentUser")
@@ -40,7 +40,7 @@ const CurrentUser: React.FC<{ token: string | null }> = ({ token }) => {
                 <div className="dropdown grid place-items-center">
                     <div className="profileWrapper">
                         <img className="w-12 h-12 rounded-full"
-                            src={getAvatarURL(currentUserData.avatar)} alt="pic" />
+                            src={getImgURL(currentUserData.avatar)} alt="pic" />
                         <p className="profileName">{currentUserData.username}</p>
                     </div>
                     <div className="menu h-[10rem] w-[20rem] rounded-lg 

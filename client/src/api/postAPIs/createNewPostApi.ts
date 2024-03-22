@@ -3,7 +3,7 @@ export const createNewPost = async (file: File, text: string) => {
 
     const token = localStorage.getItem("token")
     const formData = new FormData();
-    formData.append("postImg", file);
+    formData.append("img", file);
     formData.append("text", text)
     try {
         const response = await fetch(`${baseUrl}/posts/createPost`, {
@@ -15,7 +15,6 @@ export const createNewPost = async (file: File, text: string) => {
         });
 
         if (!response.ok) {
-            console.log(response)
             throw new Error('Failed to create new post');
         }
 

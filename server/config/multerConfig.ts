@@ -26,22 +26,33 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallb
     }
 }
 
-export const uploadToCloudinary = async (req: Request, res: Response, next: NextFunction) => {
+// Define customRequest for publicID
+
+interface CustomRequest extends Request {
+    publicId?: string;
+    file?: Express.Multer.File
+}
+export const uploadToCloudinary = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         if (!req.file) {
-            return res.status(400).json({ message: "Please upload a file" });
+            return
         }
-
+        console.log("Upload User img to cloudinary!")
         // Upload file to Cloudinary
         const result = await handleUpload(req.file);
-        // Assuming handleUpload returns the result after successful upload
-        res.status(200).json({ message: "File uploaded successfully", data: result });
+
+        // Extract publicId from the result
+        const publicId = result;
+
+        // Attach publicId to req object to pass it to the next middleware
+        req.publicId = publicId;
+
+        return
     } catch (error) {
         console.error("Error uploading file to Cloudinary:", error);
         res.status(500).json({ message: "Error uploading file to Cloudinary" });
     }
 };
-
 
 // Export upload so other files can import it
 

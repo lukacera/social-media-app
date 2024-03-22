@@ -24,7 +24,7 @@ const userSchema = new Schema<userType>({
     },
     avatar: {
         type: String,
-        default: "uploads/2024-03-19T22:32:55.565ZdefaultPicture.png"
+        default: "lypaf2cqlq7xfzl3mwcm"
     },
     friends: [{ type: String }],
     friendRequests: [{ type: String }],

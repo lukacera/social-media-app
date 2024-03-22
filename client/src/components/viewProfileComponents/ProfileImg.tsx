@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { userType } from "../../../../server/types/userType";
-import { getAvatarURL } from "../../constants/avatarURL";
+import { getImgURL } from "../../constants/imgURL";
 import { editProfileImg } from "../../api/editProfileDataAPIs/editProfileImgApi";
 const ProfileImg: React.FC<{ isCurrentUser: boolean, userData: userType }> = ({ isCurrentUser, userData }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,7 +32,7 @@ const ProfileImg: React.FC<{ isCurrentUser: boolean, userData: userType }> = ({ 
                 {image ? (
                     <img className="w-[25em] h-[22rem] rounded-full" src={image} alt="User picture" />
                 ) : (
-                    <img className="w-[25em] h-[22rem] rounded-full" src={getAvatarURL(userData.avatar || "")} alt="User picture" />
+                    <img className="w-[25em] h-[22rem] rounded-full" src={getImgURL(userData.avatar || "")} alt="User picture" />
                 )}
                 {isCurrentUser && (
                     <div className="absolute right-0 bottom-0 

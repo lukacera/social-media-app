@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { getAllProfiles } from "../api/fetchUsersAPIs/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";
 import FriendStatus from "./FriendStatus";
-import { getAvatarURL } from "../constants/avatarURL";
+import { getImgURL } from "../constants/imgURL";
 
 
 const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
@@ -72,7 +72,7 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
                             <Link to={`/users/${user.username}`}>
                                 <div className="flex place-items-center">
                                     <img className="w-[3rem] h-[3rem] rounded-full"
-                                        src={getAvatarURL(user.avatar || "")} alt="" />
+                                        src={getImgURL(user.avatar || "")} alt="" />
                                     <p className="pl-10 text-[1.2rem]">{user.username}</p>
                                 </div>
                             </Link>
