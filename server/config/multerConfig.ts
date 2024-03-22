@@ -1,6 +1,7 @@
 const multer = require("multer")
 import { Multer, FileFilterCallback } from "multer";
-
+import { handleUpload } from "./cloudinaryConfig";
+import { NextFunction, Request, Response } from "express";
 
 // Define required multer options for storage
 
@@ -24,6 +25,22 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallb
         cb(null, false)
     }
 }
+
+export const uploadToCloudinary = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "Please upload a file" });
+        }
+
+        // Upload file to Cloudinary
+        const result = await handleUpload(req.file);
+        // Assuming handleUpload returns the result after successful upload
+        res.status(200).json({ message: "File uploaded successfully", data: result });
+    } catch (error) {
+        console.error("Error uploading file to Cloudinary:", error);
+        res.status(500).json({ message: "Error uploading file to Cloudinary" });
+    }
+};
 
 
 // Export upload so other files can import it
