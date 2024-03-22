@@ -15,8 +15,7 @@
                 "POST",
                 "PUT",
                 "DELETE",
-                "PATCH",
-                "OPTIONS"
+                "PATCH"
             ],
             "headers": {
                 "Access-Control-Allow-Origin": "https://social-media-app-kohl-seven.vercel.app",
