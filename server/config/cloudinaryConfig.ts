@@ -8,9 +8,15 @@ cloudinary.config({
 });
 
 export async function handleUpload(file: Express.Multer.File) {
-    const res = await cloudinary.uploader.upload(file.path, {
-        resource_type: "auto",
-    });
-    console.log(res.public_id)
-    return res.public_id;
+    try {
+        const res = await cloudinary.uploader.upload(file.path, {
+            resource_type: "auto",
+        });
+        console.log(res.public_id)
+        return res.public_id;
+    } catch (error) {
+        console.error("Error occured while updating cloudinary:" + error)
+    }
+
+
 }
