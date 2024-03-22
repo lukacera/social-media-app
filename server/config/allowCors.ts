@@ -4,6 +4,7 @@ const allowCors = (fn: (req: Request, res: Response) => Promise<void> | void) =>
     req: Request,
     res: Response,
 ) => {
+
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Origin', '*');
     // Another common pattern
