@@ -1,40 +1,32 @@
 const express = require("express");
-const cors = require("cors")
-
-import { Application, NextFunction, Request, Response } from "express";
+import allowCors from "./config/allowCors";
+import { Application, Request, Response } from "express";
 const app: Application = express()
 require("dotenv").config()
-
-
-// DB connection function
 import { connectToDB } from "./config/connectDB";
+
 // Routers
 import userRouter from "./routes/userRouter"
 import authRouter from "./routes/authRouter"
 import postRouter from "./routes/postRouter"
 
-app.use("/uploads", express.static('uploads'));
 
+
+// Middlewares
 connectToDB()
+app.use(allowCors);
 
-
-// Specify vercel deploy link for CLIENT side
-app.use(cors());
-
-
-// Parse incoming client json requests
+app.use("/uploads", express.static('uploads'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Loading home page
-app.get("/home", (req: Request, res: Response) => {
-    res.status(200).end()
-});
-
+// Routes
 app.use("/api/users", userRouter)
 app.use("/api/auth", authRouter)
 app.use("/api/posts", postRouter)
-
+app.get("/home", (req: Request, res: Response) => {
+    res.status(200).end()
+});
 
 
 // If app did not recognize route till this point, it means it's 404
