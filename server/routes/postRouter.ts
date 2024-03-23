@@ -1,30 +1,23 @@
-import { Router } from "express";
-
+import { NextFunction, Request, Response, Router } from "express";
+interface CustomRequestPublicID extends Request {
+    publicId?: string
+}
 const express = require("express");
 const router: Router = express.Router()
 import { protect } from "../middlewares/authMiddleware";
 import { createPost, getAllPosts, deletePost } from "../controllers/postController";
-import { upload, uploadToCloudinary } from "../config/multerConfig";
-import { File } from "buffer";
-
-
+import { uploadMiddleware, uploadToCloudinary } from "../config/multerConfig";
 router
     .route("/createPost")
-    .post(protect, upload.single("img"), (req, res, next) => {
-        // ID of image in cloudinary, which will be stored in mongo
+    .post(protect, uploadMiddleware, (req, res, next) => {
+
+        // If client submited image in his post, upload it to cloudinary
         if (req.file) {
-            uploadToCloudinary(req, res, next)
-                .then(publicId => {
-                    next();
-                })
-                .catch(error => {
-                    console.error("Error uploading image to Cloudinary:", error);
-                    res.status(500).send("Error while uploading image to Cloudinary!");
-                });
-        } else {
-            next();
+            return uploadToCloudinary(req, res, next)
+        } else {  // If he didn't, go to next middleware(createPost)
+            return next();
         }
-    }, createPost);
+    }, createPost)
 
 
 router

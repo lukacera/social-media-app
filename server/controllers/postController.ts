@@ -14,6 +14,7 @@ export const getAllPosts = getAllDocuments(Post, "creator")
 interface CustomRequestPost extends CustomRequest {
     publicId: string,
 }
+
 // @desc Create new post
 // @route "/api/posts/createPost"
 
@@ -28,14 +29,15 @@ export const createPost = asyncHandler(async (req: CustomRequestPost, res: Respo
         img: req.publicId,
         postCreatedAt: new Date()
     });
-
     // Save the new post to the database
     await newPost.save();
-    console.log("Post created")
+
     const user = await User.findById(creator);
     if (!user) {
         throw new Error('User not found');
     }
+
+    // Add post to user's posts array
     user.posts?.push(newPost._id);
     await user.save();
 
@@ -44,7 +46,7 @@ export const createPost = asyncHandler(async (req: CustomRequestPost, res: Respo
     const populatedPost = await Post.findById(newPost._id).populate('creator');
 
     // Send the response with the populated post
-    res.status(201).json({ data: populatedPost });
+    return res.status(201).json({ data: populatedPost });
 
 });
 

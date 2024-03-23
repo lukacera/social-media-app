@@ -1,63 +1,70 @@
-const multer = require("multer")
-import { Multer, FileFilterCallback } from "multer";
-import { handleUpload } from "./cloudinaryConfig";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
+import multer, { FileFilterCallback, MulterError, Options } from "multer";
+import cloudinary from 'cloudinary';
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
-// Define required multer options for storage
-
-type DestinationCallback = (error: Error | null, destination: string) => void
-type FileNameCallback = (error: Error | null, filename: string) => void
-
-const storage: Multer = multer.diskStorage({
-    destination: function (req: Request, file: Express.Multer.File, cb: DestinationCallback) {
-        cb(null, "./uploads/");
-    },
-    filename: function (req: Request, file: Express.Multer.File, cb: FileNameCallback) {
-        cb(null, new Date().toISOString() + file.originalname);
-    }
+// Check if environment variables are set
+if (!process.env.CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+    console.error("Cloudinary environment variables are missing. Please check your .env file.");
+    process.exit(1);
+}
+cloudinary.v2.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Filter files, so that only images are accepted
-const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-        cb(null, true)
-    } else {
-        cb(null, false)
-    }
+
+
+// Create Cloudinary storage engine
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary.v2,
+    params: {
+        public_id: (req: Request, file: Express.Multer.File) => 'computed-filename-using-request',
+    } as Options
+});
+
+// Initialize multer with Cloudinary storage
+export const parser = multer({ storage: storage });
+
+// Middleware function to handle file uploads
+export function uploadMiddleware(req: Request, res: Response, next: NextFunction) {
+
+    // Use 'parser' middleware to handle file uploads
+    parser.single('img')(req, res, function (err: any) {
+        if (err) {
+            // Handle multer errors here
+            return res.status(400).json({ error: 'File upload failed.' });
+        }
+
+        // If no error, call next() to pass control to the next middleware
+        return next();
+    });
 }
 
-// Define customRequest for publicID
-
-interface CustomRequest extends Request {
-    publicId?: string;
-    file?: Express.Multer.File
+interface CustomRequestPublicID extends Request {
+    publicId?: string
 }
-export const uploadToCloudinary = async (req: CustomRequest, res: Response, next: NextFunction) => {
+// Middleware function to upload file to Cloudinary
+export async function uploadToCloudinary(req: CustomRequestPublicID, res: Response, next: NextFunction) {
     try {
         if (!req.file) {
-            return
+            return res.status(400).json({ error: 'No file uploaded.' });
         }
-        console.log("Upload User img to cloudinary!")
+
         // Upload file to Cloudinary
-        const result = await handleUpload(req.file);
+        const result = await cloudinary.v2.uploader.upload(req.file.path);
 
         // Extract publicId from the result
-        const publicId = result;
+        const publicId = result.public_id;
 
         // Attach publicId to req object to pass it to the next middleware
         req.publicId = publicId;
 
-        return
-    } catch (error) {
+        // Call next middleware
+        return next();
+    } catch (error) {  // Handle error case
         console.error("Error uploading file to Cloudinary:", error);
-        res.status(500).json({ message: "Error uploading file to Cloudinary" });
+        return res.status(500).json({ message: "Error uploading file to Cloudinary" });
     }
-};
-
-// Export upload so other files can import it
-
-export const upload: Multer = multer({
-    storage: storage,
-    fileFilter: fileFilter
-})
-
+}
