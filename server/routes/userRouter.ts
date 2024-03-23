@@ -7,7 +7,7 @@ const express = require("express");
 const router: Router = express.Router()
 import { protect } from "../middlewares/authMiddleware";
 
-import { parser } from "../config/multerConfig";
+import { uploadMiddleware, uploadToCloudinary } from "../config/multerConfig";
 // ROUTE FOR GETTING ALL USERS
 router
     .route("/")
@@ -24,7 +24,15 @@ router
 // ROUTE FOR UPDATING USER'S PROFILE IMAGE
 router
     .route("/:username/updateImg")
-    .patch(protect, parser.single("img"), updateUserImg);
+    .patch(protect, uploadMiddleware, (req, res, next) => {
+
+        // If client submited image in his post, upload it to cloudinary
+        if (req.file) {
+            return uploadToCloudinary(req, res, next)
+        } else {  // If he didn't, go to next middleware(createPost)
+            return next();
+        }
+    }, updateUserImg)
 
 
 // ROUTES FOR HANDLING USER'S FRIEND REQUESTS

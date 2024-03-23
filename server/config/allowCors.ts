@@ -12,7 +12,7 @@ const allowCors = (req: Request, res: Response, next: NextFunction) => {
         res.status(200).end();
         return;
     }
-    next(); // Call next middleware in the chain
+    return next(); // Call next middleware in the chain
 };
 
 
