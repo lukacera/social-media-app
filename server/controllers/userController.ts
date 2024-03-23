@@ -106,7 +106,6 @@ export const updateUserImg = asyncHandler(async (req: CustomRequestPost, res: Re
     // Update the user's profile image field directly in the database
     await User.updateOne({ username }, { avatar: req.publicId });
 
-    // Respond with a success message
     res.status(200).json({ message: 'Profile image updated successfully' });
 
 });
