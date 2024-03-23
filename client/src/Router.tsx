@@ -9,7 +9,6 @@ export const App: React.FC = () => {
     const token = localStorage.getItem("token");
     const location = useLocation();
     useEffect(() => {
-        console.log(location.pathname)
         // Empty useEffect hook, have to declare location even though
         // it's not used, so that program acknowledges that path has changed.
         // That is useful for checking if token is type of "null" or "string"

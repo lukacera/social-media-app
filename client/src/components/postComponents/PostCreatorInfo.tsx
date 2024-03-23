@@ -4,6 +4,7 @@ import moment from "moment";
 import { postType } from "../../../../server/types/postType";
 import { Link } from "react-router-dom";
 const PostCreatorInfo: React.FC<{ post: postType }> = ({ post }) => {
+
     return (
         <div className="flex flex-col items-center">
             <div className="flex flex-col items-center gap-3">

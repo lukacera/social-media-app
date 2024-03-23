@@ -1,14 +1,15 @@
 import "../assets/index.css";
 
 import { Link } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { getAllProfiles } from "../api/fetchUsersAPIs/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";
 import FriendStatus from "./FriendStatus";
 import { getImgURL } from "../constants/imgURL";
+import { UserContext } from "../hooks/UserContextHook";
 
-
-const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
+const AllProfiles: React.FC = () => {
+    const { currentUserData } = useContext(UserContext)
     // Initialize state for loading
     const [loading, setLoading] = useState<boolean>(true)
     const [users, setUsers] = useState<userType[]>([])
@@ -20,7 +21,7 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
                 let data = await getAllProfiles()
 
                 // Display all profiles except for current user one
-                data = data.filter(user => user.username !== currentUser.username)
+                data = data.filter(user => user.username !== currentUserData.username)
                 setUsers(data)
             }
             catch (error) {
@@ -30,7 +31,7 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
         }
         fetchUsers()
 
-    }, [currentUser.username])
+    }, [currentUserData.username])
 
     // Handle search bar on input
     const [searchProfile, setSearchProfile] = useState<string>('')
@@ -76,7 +77,7 @@ const AllProfiles: React.FC<{ currentUser: userType }> = ({ currentUser }) => {
                                     <p className="pl-10 text-[1.2rem]">{user.username}</p>
                                 </div>
                             </Link>
-                            <FriendStatus currentUser={currentUser} targetUser={user} key={index} />
+                            <FriendStatus targetUser={user} key={index} />
                         </div>
                     ))}
                 </div>

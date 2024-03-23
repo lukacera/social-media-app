@@ -1,39 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { IoMdPersonAdd } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
 import { deleteSentFriendRequest } from "../api/friendRequestAPIs/deleteSentFriendRequestApi";
 import { sendFriendRequest } from '../api/friendRequestAPIs/sendFriendRequestApi';
 import { userType } from '../../../server/types/userType';
+import { UserContext } from '../hooks/UserContextHook';
 
-
-const FriendStatus: React.FC<{ currentUser: userType, targetUser: userType }> = ({ currentUser, targetUser }) => {
+const FriendStatus: React.FC<{ targetUser: userType }> = ({ targetUser }) => {
+    const { currentUserData } = useContext(UserContext)
     // Initialize state to check if currentUser and targetUser are friends
     const [isFriendRequestSent, setIsFriendRequestSent] = useState(
-        targetUser.friendRequests?.includes(currentUser.username)
+        targetUser.friendRequests?.includes(currentUserData.username)
     );
 
     // Initialize useEffect hook to set friend request status for each user on each render
     useEffect(() => {
         setIsFriendRequestSent(
-            targetUser.friendRequests?.includes(currentUser.username)
+            targetUser.friendRequests?.includes(currentUserData.username)
         )
-    }, [targetUser, currentUser.username])
+    }, [targetUser, currentUserData.username])
 
-    const areFriends = currentUser.friends?.includes(targetUser.username)
+    const areFriends = currentUserData.friends?.includes(targetUser.username)
     const handleFriendRequest = async () => {
         if (isFriendRequestSent) {
             // Cancel friend request
-            const data = await deleteSentFriendRequest(targetUser.username);
-            console.log("Delete request!")
-            console.log(data)
+            await deleteSentFriendRequest(targetUser.username);
+
             setIsFriendRequestSent(false);
         } else {
             // Send friend request
             setIsFriendRequestSent(true);
-            console.log("Send request!")
-            const data = await sendFriendRequest(targetUser.username)
-            console.log(data)
+            await sendFriendRequest(targetUser.username)
         }
     };
 

@@ -3,8 +3,6 @@ import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
 import { Link } from "react-router-dom";
 import { getImgURL } from "../constants/imgURL";
 const CurrentUser: React.FC<{ token: string | null }> = ({ token }) => {
-    // Get token from local storage
-    console.log("currentUser")
     // Declare type 
     interface CurrentUser {
         username: string,

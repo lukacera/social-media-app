@@ -22,7 +22,7 @@ export const loginUser = async (username: string, password: string) => {
         }
         // Set token in localStorage
         localStorage.setItem("token", data.userData.token)
-        console.log("Token is set!")
+
         // Return object with values for user that is logged in
         return data.userData
     } catch (error) {

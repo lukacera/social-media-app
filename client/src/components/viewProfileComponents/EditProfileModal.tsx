@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react"
-import { userType } from "../../../../server/types/userType";
+import React, { useState, useEffect, useContext } from "react"
 import { editProfile } from "../../api/editProfileDataAPIs/editProfileApi";
-
+import { UserContext } from "../../hooks/UserContextHook";
 const EditProfileModal: React.FC<{
     isEditOpen: boolean,
-    userData: userType,
     closeModal: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ isEditOpen, userData, closeModal }) => {
-
+}> = ({ isEditOpen, closeModal }) => {
+    const { targetUser, setTargetUser } = useContext(UserContext)
     // Set initial state for update to be current User data
     const [update, setUpdate] = useState({
-        name: userData.name,
-        surname: userData.surname,
-        age: userData.age
+        name: targetUser.name,
+        surname: targetUser.surname,
+        age: targetUser.age
     });
 
     const [errorMessage, setErrorMessage] = useState<string>("")
@@ -20,7 +18,11 @@ const EditProfileModal: React.FC<{
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const fetched_data = await editProfile(userData.username, update);
+            const fetched_data = await editProfile(targetUser.username, update);
+            setTargetUser(prevData => ({
+                ...prevData,
+                ...update
+            }))
             if (typeof (fetched_data) === "string") {
                 setErrorMessage(fetched_data)
                 return
@@ -30,16 +32,16 @@ const EditProfileModal: React.FC<{
             console.error("Error occured while trying to update User " + error)
         }
     }
-    // Set userData on render
+    // Set targetUser on render
     useEffect(() => {
-        if (userData) {
+        if (targetUser) {
             setUpdate({
-                name: userData.name,
-                surname: userData.surname,
-                age: userData.age
+                name: targetUser.name,
+                surname: targetUser.surname,
+                age: targetUser.age
             });
         }
-    }, [userData]);
+    }, [targetUser]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

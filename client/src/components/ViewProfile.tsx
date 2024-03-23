@@ -1,5 +1,4 @@
-import React, { useState } from "react"
-import { userType } from "../../../server/types/userType";
+import React, { useContext, useState } from "react"
 
 // Components
 import Bio from "./viewProfileComponents/Bio";
@@ -7,10 +6,12 @@ import ProfileImg from "./viewProfileComponents/ProfileImg";
 import EditProfileModal from "./viewProfileComponents/EditProfileModal";
 import Overlay from "./Overlay";
 import UserAllPosts from "./viewProfileComponents/UserAllPosts";
+import { UserContext } from "../hooks/UserContextHook";
 
 // Get userData as prop from mainPage
-const ViewProfile: React.FC<{ userData: userType, isCurrentUser: boolean }> = ({ userData, isCurrentUser }) => {
+const ViewProfile: React.FC = () => {
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false)
+  const { targetUser } = useContext(UserContext)
 
   return (
     <>
@@ -19,23 +20,21 @@ const ViewProfile: React.FC<{ userData: userType, isCurrentUser: boolean }> = ({
       )}
       <div className="h-full grid place-items-center my-12">
         <div className="flex flex-col gap-16 text-xl">
-          < ProfileImg isCurrentUser={isCurrentUser} userData={userData} />
-          < Bio isCurrentUser={isCurrentUser}
-            userData={userData} openModal={setIsEditOpen} />
+          < ProfileImg />
+          < Bio openModal={setIsEditOpen} />
 
-          <EditProfileModal isEditOpen={isEditOpen} userData={userData}
-            closeModal={setIsEditOpen} />
+          <EditProfileModal isEditOpen={isEditOpen} closeModal={setIsEditOpen} />
         </div>
         <div className="my-20 grid place-items-center">
           <h2 className="text-2xl">
-            <span className="font-bold">{userData.username} </span>
+            <span className="font-bold">{targetUser.username} </span>
             posted:
           </h2>
-          {userData.posts?.length === 0 && (
+          {targetUser.posts?.length === 0 && (
             <p>Nothing yet!</p>
           )}
-          {userData.posts && (
-            <UserAllPosts userData={userData} />
+          {targetUser.posts && (
+            <UserAllPosts />
           )}
 
         </div>

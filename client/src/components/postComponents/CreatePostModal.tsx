@@ -29,8 +29,7 @@ const CreatePostModal: React.FC<{
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const fetched_data = await createNewPost(imageFile, postContent)
-      console.log(fetched_data)
+      await createNewPost(imageFile, postContent)
       handleCloseModal()
       navigate("/home")
     } catch (error) {

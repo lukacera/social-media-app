@@ -1,7 +1,6 @@
 // Imports 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { userType } from "../../../server/types/userType";
 // Components
 import { Sidebar } from "../components/Sidebar";
 import { Feed } from "../components/Feed";
@@ -9,53 +8,16 @@ import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
 import Messages from "../components/Messages";
-
+import { UserContext } from "../hooks/UserContextHook";
 // API
 import { getUser } from "../api/fetchUsersAPIs/getUserApi";
-import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
 
 function MainPage(): ReactNode {
     const navigate = useNavigate()
+
     // Get data for current user
-    const [currentUserData, setCurrentUserData] = useState<userType>({
-        age: 0,
-        name: "",
-        password: "",
-        surname: "",
-        username: "",
-        avatar: "",
-        friends: [],
-        posts: []
-    });
-
-    // Logged in user 
-    const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false)
-
-    // Fetch currentUser's info on first render
-    useEffect(() => {
-        const fetchCurrentUser = async () => {
-            const user = await getCurrentUser();
-            setCurrentUserData(user);
-        };
-
-        fetchCurrentUser();
-    }, [isCurrentUser]);
-
-
-
-    // Initialize state of data on first render
-    const [targetUserData, settargetUserData] = useState<userType>({
-        age: 0,
-        name: "",
-        password: "",
-        surname: "",
-        username: "",
-        avatar: "",
-        friends: [],
-        posts: [],
-        profCreatedAt: undefined
-    });
-
+    const { currentUserData, setIsCurrentUser,
+        setTargetUser } = useContext(UserContext);
 
     const currentURL = window.location.pathname;
     // Get username from params
@@ -75,7 +37,7 @@ function MainPage(): ReactNode {
                     } else {
                         setIsCurrentUser(false)
                     }
-                    settargetUserData(targetUserData)
+                    setTargetUser(targetUserData)
                 } catch (error) {
                     // If error occured, redirect to errorPage
                     navigate("/*")
@@ -89,7 +51,7 @@ function MainPage(): ReactNode {
         }
 
         fetchData()
-    }, [username, currentURL, currentUserData.username, navigate])
+    }, [username, currentURL, setTargetUser, currentUserData.username, navigate, setIsCurrentUser])
 
     const renderComponentBasedOnURL = (): ReactNode => {
         // URL decides which component will render
@@ -97,9 +59,9 @@ function MainPage(): ReactNode {
             return <Feed />;
         } else if (currentURL === '/users') {
 
-            return <AllProfiles currentUser={currentUserData} />;
+            return <AllProfiles />;
         } else if (currentURL === `/users/${username}`) {
-            return <ViewProfile userData={targetUserData} isCurrentUser={isCurrentUser} />
+            return <ViewProfile />
 
         }
     };
