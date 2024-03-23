@@ -1,11 +1,15 @@
-import React, { useRef, useState } from "react"
+import React, { useContext, useRef, useState } from "react"
 import Overlay from "../Overlay";
 import { FaFileUpload } from "react-icons/fa";
 import { createNewPost } from "../../api/postAPIs/createNewPostApi";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../hooks/UserContextHook";
+import { postType } from "../../../../server/types/postType";
 const CreatePostModal: React.FC<{
   closeModal: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ closeModal }) => {
+
+  const { targetUser, setTargetUser } = useContext(UserContext)
   const navigate = useNavigate()
 
   const [previewImage, setPreviewImage] = useState<string>("");
@@ -27,15 +31,29 @@ const CreatePostModal: React.FC<{
 
   // Send form data to server and close the form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await createNewPost(imageFile, postContent)
-      handleCloseModal()
-      navigate("/home")
+      const post: postType = await createNewPost(imageFile, postContent);
+
+      // Create a new array with the new post's ID added to it
+      const updatedPosts = targetUser.posts ? [...targetUser.posts] : [];
+      if (post._id) {
+        updatedPosts.push(post._id);
+      }
+
+      // Update the targetUser state with the new array
+      setTargetUser(prevData => ({
+        ...prevData,
+        posts: updatedPosts
+      }));
+      console.log(targetUser.posts)
+      handleCloseModal();
+      navigate("/home");
     } catch (error) {
-      console.log("Error occured while creating new post! " + error)
+      console.log("Error occurred while creating new post! " + error);
     }
-  }
+  };
+
 
   // Handle any user image upload, update both previewImg and file Img 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

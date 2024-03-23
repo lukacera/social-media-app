@@ -21,7 +21,7 @@ export const Feed = (): ReactNode => {
             setLoading(false)
         }
         fetchPosts()
-    }, [])
+    }, [posts]) // Add dependency, so that posts are immediately updated
 
     return (
         <div className="flex flex-col items-center gap-10 overflow-auto
@@ -29,7 +29,7 @@ export const Feed = (): ReactNode => {
             <h2 className="mt-10 text-4xl tracking-widest font-bold">Feed</h2>
             {/* All posts div */}
             {!loading && (
-                <div className="flex flex-col gap-20 my-20">
+                <div className="flex flex-col gap-40 my-20">
                     {posts && posts?.length > 0 && posts.map((post, index) => (
                         <div key={index}>
                             <SinglePostComponent post={post} />
