@@ -32,7 +32,6 @@ const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
                 {isThisUsersPost && (
                     <div className="flex justify-end items-center gap-5">
                         < DeletePostBtn post={post} />
-                        <EditPostButton />
                     </div>
                 )}
             </div>
