@@ -1,1 +1,1 @@
-export const baseUrl = "https://social-media-app-backend-khonq0h15-ceraa04s-projects.vercel.app/api"
+export const baseUrl = "https://social-media-app-backend-seven.vercel.app/api"
