@@ -5,7 +5,7 @@ const PostContent: React.FC<{ post: postType }> = ({ post }) => {
   return (
     <div className="grid place-items-center gap-10">
       {post.img && (
-        <img className="max-w-[30rem]" src={getImgURL(post.img)} alt="" />
+        <img className="max-w-[30rem] max-h-[20rem]" src={getImgURL(post.img)} alt="" />
       )}
       <p className="text-xl font-bold font-merryweather">
         {post.text}

@@ -1,16 +1,34 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useContext, useState } from "react"
 import { FaUser, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authAPIs/loginUserApi";
 import { ReactNode } from "react";
+import { UserContext } from "../hooks/UserContextHook";
+import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
 
 const Login = (): ReactNode => {
+
+    const { setCurrentUserData } = useContext(UserContext)
+
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
     const navigate = useNavigate()
 
     // Errors in login proccess(invalid username or password)
     const [errorValidation, setErrorValidation] = useState<string>('')
+
+
+    // Fetch new currentUser data on login
+    const fetchCurrentUser = async () => {
+        try {
+            const fetched_data = await getCurrentUser()
+            setCurrentUserData(fetched_data)
+        } catch (error) {
+            console.error("Error occured while fetching current user! " + error)
+        }
+
+    }
     // Handle submit function
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -21,7 +39,8 @@ const Login = (): ReactNode => {
             setErrorValidation(fetched_data)
             return
         }
-        // Signup successful, redirect to home page
+        // Login successful
+        await fetchCurrentUser()
         navigate("/home")
     }
     return (

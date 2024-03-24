@@ -21,7 +21,9 @@ const FriendStatus: React.FC<{ targetUser: userType }> = ({ targetUser }) => {
         )
     }, [targetUser, currentUserData.username])
 
+    // Check if users are friends already
     const areFriends = currentUserData.friends?.includes(targetUser.username)
+
     const handleFriendRequest = async () => {
         if (isFriendRequestSent) {
             // Cancel friend request

@@ -23,7 +23,7 @@ export const Sidebar = (): ReactNode => {
         border-r-2 border-borderGray">
             <ul className="flex justify-start items-center mt-24 ml-2 
             flex-col gap-20 list-none">
-                {/* Ikonice u sidebaru */}
+                {/* Icons in sidebar */}
                 {sidebarIcons.map((icon, index) => (
                     <Link className="liSidebar" to={icon.linkTo} key={index}>
                         <li >

@@ -1,5 +1,5 @@
 // Imports 
-import { ReactNode, useContext, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // Components
 import { Sidebar } from "../components/Sidebar";
@@ -8,63 +8,40 @@ import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
 import Messages from "../components/Messages";
-import { UserContext } from "../hooks/UserContextHook";
-// API
-import { getUser } from "../api/fetchUsersAPIs/getUserApi";
+
+
 
 function MainPage(): ReactNode {
+
     const navigate = useNavigate()
 
-    // Get data for current user
-    const { currentUserData, setIsCurrentUser,
-        setTargetUser } = useContext(UserContext);
-
     const currentURL = window.location.pathname;
-    // Get username from params
+
+    // Check if Url is /users/ which means that client tries to access user 
+    // that has no username, which is invalid
+    useEffect(() => {
+        if (currentURL === "/users/") {
+            navigate("/*")
+        }
+
+    }, [currentURL, navigate])
+
+
     const { username } = useParams<{ username?: string }>();
 
-    // Fetch data from getUser API
-    useEffect(() => {
-        const fetchData = async () => {
-            if (username) {
-                try {
-                    // Try to fetch targetUserData from DB, if it fails,
-                    // settargetUserData will not be called
-                    const targetUserData = await getUser(username);
+    const renderComponentBasedOnURL = (): ReactNode => {  // URL decides which component will be rendered
 
-                    if (targetUserData.username === currentUserData.username) {
-                        setIsCurrentUser(true)
-                    } else {
-                        setIsCurrentUser(false)
-                    }
-                    setTargetUser(targetUserData)
-                } catch (error) {
-                    // If error occured, redirect to errorPage
-                    navigate("/*")
-                }
-
-            }
-            // /users/ means that no username was provided, so render errorPage
-            else if (currentURL === "/users/") {
-                navigate("/*")
-            }
-        }
-
-        fetchData()
-    }, [username, currentURL, setTargetUser, currentUserData.username, navigate, setIsCurrentUser])
-
-    const renderComponentBasedOnURL = (): ReactNode => {
-        // URL decides which component will render
         if (currentURL === '/home') {
             return <Feed />;
-        } else if (currentURL === '/users') {
 
+        } else if (currentURL === '/users') {
             return <AllProfiles />;
+
         } else if (currentURL === `/users/${username}`) {
             return <ViewProfile />
-
         }
     };
+
     const renderComponent = renderComponentBasedOnURL()
     return (
         <>
@@ -79,8 +56,6 @@ function MainPage(): ReactNode {
                 </main>
             </div>
         </>
-
-
     );
 }
 

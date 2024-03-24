@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import CurrentUser from "../components/CurrentUser";
 import DisplayFriendRequests from "./DisplayFriendRequests";
 import CreatePostModal from "./postComponents/CreatePostModal";
-import CreatePostButton from "./postComponents/CreatePostButton";
+import OpenPostModal from "./postComponents/HeaderNavOpenPostModal";
 // Icons
 import { GiBackup } from "react-icons/gi";
 
@@ -37,7 +37,7 @@ const HeaderNav: React.FC = () => {
                 </Link>
                 {token && (
                     <div className="flex gap-20 items-center">
-                        <CreatePostButton handleOpenModal={setCreateStatus} />
+                        <OpenPostModal handleOpenModal={setCreateStatus} />
 
                         {/* If createStatus is true, it means that form for creating post should be open */}
                         {createStatus && (

@@ -1,15 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
 
-// Button in HeaderNav, which opens form for new post
-const CreatePostButton: React.FC<{ handleOpenModal: React.Dispatch<React.SetStateAction<boolean>> }> = ({ handleOpenModal }) => {
+const CreatePostButton: React.FC = () => {
+    const [isClicked, setIsClicked] = useState<boolean>(false)
     return (
-        <p className="flex items-center gap-3 font-merryweather">
-            <span className="text-xl">New post</span>
-            <span className="text-2xl px-4 py-2 bg-white 
-    text-black rounded-full cursor-pointer" onClick={() => handleOpenModal(true)}>
-                +
-            </span>
-        </p>
+        <button className="px-5 py-2 bg-white text-black rounded-lg 
+            mt-5 border-2 text-[1.4rem]"
+            onClick={() => setIsClicked(true)}
+            disabled={isClicked}>
+            Create post
+        </button>
     )
 };
 

@@ -1,87 +1,71 @@
 import "../assets/index.css";
 
-import { Link } from "react-router-dom";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAllProfiles } from "../api/fetchUsersAPIs/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";
-import FriendStatus from "./FriendStatus";
-import { getImgURL } from "../constants/imgURL";
+
 import { UserContext } from "../hooks/UserContextHook";
+import AllProfilesSearchBarInput from "./allProfilesPageComponents/AllProfilesSearchBarInput";
+import Profile from "./allProfilesPageComponents/Profile";
 
 const AllProfiles: React.FC = () => {
+
     const { currentUserData } = useContext(UserContext)
-    // Initialize state for loading
+
     const [loading, setLoading] = useState<boolean>(true)
     const [users, setUsers] = useState<userType[]>([])
+    const [searchProfile, setSearchProfile] = useState<string>('')
 
     // Fetch all profiles on first render, and set loading to false
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                let data = await getAllProfiles()
+                const data = (await getAllProfiles()).filter(user => (
+                    user.username !== currentUserData.username
+                ))
 
-                // Display all profiles except for current user one
-                data = data.filter(user => user.username !== currentUserData.username)
                 setUsers(data)
+                setLoading(false)
+
             }
             catch (error) {
                 console.error("Error occured while fetching all profiles from DB: " + error)
             }
-            setLoading(false)
         }
         fetchUsers()
 
     }, [currentUserData.username])
 
-    // Handle search bar on input
-    const [searchProfile, setSearchProfile] = useState<string>('')
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        const searchValue = e.target.value;
-        setSearchProfile(searchValue)
-    }
 
-    // I will use filteredUsers array to display users
-    let filteredUsers: userType[];
+    // Use filteredUsers array to display users
+    const filteredUsers: userType[] = users.filter(user =>
+        user.username.toLowerCase().includes(searchProfile.toLowerCase())
+    );
 
-    // Filter them by input value
-    if (users.length > 0) {
-        filteredUsers = users.filter(user => {
-            return user.username.toLowerCase().includes(searchProfile.toLowerCase())
-        })
-    } else {
-        filteredUsers = []
-    }
     return (
         <div>
-            <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
-                <div className="flex flex-col items-center gap-7">
-                    <h2 data-testid="allProfiles-header"
-                        className="text-4xl">All profiles</h2>
-                    <input onChange={handleInputChange}
-                        className="px-5 py-3 w-[30rem] text-black
-                        focus:outline-none rounded-full"
-                        type="text" placeholder="Search for profiles" />
-                </div>
-                <div className="flex flex-wrap gap-20 justify-center">
+            {!loading && (
+                <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
+                    <AllProfilesSearchBarInput setSearchProfile={setSearchProfile} />
+                    <div className="flex flex-wrap gap-20 justify-center">
 
-                    {!loading && filteredUsers.length === 0 &&
-                        <p className="text-2xl">No profiles found!</p>
-                    }
+                        {filteredUsers.length === 0 &&
+                            <p className="text-2xl">No profiles found!</p>
+                        }
 
-                    {!loading && filteredUsers && filteredUsers.map((user: userType, index: number) => (
-                        <div className="profileWrapper" key={index}>
-                            <Link to={`/users/${user.username}`}>
-                                <div className="flex place-items-center">
-                                    <img className="w-[3rem] h-[3rem] rounded-full"
-                                        src={getImgURL(user.avatar || "")} alt="" />
-                                    <p className="pl-10 text-[1.2rem]">{user.username}</p>
-                                </div>
-                            </Link>
-                            <FriendStatus targetUser={user} key={index} />
-                        </div>
-                    ))}
+                        {/* Display filteredUser (all but currentUser) */}
+                        {filteredUsers && filteredUsers.map((user: userType, index: number) => (
+
+                            <div key={index}>
+                                < Profile user={user} />
+                            </div>
+
+                        ))}
+
+                    </div>
                 </div>
-            </div>
+            )}
+
         </div>
 
     )
