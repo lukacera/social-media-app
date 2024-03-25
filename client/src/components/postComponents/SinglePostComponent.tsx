@@ -1,24 +1,21 @@
 import React, { useContext, useEffect, useState } from "react"
 // Components
-import LikeComment from "./likeCommentComponent";
 import PostContent from "./PostContent";
 import PostCreatorInfo from "./PostCreatorInfo";
 import { postType } from "../../../../server/types/postType";
 import { UserContext } from "../../hooks/UserContextHook";
 import DeletePostBtn from "./DeletePostButton";
-import EditPostButton from "./EditPostButton";
+import LikePost from "./LikePost";
 
 const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
-
     const { currentUserData } = useContext(UserContext)
     const [isThisUsersPost, setIsThisUsersPost] = useState<boolean>(false)
+
     useEffect(() => {
-        console.log(isThisUsersPost + ", before")
         setIsThisUsersPost(() => {
             return currentUserData._id === post.creator._id
         })
-        console.log(isThisUsersPost + ", after")
-    }, [currentUserData._id, post.creator._id, isThisUsersPost])
+    }, [currentUserData._id, post.creator._id])
 
 
     return (
@@ -28,11 +25,10 @@ const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
                 < PostContent post={post} />
             </div>
             <div className="flex justify-between">
-                < LikeComment post={post} />
+                < LikePost post={post} />
                 {isThisUsersPost && (
                     <div className="flex justify-end items-center gap-5">
                         < DeletePostBtn post={post} />
-                        <EditPostButton />
                     </div>
                 )}
             </div>
