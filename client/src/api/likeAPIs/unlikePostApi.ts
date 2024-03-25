@@ -1,19 +1,18 @@
 import { Types } from "mongoose";
 import { baseUrl } from "../../constants/baseURL";
-export const deletePost = async (targetId: Types.ObjectId | undefined) => {
-
+export const unlikePost = async (postId: Types.ObjectId) => {
     const token = localStorage.getItem("token")
-
     try {
-        const response = await fetch(`${baseUrl}/posts/${targetId}`, {
+        const response = await fetch(`${baseUrl}/posts/${postId}/unlikePost`, {
             method: "DELETE",
             headers: {
+                "Content-type": "application/json",
                 "Authorization": `Bearer ${token}`
-            },
+            }
         });
 
         if (!response.ok) {
-            throw new Error('Failed to create new post');
+            throw new Error('Failed to unlike post!');
         }
 
         const data = await response.json()
