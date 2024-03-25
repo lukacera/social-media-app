@@ -21,7 +21,7 @@ const ConfirmDelete: React.FC<{
                 posts: filteredPosts
             }))
             setOpenConfirmDelete(false)
-
+            window.location.reload()
         } catch (error) {
             console.error("Error occured while deleting: " + error)
         }

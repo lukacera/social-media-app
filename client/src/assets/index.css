@@ -32,13 +32,16 @@
     bg-white text-black max-w-[8rem] mx-auto font-exo
     tracking-wide
 }
-::-webkit-scrollbar {
+
+.customWebkit::-webkit-scrollbar {
     width: 10px;
 }
-::-webkit-scrollbar-track {
+
+.customWebkit::-webkit-scrollbar-track {
     background-color: #f1f1f1; 
 }
-::-webkit-scrollbar-thumb {
+
+.customWebkit::-webkit-scrollbar-thumb {
     background-color: #888; 
     border-radius: 5px; 
 }
@@ -63,3 +66,4 @@
 .editProfileInput {
     @apply px-5 py-2 rounded-full text-black focus:outline-none
 }
+

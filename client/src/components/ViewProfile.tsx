@@ -57,15 +57,25 @@ const ViewProfile: React.FC = () => {
               <EditProfileModal isEditOpen={isEditOpen} closeModal={setIsEditOpen} />
             </div>
             <div className="my-20 grid place-items-center">
-              <h2 className="text-2xl">
-                <span className="font-bold">{targetUser.username} </span>
-                posted:
-              </h2>
-              {targetUser.posts?.length === 0 && (
-                <p>Nothing yet!</p>
+              {targetUser.posts && targetUser.posts.length > 0 ? (
+                <h2 className="text-3xl">
+                  <span className="font-bold">{targetUser.username} </span>
+                  posted:
+                </h2>
+              ) : (
+                <p className="text-3xl my-20 flex items-center gap-2">
+                  <span className="font-bold">
+                    {targetUser.username}
+                  </span>
+                  <span>has not published any posts</span>
+                </p>
               )}
+
               {targetUser.posts && (
-                <UserAllPosts />
+                <div className="mt-12">
+                  <UserAllPosts />
+
+                </div>
               )}
 
             </div>

@@ -49,7 +49,8 @@ function MainPage(): ReactNode {
                 <HeaderNav />
                 <main className=" grid grid-cols-[10%_70%_20%]">
                     <Sidebar />
-                    <div className="overflow-auto">
+
+                    <div className="overflow-auto customWebkit">
                         {renderComponent}
                     </div>
                     <Messages />
