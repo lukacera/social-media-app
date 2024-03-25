@@ -7,6 +7,8 @@ const router: Router = express.Router()
 import { protect } from "../middlewares/authMiddleware";
 import { createPost, getAllPosts, deletePost } from "../controllers/postController";
 import { uploadMiddleware, uploadToCloudinary } from "../config/multerConfig";
+import { likePost, unlikePost } from "../controllers/LikeController"
+import { createNewComment } from "../controllers/CommentController"
 router
     .route("/createPost")
     .post(protect, uploadMiddleware, (req, res, next) => {
@@ -19,7 +21,6 @@ router
         }
     }, createPost)
 
-
 router
     .route("/getAllPosts")
     .get(getAllPosts)
@@ -27,4 +28,18 @@ router
 router
     .route("/:postId")
     .delete(protect, deletePost)
+
+router
+    .route("/:postId/likePost")
+    .post(protect, likePost)
+
+
+router
+    .route("/:postId/unlikePost")
+    .delete(protect, unlikePost)
+
+router
+    .route("/:postId/createNewComment")
+    .post(protect, createNewComment)
+
 export default router
