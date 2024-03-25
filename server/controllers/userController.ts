@@ -8,7 +8,7 @@ import { getAllDocuments } from "./genericController";
 // @desc  Get all users from DB
 // @route GET "/api/users"
 
-export const getAllusers = getAllDocuments(User)
+export const getAllusers = getAllDocuments(User, [])
 
 // @desc  Get user from DB by username
 // @route GET "/api/users/:username"
