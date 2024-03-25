@@ -18,7 +18,7 @@ export const createNewPost = async (file: File, text: string) => {
             throw new Error('Failed to create new post');
         }
 
-        const data = response.json()
+        const data = await response.json()
         return data;
     } catch (error) {
         throw new Error('Operation failed!');

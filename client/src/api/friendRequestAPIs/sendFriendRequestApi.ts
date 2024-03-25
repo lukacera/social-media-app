@@ -14,7 +14,7 @@ export const sendFriendRequest = async (targetUsername: string) => {
             throw new Error('Failed to send request');
         }
 
-        const data = response.json()
+        const data = await response.json()
         return data;
     } catch (error) {
         throw new Error(`THERE WAS AN ERROR IN SENDING NEW REQUEST TO ${targetUsername} ! ` + error);

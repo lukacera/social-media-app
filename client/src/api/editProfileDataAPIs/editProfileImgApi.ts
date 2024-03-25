@@ -19,7 +19,7 @@ export const editProfileImg = async (currentUserUsername: string, file: File) =>
             throw new Error('Failed to update profile picture');
         }
 
-        const data = response.json()
+        const data = await response.json()
         return data;
     } catch (error) {
         throw new Error('Operation failed!');

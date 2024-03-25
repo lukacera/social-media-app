@@ -20,7 +20,7 @@ export const editProfile = async (targetUsername: string, update: UpdateType) =>
             throw new Error('Failed to update profile info');
         }
 
-        const data = response.json()
+        const data = await response.json()
         return data;
     } catch (error) {
         throw new Error('Operation failed!');
