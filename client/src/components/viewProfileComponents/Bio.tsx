@@ -34,14 +34,19 @@ const Bio: React.FC<{ openModal: React.Dispatch<React.SetStateAction<boolean>> }
                     </p>
                 </div>
             </div>
-            <div className="flex justify-center gap-5 font-bold">
-                <p className="flex justify-center gap-2">
-                    <span>Friends:</span>
-                    <span>{targetUser.friends?.length}</span>
+            <div className="flex justify-center gap-10">
+                <p className="grid place-items-center gap-2">
+                    <span className="font-bold text-2xl">
+                        {targetUser.friends?.length}
+                    </span>
+                    <span className="opacity-80">Friends</span>
                 </p>
-                <p className="flex justify-center gap-2">
-                    <span>Posts:</span>
-                    <span>{targetUser.posts?.length}</span>
+                <p className="grid place-items-center gap-2">
+                    <span className="font-bold text-2xl">
+                        {targetUser.posts?.length}
+                    </span>
+
+                    <span className="opacity-80">Posts</span>
                 </p>
             </div>
         </div>
