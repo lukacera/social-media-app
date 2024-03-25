@@ -8,11 +8,11 @@ import { isValidObjectId } from "mongoose";
 // @desc Get all posts
 // @route "/api/posts/getAllPosts"
 
-export const getAllPosts = getAllDocuments(Post, "creator")
+export const getAllPosts = getAllDocuments(Post, ["creator", "likes", "comments.creator"])
 
 
 interface CustomRequestPost extends CustomRequest {
-    publicId: string,
+    publicId: string
 }
 
 // @desc Create new post

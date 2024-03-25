@@ -6,6 +6,10 @@ const commentSchema = new Schema<commentType>({
         type: Schema.ObjectId,
         ref: "User"
     },
+    post: {
+        type: Schema.ObjectId,
+        ref: "Post"
+    },
     text: {
         type: String,
         required: [true, "Comments can't be empty!"]
@@ -17,8 +21,7 @@ const commentSchema = new Schema<commentType>({
         }
     ],
     commentCreatedAt: {
-        type: Date,
-        default: Date.now()
+        type: Date
     }
 })
 
