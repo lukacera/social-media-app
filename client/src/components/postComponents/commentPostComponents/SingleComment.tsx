@@ -1,12 +1,32 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { getImgURL } from '../../../constants/imgURL';
 import moment from "moment";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { commentType } from "../../../../../server/types/commentType";
+import { UserContext } from "../../../hooks/UserContextHook";
+import { deleteComment } from "../../../api/commentAPIs/deleteCommentApi";
+import { postType } from "../../../../../server/types/postType";
 const SingleComment: React.FC<{
     comment: commentType,
-}> = ({ comment }) => {
+    post: postType
+}> = ({ comment, post }) => {
+
+    const { currentUserData } = useContext(UserContext)
+
+    const [isUsersComment, setIsUsersComment] = useState<boolean>(false)
+
+    useEffect(() => {
+        setIsUsersComment(currentUserData._id === comment.creator._id);
+    }, [currentUserData, comment]);
+
+    const handleDeleteComment = async () => {
+        try {
+            post._id && await deleteComment(post._id, comment._id)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div>
             <div className="flex flex-row items-start gap-5">
@@ -27,10 +47,18 @@ const SingleComment: React.FC<{
                 </div>
             </div>
 
-            <div className="max-w-[40rem] h-auto mt-10">
-                <p className="break-words text-[1.1rem]">
+            <div className=" h-auto mt-10 flex justify-between items-center">
+                <p className="break-words text-[1.1rem]
+                max-w-[35rem]">
                     {comment.text}
                 </p>
+                {isUsersComment && (
+                    <p className="text-2xl text-red-500 cursor-pointer"
+                        onClick={() => handleDeleteComment()}>
+                        <FaTrash />
+                    </p>
+                )}
+
             </div>
 
         </div>

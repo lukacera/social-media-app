@@ -7,15 +7,56 @@ import { getAllDocuments } from "./genericController";
 import { isValidObjectId } from "mongoose";
 import { io } from "../app";
 
+
+interface CustomRequestPost extends CustomRequest {
+    publicId: string
+}
+
+
 // @desc Get all posts
 // @route "/api/posts/getAllPosts"
 
 export const getAllPosts = getAllDocuments(Post, ["creator", "likes", "comments.creator"])
 
 
-interface CustomRequestPost extends CustomRequest {
-    publicId: string
-}
+
+// @desc Get a single post by ID
+// @route GET /api/posts/:postId
+
+export const getOnePost = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const postId = req.params.postId;
+
+    // Check if the post ID is valid
+    if (!isValidObjectId(postId)) {
+        return res.status(400).json({ message: "Invalid post ID" });
+    }
+
+    try {
+        // Find the post by ID in the database
+        const post = await Post.findById(postId)
+            .populate({
+                path: "comments",
+                populate: {
+                    path: "creator",
+                    model: "User"
+                }
+            });
+
+        // Check if the post exists
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+
+        // If the post exists, return it as a response
+        return res.status(200).json({ post: post });
+    } catch (error) {
+        // Handle any errors that occur during the database query
+        console.error("Error fetching post:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 
 // @desc Create new post
 // @route "/api/posts/createPost"

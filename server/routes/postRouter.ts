@@ -5,10 +5,10 @@ interface CustomRequestPublicID extends Request {
 const express = require("express");
 const router: Router = express.Router()
 import { protect } from "../middlewares/authMiddleware";
-import { createPost, getAllPosts, deletePost } from "../controllers/postController";
+import { createPost, getAllPosts, deletePost, getOnePost } from "../controllers/postController";
 import { uploadMiddleware, uploadToCloudinary } from "../config/multerConfig";
 import { likePost, unlikePost } from "../controllers/LikeController"
-import { createNewComment } from "../controllers/CommentController"
+import { createComment, deleteComment } from "../controllers/CommentController"
 router
     .route("/createPost")
     .post(protect, uploadMiddleware, (req, res, next) => {
@@ -27,6 +27,7 @@ router
 
 router
     .route("/:postId")
+    .get(getOnePost)
     .delete(protect, deletePost)
 
 router
@@ -40,6 +41,10 @@ router
 
 router
     .route("/:postId/createNewComment")
-    .post(protect, createNewComment)
+    .post(protect, createComment)
+
+router
+    .route("/:postId/deleteComment")
+    .delete(protect, deleteComment)
 
 export default router

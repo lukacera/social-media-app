@@ -3,12 +3,14 @@ import { postType } from '../../../../../server/types/postType';
 import { getImgURL } from '../../../constants/imgURL';
 import { UserContext } from '../../../hooks/UserContextHook';
 import { createNewComment } from '../../../api/commentAPIs/createNewCommentApi';
+import { CommentContext } from '../../../hooks/useCommentsContext';
 
 const CommentForm: React.FC<{
     post: postType,
     setIsCommentFormOpen: Dispatch<SetStateAction<boolean>>
 }> = ({ post, setIsCommentFormOpen }) => {
 
+    const { comments } = useContext(CommentContext)
     const { currentUserData } = useContext(UserContext)
     const [text, setText] = useState('');
 
@@ -20,7 +22,6 @@ const CommentForm: React.FC<{
             console.error("Error occurred while creating comment: " + error);
         }
 
-        setIsCommentFormOpen(false);
         setText(''); // Clear input after submission
     };
 
@@ -37,10 +38,10 @@ const CommentForm: React.FC<{
                     <p className='flex justify-start w-full gap-1
                     font-bold text-xl'>
                         <span>
-                            {post.comments.length}
+                            {comments.length}
                         </span>
                         <span>
-                            {post.comments.length === 1
+                            {comments.length === 1
                                 ? "Comment"
                                 : "Comments"
                             }
