@@ -54,7 +54,6 @@ const CreatePostModal: React.FC<{
       // Close modal and navigate to home page (feed)
       handleCloseModal();
       navigate("/home");
-      window.location.reload();
 
     } catch (error) {
       console.log("Error occurred while creating new post! " + error);
