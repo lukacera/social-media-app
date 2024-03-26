@@ -39,7 +39,7 @@ app.get("*", (req: Request, res: Response) => {
 const httpServer = createServer(app); // Attach Express app to the HTTP server
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://localhost:5173", "https://social-media-app-kohl-seven.vercel.app/"]
+        origin: ["http://localhost:5173", "https://social-media-app-kohl-seven.vercel.app"]
     }
 });
 
