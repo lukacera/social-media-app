@@ -6,6 +6,7 @@ export type commentType = {
     post: Types.ObjectId,
     text: string,
     likes: Types.ObjectId[],
-    commentCreatedAt: Date
+    commentCreatedAt: Date,
+    _id: Types.ObjectId
 }
 

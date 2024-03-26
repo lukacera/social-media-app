@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { FaMoon, FaHome } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
@@ -36,9 +36,6 @@ export const Sidebar = (): ReactNode => {
             <div className="border-t-2 border-borderGray pt-10
             flex flex-col items-center justify-around">
                 <p>V 1.0.0</p>
-                <div className="cursor-pointer">
-                    <FaMoon />
-                </div>
             </div>
         </div>
     )

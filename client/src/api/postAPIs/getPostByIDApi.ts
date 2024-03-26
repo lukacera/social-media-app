@@ -21,8 +21,7 @@ export const getOnePost = async (postId: Types.ObjectId) => {
 
         // Convert to json and return post
         const data: dataPostType = await response.json();
-        console.log("Fetched post: ")
-        console.log(data.post.comments)
+
         return data.post;
     } catch (error) {
         throw new Error('Operation failed! ' + error);

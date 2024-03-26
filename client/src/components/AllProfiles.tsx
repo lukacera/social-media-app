@@ -5,8 +5,8 @@ import { getAllProfiles } from "../api/fetchUsersAPIs/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";
 
 import { UserContext } from "../hooks/UserContextHook";
-import AllProfilesSearchBarInput from "./allProfilesPageComponents/AllProfilesSearchBarInput";
-import Profile from "./allProfilesPageComponents/Profile";
+import AllProfilesSearchBarInput from "./allProfilesComponents/AllProfilesSearchBarInput";
+import Profile from "./allProfilesComponents/Profile";
 
 const AllProfiles: React.FC = () => {
 

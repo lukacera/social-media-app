@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
-import CurrentUser from "../components/CurrentUser";
-import DisplayFriendRequests from "./DisplayFriendRequests";
-import CreatePostModal from "./postComponents/CreatePostModal";
-import OpenPostModal from "./postComponents/HeaderNavOpenPostModal";
+import CurrentUser from "./headerComponents/CurrentUser";
+import DisplayFriendRequests from "./headerComponents/DisplayFriendRequests";
+import CreatePostModal from "./postComponents/createPostComponents/CreatePostModal";
+import OpenPostModal from "./headerComponents/HeaderNavOpenPostModal";
 // Icons
 import { GiBackup } from "react-icons/gi";
 

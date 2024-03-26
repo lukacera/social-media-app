@@ -41,9 +41,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const fetchCurrentUser = async () => {
             const user = await getCurrentUser();
             setCurrentUserData(user);
-            console.log("User was changed!")
-
-            console.log("This is currentUser now: " + user.username)
 
         };
         fetchCurrentUser();

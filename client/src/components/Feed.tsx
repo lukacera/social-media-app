@@ -2,8 +2,8 @@ import { ReactNode, useState, useEffect } from "react";
 import { getAllPosts } from "../api/postAPIs/getAllPostsApi";
 import { postType } from "../../../server/types/postType";
 import SinglePostComponent from "./postComponents/SinglePostComponent";
-import io from "socket.io-client";
-const socket = io("http://localhost:3000"); // Replace with your server URL
+import { socket } from "../constants/SocketIoURL";
+
 
 export const Feed = (): ReactNode => {
 
@@ -28,23 +28,23 @@ export const Feed = (): ReactNode => {
 
         // Listen for "newPost" events from the server
         socket.on('newPost', (newPost: postType) => {
-            console.log("Post created!")
             setPosts(prevPosts => [newPost, ...prevPosts]);
         });
 
         // Listen for "deletePost" events from the server
         socket.on('deletePost', (deletedPost: postType) => {
-            console.log("Post deleted!")
             setPosts(prevPosts => (
                 prevPosts = prevPosts.filter(post => post._id !== deletedPost._id)
             ));
         });
 
+        // Clean up event listeners when component unmounts
         return () => {
-            socket.disconnect();
+            socket.off('newPost');
+            socket.off('deletePost');
         };
-    }, []);
 
+    }, []);
 
     return (
         <div className="flex flex-col items-center gap-10 overflow-auto">
