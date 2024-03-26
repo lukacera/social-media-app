@@ -1,1 +1,1 @@
-export const baseUrl = "https://social-media-app-backend-seven.vercel.app/api"
+export const baseUrl = "http://localhost:3000/api"

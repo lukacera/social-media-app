@@ -1,6 +1,6 @@
 import React from "react"
-import { postType } from "../../../../server/types/postType";
-import { getImgURL } from "../../constants/imgURL";
+import { postType } from "../../../../../server/types/postType";
+import { getImgURL } from "../../../constants/imgURL";
 const PostContent: React.FC<{ post: postType }> = ({ post }) => {
   return (
     <div className="grid place-items-center gap-10">

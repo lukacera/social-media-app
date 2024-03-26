@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { TiCancel } from "react-icons/ti";
 import { FaCheck } from "react-icons/fa";
-import { handleAcceptFriendRequest, handleDeleteFriendRequest } from "../handlers/HandleFriendRequest";
+import { handleAcceptFriendRequest, handleDeleteFriendRequest } from "../../handlers/HandleFriendRequest";
 
 const SingleFriendRequest: React.FC<{
     request: string, index: number,

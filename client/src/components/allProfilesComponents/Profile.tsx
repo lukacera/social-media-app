@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import FriendStatus from "../FriendStatus";
+import FriendStatus from "./FriendStatus";
 import { getImgURL } from "../../constants/imgURL";
 import { Link } from "react-router-dom";
 import { userType } from "../../../../server/types/userType";

@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { IoMdPersonAdd } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
-import { deleteSentFriendRequest } from "../api/friendRequestAPIs/deleteSentFriendRequestApi";
-import { sendFriendRequest } from '../api/friendRequestAPIs/sendFriendRequestApi';
-import { userType } from '../../../server/types/userType';
-import { UserContext } from '../hooks/UserContextHook';
+import { deleteSentFriendRequest } from "../../api/friendRequestAPIs/deleteSentFriendRequestApi";
+import { sendFriendRequest } from '../../api/friendRequestAPIs/sendFriendRequestApi';
+import { userType } from '../../../../server/types/userType';
+import { UserContext } from '../../hooks/UserContextHook';
 
 const FriendStatus: React.FC<{ targetUser: userType }> = ({ targetUser }) => {
     const { currentUserData } = useContext(UserContext)

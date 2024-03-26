@@ -1,8 +1,8 @@
 import React, { useState, Dispatch, SetStateAction, useContext } from 'react';
-import { postType } from '../../../../server/types/postType';
-import { getImgURL } from '../../constants/imgURL';
-import { UserContext } from '../../hooks/UserContextHook';
-import { createNewComment } from '../../api/commentAPIs/createNewCommentApi';
+import { postType } from '../../../../../server/types/postType';
+import { getImgURL } from '../../../constants/imgURL';
+import { UserContext } from '../../../hooks/UserContextHook';
+import { createNewComment } from '../../../api/commentAPIs/createNewCommentApi';
 
 const CommentForm: React.FC<{
     post: postType,

@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { getImgURL } from "../constants/imgURL";
-import { UserContext } from "../hooks/UserContextHook";
+import { getImgURL } from "../../constants/imgURL";
+import { UserContext } from "../../hooks/UserContextHook";
 import { Link } from "react-router-dom";
 const CurrentUserProfileWrapper = () => {
 

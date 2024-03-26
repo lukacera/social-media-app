@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { postType } from "../../../../server/types/postType";
-import { likePost } from "../../api/likeAPIs/likePostApi";
-import { unlikePost } from "../../api/likeAPIs/unlikePostApi";
-import { UserContext } from "../../hooks/UserContextHook";
+import { postType } from "../../../../../server/types/postType";
+import { likePost } from "../../../api/likeAPIs/likePostApi";
+import { unlikePost } from "../../../api/likeAPIs/unlikePostApi";
+import { UserContext } from "../../../hooks/UserContextHook";
 
-import CommentPost from "./CommentPost";
+import CommentPost from "../commentPostComponents/CommentPost";
 const LikePost: React.FC<{ post: postType }> = ({ post }) => {
 
 

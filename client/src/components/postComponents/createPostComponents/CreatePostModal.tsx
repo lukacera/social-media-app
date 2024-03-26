@@ -1,10 +1,10 @@
 import React, { useContext, useRef, useState } from "react"
-import Overlay from "../Overlay";
+import Overlay from "../../Overlay";
 
-import { createNewPost } from "../../api/postAPIs/createNewPostApi";
+import { createNewPost } from "../../../api/postAPIs/createNewPostApi";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../hooks/UserContextHook";
-import { postType } from "../../../../server/types/postType";
+import { UserContext } from "../../../hooks/UserContextHook";
+import { postType } from "../../../../../server/types/postType";
 import FileInput from "./FileInput";
 import CreatePostButton from "./CreatePostButton";
 import TextInputPost from "./TextInputPost";

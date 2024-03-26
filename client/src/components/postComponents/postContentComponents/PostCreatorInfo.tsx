@@ -1,7 +1,7 @@
 import React from "react"
-import { getImgURL } from "../../constants/imgURL";
+import { getImgURL } from "../../../constants/imgURL";
 import moment from "moment";
-import { postType } from "../../../../server/types/postType";
+import { postType } from "../../../../../server/types/postType";
 import { Link } from "react-router-dom";
 const PostCreatorInfo: React.FC<{ post: postType }> = ({ post }) => {
 

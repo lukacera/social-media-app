@@ -1,10 +1,9 @@
 import React, { useState } from "react"
-import { postType } from "../../../../server/types/postType";
+import { postType } from "../../../../../server/types/postType";
 import { FaCommentAlt } from "react-icons/fa";
 import CommentForm from "./CommentForm";
 import AllComments from './AllComments';
-import Overlay from '../Overlay';
-
+import Overlay from '../../Overlay';
 const CommentPost: React.FC<{ post: postType }> = ({ post }) => {
 
     const [isCommentFormOpen, setisCommentFormOpen] = useState<boolean>(false)

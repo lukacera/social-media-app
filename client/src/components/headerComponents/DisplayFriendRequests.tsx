@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
+import { getCurrentUser } from "../../api/fetchUsersAPIs/getCurrentUserApi";
 import { IoMdPersonAdd } from "react-icons/io";
 import SingleFriendRequest from "./SingleFriendRequest";
 const DisplayFriendRequests: React.FC = () => {
