@@ -1,28 +1,50 @@
-import { ReactNode, useState, useEffect } from "react"
+import { ReactNode, useState, useEffect } from "react";
 import { getAllPosts } from "../api/postAPIs/getAllPostsApi";
 import { postType } from "../../../server/types/postType";
-
 import SinglePostComponent from "./postComponents/SinglePostComponent";
+import io from "socket.io-client";
+const socket = io("http://localhost:3000"); // Replace with your server URL
 
 export const Feed = (): ReactNode => {
-    const [posts, setPosts] = useState<postType[]>()
-    const [loading, setLoading] = useState<boolean>(true)
+
+    const [posts, setPosts] = useState<postType[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const posts = await getAllPosts();
-                const reversedPosts = posts.reverse()
-                setPosts(reversedPosts)
+                const fetchedPosts = await getAllPosts();
+                console.log("Fetching posts...");
+                const reversedPosts = fetchedPosts.reverse();
+                setPosts(reversedPosts);
+            } catch (error) {
+                console.error("Error occurred while fetching all posts from DB: " + error);
             }
-            catch (error) {
-                console.error("Error occured while fetching all posts from DB: " + error)
-            }
-            setLoading(false)
-        }
-        fetchPosts()
-        console.log("Fetch!")
-    }, [posts?.length]) // Add dependency, so that posts are immediately updated
+            setLoading(false);
+        };
+
+        // Fetch initial posts when component mounts
+        fetchPosts();
+
+        // Listen for "newPost" events from the server
+        socket.on('newPost', (newPost: postType) => {
+            console.log("Post created!")
+            setPosts(prevPosts => [newPost, ...prevPosts]);
+        });
+
+        // Listen for "deletePost" events from the server
+        socket.on('deletePost', (deletedPost: postType) => {
+            console.log("Post deleted!")
+            setPosts(prevPosts => (
+                prevPosts = prevPosts.filter(post => post._id !== deletedPost._id)
+            ));
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
 
     return (
         <div className="flex flex-col items-center gap-10 overflow-auto">

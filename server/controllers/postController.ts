@@ -5,6 +5,8 @@ const asyncHandler = require("express-async-handler")
 import CustomRequest from "../config/customRequest";
 import { getAllDocuments } from "./genericController";
 import { isValidObjectId } from "mongoose";
+import { io } from "../app";
+
 // @desc Get all posts
 // @route "/api/posts/getAllPosts"
 
@@ -45,6 +47,8 @@ export const createPost = asyncHandler(async (req: CustomRequestPost, res: Respo
     // Fetch the new post from the database with populated creator field
     const populatedPost = await Post.findById(newPost._id).populate('creator');
 
+    io.emit("newPost", populatedPost)
+
     // Send the response with the populated post
     return res.status(201).json({ data: populatedPost });
 
@@ -77,6 +81,8 @@ export const deletePost = asyncHandler(async (req: CustomRequest, res: Response)
 
     // All checks passed, delete post
     await postToDelete.deleteOne()
+
+    io.emit("deletePost", postToDelete)
 
     res.status(200).json({ message: "Post deleted successfully" });
 
