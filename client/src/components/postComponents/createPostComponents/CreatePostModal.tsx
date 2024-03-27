@@ -78,7 +78,7 @@ const CreatePostModal: React.FC<{
   return (
     <>
       <Overlay />
-      <div className="z-10 absolute top-[15%] left-[32%]">
+      <div className="z-10 absolute top-[10%] left-[32%]">
         <form className="p-10 bg-profileColor
           grid place-items-center gap-10 relative">
 
@@ -89,7 +89,10 @@ const CreatePostModal: React.FC<{
           <div className="grid gap-16">
 
             {/* File input for img */}
-            <FileInput fileInputRef={fileInputRef} previewImage={previewImage} />
+            <FileInput fileInputRef={fileInputRef}
+              previewImage={previewImage}
+              setPreviewImage={setPreviewImage}
+              setImageFile={setImageFile} />
 
             {/* Input for text content of post */}
             < TextInputPost postContent={postContent} setPostContent={setPostContent} />

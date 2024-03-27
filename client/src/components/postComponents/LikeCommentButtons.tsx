@@ -4,10 +4,9 @@ import { postType } from "../../../../server/types/postType";
 import { likePost } from "../../api/likeAPIs/likePostApi";
 import { unlikePost } from "../../api/likeAPIs/unlikePostApi";
 import { UserContext } from "../../hooks/UserContextHook";
-import { CommentProvider } from "../../hooks/useCommentsContext";
 import CommentPost from "./commentPostComponents/CommentPost";
-const LikeCommentPostButtons: React.FC<{ post: postType }> = ({ post }) => {
 
+const LikeCommentButtons: React.FC<{ post: postType }> = ({ post }) => {
 
     const { currentUserData } = useContext(UserContext);
 
@@ -24,6 +23,7 @@ const LikeCommentPostButtons: React.FC<{ post: postType }> = ({ post }) => {
         try {
             if (post._id) {
                 await likePost(post._id);
+                console.log("Number of likes on a post with text: " + post.text + " is: " + numberLikes)
                 setIsLiked(true);
                 setNumberLikes(prevNumberLikes => (
                     prevNumberLikes + 1
@@ -47,21 +47,21 @@ const LikeCommentPostButtons: React.FC<{ post: postType }> = ({ post }) => {
             console.error("Error occurred while unliking post: " + error);
         }
     };
-
     return (
         <div className="w-[10rem]">
             <div>
                 <div className="flex gap-10 bg-profileColor justify-center py-5 rounded-full border-[1px] border-borderGray">
                     <p className="flex items-center gap-2">
                         <span onClick={!isLiked ? handleLike : handleUnlike}
-                            className={`cursor-pointer ${isLiked ? "text-red-600" : "text-white"}`}>
+                            className={`cursor-pointer 
+                            ${isLiked
+                                    ? "text-red-600"
+                                    : "text-white"}`}>
                             <FaHeart />
                         </span>
                         <span>{numberLikes}</span>
                     </p>
-                    <CommentProvider>
-                        <CommentPost post={post} />
-                    </CommentProvider>
+                    <CommentPost post={post} />
 
                 </div>
             </div>
@@ -69,4 +69,4 @@ const LikeCommentPostButtons: React.FC<{ post: postType }> = ({ post }) => {
     );
 };
 
-export default LikeCommentPostButtons;
+export default LikeCommentButtons;

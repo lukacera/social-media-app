@@ -13,7 +13,6 @@ export const deleteReceivedFriendRequest = async (targetUsername: string) => {
         if (!response.ok) {
             throw new Error('Failed to delete request');
         }
-
         const data = await response.json()
         return data;
     } catch (error) {
