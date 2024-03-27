@@ -18,13 +18,14 @@ const UserAllPosts: React.FC = () => {
                 // Filter and reverse, reverse is for showing latest posts first
                 const filteredPosts = posts.filter(post => post.creator._id === targetUser._id).reverse()
                 setUserPosts(filteredPosts)
+
             }
             catch (error) {
                 console.error("Error occured while fetching all posts from DB: " + error)
             }
         }
         fetchPosts()
-    }, [userPosts, targetUser._id]);
+    }, [targetUser._id]);
 
     return (
         <div className="my-12 grid place-items-center gap-20">
