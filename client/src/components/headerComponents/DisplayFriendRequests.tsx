@@ -1,28 +1,56 @@
-import React, { useEffect, useState } from "react"
-import { getCurrentUser } from "../../api/fetchUsersAPIs/getCurrentUserApi";
+import React, { useContext, useEffect, useState } from "react"
 import { IoMdPersonAdd } from "react-icons/io";
 import SingleFriendRequest from "./SingleFriendRequest";
+import { UserContext } from "../../hooks/UserContextHook";
+import { socket } from "../../constants/SocketIoURL";
+import { userType } from "../../../../server/types/userType";
 const DisplayFriendRequests: React.FC = () => {
 
-    const [friendRequests, setFriendRequests] = useState<string[]>([])
+    const { currentUserData } = useContext(UserContext)
+    const [friendRequests, setFriendRequests] = useState<string[]>(
+        currentUserData.friendRequests || []
+    )
     const [dropdown, setDropdown] = useState<boolean>(false)
 
-    // Fetch friendRequests for user that is currently logged in
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const userData = await getCurrentUser();
-                if (userData.friendRequests) {
-                    setFriendRequests(userData.friendRequests)
-                }
-            } catch (error) {
-                console.log("Error occured while fetching user's friend requests")
-            }
+        console.log("Socket connection is live!");
+
+        const handleAcceptFriendRequest = (targetUser: userType) => {
+            console.log("Accept received friend request!");
+            setFriendRequests(prevReq => {
+                const updatedRequests = prevReq.filter(req => req !== targetUser.username);
+                return updatedRequests;
+            });
+        };
+
+        const handleDeleteReceivedFriendRequest = (username: string) => {
+            console.log("Delete received friend request!");
+            setFriendRequests(prevReq => {
+                const updatedRequests = prevReq.filter(req => req !== username);
+                return updatedRequests;
+            });
+        };
+
+        socket.on("acceptFriendRequest", handleAcceptFriendRequest);
+        socket.on("deleteReceivedFriendRequest", handleDeleteReceivedFriendRequest);
+
+        return () => {
+            socket.off("acceptFriendRequest", handleAcceptFriendRequest);
+            socket.off("deleteReceivedFriendRequest", handleDeleteReceivedFriendRequest);
+            console.log("Socket connection is turned off!");
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log("Current user's friend requests changed")
+        console.log(currentUserData.friendRequests)
+        if (currentUserData.friendRequests) {
+            setFriendRequests(currentUserData.friendRequests)
+        } else {
+            setFriendRequests([])
 
         }
-
-        fetchData()
-    }, [])
+    }, [currentUserData])
 
 
     return (
@@ -56,10 +84,10 @@ const DisplayFriendRequests: React.FC = () => {
                                 You have no pending friend requests!
                             </span>
                         )}
-                        <ul className="pt-8">
+                        <ul className="pt-8 grid place-items-center gap-5">
                             {friendRequests.map((request, index) => (
-                                <li key={index} className="flex gap-5 items-center">
-                                    < SingleFriendRequest index={index} request={request} setFriendRequests={setFriendRequests} />
+                                <li key={index} className="flex gap-5 items-center w-full">
+                                    < SingleFriendRequest request={request} />
                                 </li>
                             ))}
                         </ul>
