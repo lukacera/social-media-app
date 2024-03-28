@@ -3,7 +3,7 @@ import { Response } from "express"
 const asyncHandler = require("express-async-handler")
 import CustomRequest from "../config/customRequest";
 import Post from "../models/Post";
-
+import { io } from "../app";
 // @desc Like post
 // @route POST api/posts/:postId/likePost
 
@@ -26,6 +26,8 @@ export const likePost = asyncHandler(async (req: CustomRequest, res: Response) =
     if (currentUser._id && !post.likes.includes(currentUser._id)) {
         post.likes.push(currentUser._id);
         await post.save()
+
+        io.emit("like")
         return res.status(200).json({ message: 'Post liked successfully', post });
 
     } else {  // User already liked the post, return 401 Unauthorized
@@ -63,6 +65,8 @@ export const unlikePost = asyncHandler(async (req: CustomRequest, res: Response)
 
         post.likes.splice(likedIndex, 1);
         await post.save();
+        io.emit("unlike")
+
         return res.status(200).json({ message: 'Post like removed successfully', post });
 
     }
