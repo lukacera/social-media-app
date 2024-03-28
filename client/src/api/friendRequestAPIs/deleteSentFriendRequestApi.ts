@@ -13,9 +13,7 @@ export const deleteSentFriendRequest = async (targetUsername: string) => {
         if (!response.ok) {
             throw new Error('Failed to delete request');
         }
-        console.log("API for sending delete sent friend request acitvated")
         const data = await response.json()
-        console.log(data)
         return data;
     } catch (error) {
         throw new Error('Operation failed!');

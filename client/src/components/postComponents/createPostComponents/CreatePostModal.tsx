@@ -33,7 +33,6 @@ const CreatePostModal: React.FC<{
   // Send form data to server and close the form
   const handleSubmit = async () => {
 
-    console.log("Handle submit!")
     try {
 
       // Try to create new post

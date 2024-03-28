@@ -23,7 +23,6 @@ const Bio: React.FC<{
         })
         socket.on("acceptFriendRequest", (targetUserFromSocket: userType) => {
             if (targetUser.username === targetUserFromSocket.username) {
-                console.log("Increment!")
                 setFriendsNumber(prevNumber => prevNumber + 1)
             }
         })

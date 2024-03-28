@@ -15,7 +15,6 @@ export const acceptFriendRequest = async (targetUsername: string) => {
         }
 
         const data = await response.json()
-        console.log(data)
         return data;
     } catch (error) {
         throw new Error('Operation failed!');
