@@ -8,7 +8,12 @@ const Bio: React.FC<{
     isCurrentUser: boolean
 }> = ({ openModal, targetUser, isCurrentUser }) => {
 
-    const [friendsNumber, setFriendsNumber] = useState<number>(targetUser.friends?.length || 0)
+    const [friendsNumber, setFriendsNumber] = useState<number>(0)
+
+
+    useEffect(() => {
+        targetUser.friends && setFriendsNumber(targetUser.friends.length)
+    }, [targetUser.friends])
 
     useEffect(() => {
         socket.on("unfriendUser", (targetUserFromSocket: userType) => {

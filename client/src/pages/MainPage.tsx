@@ -27,18 +27,16 @@ function MainPage(): ReactNode {
     }, [currentURL, navigate])
 
 
-    const { username } = useParams<{ username?: string }>();
+    const { username } = useParams<{ username?: string }>()
 
-    const renderComponentBasedOnURL = (): ReactNode => {  // URL decides which component will be rendered
 
+    const renderComponentBasedOnURL = () => {
         if (currentURL === '/home') {
             return <Feed />;
-
         } else if (currentURL === '/users') {
             return <AllProfiles />;
-
         } else if (currentURL === `/users/${username}`) {
-            return <ViewProfile />
+            return <ViewProfile username={username || ""} />;
         }
     };
 

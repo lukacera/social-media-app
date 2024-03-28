@@ -4,7 +4,7 @@ import PostCreatorInfo from "./postContentComponents/PostCreatorInfo";
 import { postType } from "../../../../server/types/postType";
 import { UserContext } from "../../hooks/UserContextHook";
 import DeletePostBtn from "./DeletePostButton";
-import LikePost from "./LikeCommentPostButtons";
+import LikeCommentButtons from "./LikeCommentButtons";
 
 const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
     const { currentUserData } = useContext(UserContext);
@@ -17,7 +17,6 @@ const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
         }
     }, [currentUserData._id, post]);
 
-
     return (
         <div className="w-[30rem] flex flex-col gap-20">
             {post && (
@@ -27,7 +26,7 @@ const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
                 </div>
             )}
             <div className="flex justify-between">
-                {post && <LikePost post={post} />}
+                {post && <LikeCommentButtons post={post} />}
                 {isThisUsersPost && post && (
                     <div className="flex justify-end items-center gap-5">
                         <DeletePostBtn post={post} />

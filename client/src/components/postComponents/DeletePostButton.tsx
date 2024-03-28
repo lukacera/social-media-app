@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
 
 import { FaTrash } from "react-icons/fa";
@@ -10,10 +10,7 @@ const DeletePostBtn: React.FC<{ post: postType }> = ({ post }) => {
 
 
     const [openConfirmDelete, setOpenConfirmDelete] = useState<boolean>(false)
-    useEffect(() => {
-        console.log("Is confirm delete open? : " + openConfirmDelete)
 
-    }, [openConfirmDelete])
     return (
         <>
             {openConfirmDelete && (

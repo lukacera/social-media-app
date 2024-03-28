@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { postType } from "../../../../../server/types/postType";
 import SingleComment from "./SingleComment";
-import { CommentContext } from "../../../hooks/useCommentsContext";
+import { commentType } from "../../../../../server/types/commentType";
 
 const AllComments: React.FC<{
-    post: postType
-}> = ({ post }) => {
+    post: postType,
+    comments: commentType[]
+}> = ({ post, comments }) => {
 
-    const { comments } = useContext(CommentContext)
     return (
         <div className="bg-profileColor pt-10 pb-16 px-12 grid place-items-center">
             {/* Display existing comments */}

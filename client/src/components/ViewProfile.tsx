@@ -97,7 +97,7 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
 
                 {targetUser.posts && (
                   <div className="mt-12">
-                    <UserAllPosts />
+                    <UserAllPosts targetUser={targetUser} />
                   </div>
                 )}
               </div>

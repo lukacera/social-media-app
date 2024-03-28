@@ -1,16 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { postType } from '../../../../server/types/postType';
 
 import SinglePostComponent from '../postComponents/SinglePostComponent';
-import { UserContext } from '../../hooks/UserContextHook';
 import { getAllPosts } from '../../api/postAPIs/getAllPostsApi';
+import { userType } from '../../../../server/types/userType';
 
-const UserAllPosts: React.FC = () => {
+const UserAllPosts: React.FC<{ targetUser: userType }> = ({ targetUser }) => {
     // Get currentUserData from Context Provider
-    const { targetUser } = useContext(UserContext);
     const [userPosts, setUserPosts] = useState<postType[]>([]);
-
-
     useEffect(() => {
         const fetchPosts = async () => {
             try {
