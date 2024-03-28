@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 import { postType } from "../../../../../server/types/postType";
 import { FaCommentAlt } from "react-icons/fa";
 import CommentForm from "./CommentForm";
@@ -8,11 +8,10 @@ import { commentType } from "../../../../../server/types/commentType";
 
 import { socket } from "../../../constants/SocketIoURL";
 import { getOnePost } from "../../../api/postAPIs/getPostByIDApi";
-import { CommentContext } from "../../../hooks/useCommentsContext";
 const CommentPost: React.FC<{ post: postType }> = ({ post }) => {
 
+    const [comments, setComments] = useState<commentType[]>([])
 
-    const { comments, setComments } = useContext(CommentContext)
     useEffect(() => {
         const fetchComments = async () => {
             let fetchComments: commentType[] = [];
@@ -24,23 +23,28 @@ const CommentPost: React.FC<{ post: postType }> = ({ post }) => {
 
         fetchComments()
 
+        // Listen for "commentUpdate" events from the server and add a comment to that post
         socket.on('newComment', (newComment: commentType) => {
-            console.log("New comment!")
-            setComments(prevComments => [newComment, ...prevComments,]);
+            if (newComment.post.toString() === post._id?.toString()) {
+                setComments(prevComments => [newComment, ...prevComments])
+            }
         });
 
+        // Listen for "deleteComment" updates from the server and delete comment only from that post
         socket.on('deleteComment', (commentToDelete: commentType) => {
-            console.log("Delete comment!")
-            setComments(prevComments => (
-                prevComments = prevComments.filter(comment => comment._id !== commentToDelete._id)
-            ));
+            if (commentToDelete.post.toString() === post._id?.toString()) {
+                setComments(prevComments => (
+                    prevComments.filter(comment => comment._id !== commentToDelete._id)
+                ))
+            }
         });
 
+        // Unsubscribe from socket events for newComment and deleteComment
         return () => {
             socket.off("newComment");
             socket.off("deleteComment")
         };
-    }, [setComments, post._id]);
+    }, [post._id]);
 
 
     const [isCommentFormOpen, setisCommentFormOpen] = useState<boolean>(false)
@@ -61,9 +65,11 @@ const CommentPost: React.FC<{ post: postType }> = ({ post }) => {
                     <div className="absolute top-[25%] right-[30%]
                     w-[50rem] max-h-[36rem] overflow-auto customWebkit" >
 
-                        < CommentForm post={post} setIsCommentFormOpen={setisCommentFormOpen} />
+                        < CommentForm post={post}
+                            setIsCommentFormOpen={setisCommentFormOpen}
+                            comments={comments} />
 
-                        <AllComments post={post} />
+                        <AllComments comments={comments} post={post} />
 
                     </div>
                 </>

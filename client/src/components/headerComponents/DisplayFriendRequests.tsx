@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { IoMdPersonAdd } from "react-icons/io";
 import SingleFriendRequest from "./SingleFriendRequest";
 import { UserContext } from "../../hooks/UserContextHook";
-import { socket } from "../../constants/SocketIoURL";
-import { userType } from "../../../../server/types/userType";
+
 const DisplayFriendRequests: React.FC = () => {
 
     const { currentUserData } = useContext(UserContext)
@@ -12,38 +11,8 @@ const DisplayFriendRequests: React.FC = () => {
     )
     const [dropdown, setDropdown] = useState<boolean>(false)
 
-    useEffect(() => {
-        console.log("Socket connection is live!");
-
-        const handleAcceptFriendRequest = (targetUser: userType) => {
-            console.log("Accept received friend request!");
-            setFriendRequests(prevReq => {
-                const updatedRequests = prevReq.filter(req => req !== targetUser.username);
-                return updatedRequests;
-            });
-        };
-
-        const handleDeleteReceivedFriendRequest = (username: string) => {
-            console.log("Delete received friend request!");
-            setFriendRequests(prevReq => {
-                const updatedRequests = prevReq.filter(req => req !== username);
-                return updatedRequests;
-            });
-        };
-
-        socket.on("acceptFriendRequest", handleAcceptFriendRequest);
-        socket.on("deleteReceivedFriendRequest", handleDeleteReceivedFriendRequest);
-
-        return () => {
-            socket.off("acceptFriendRequest", handleAcceptFriendRequest);
-            socket.off("deleteReceivedFriendRequest", handleDeleteReceivedFriendRequest);
-            console.log("Socket connection is turned off!");
-        };
-    }, []);
 
     useEffect(() => {
-        console.log("Current user's friend requests changed")
-        console.log(currentUserData.friendRequests)
         if (currentUserData.friendRequests) {
             setFriendRequests(currentUserData.friendRequests)
         } else {

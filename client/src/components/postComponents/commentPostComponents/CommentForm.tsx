@@ -3,14 +3,14 @@ import { postType } from '../../../../../server/types/postType';
 import { getImgURL } from '../../../constants/imgURL';
 import { UserContext } from '../../../hooks/UserContextHook';
 import { createNewComment } from '../../../api/commentAPIs/createNewCommentApi';
-import { CommentContext } from '../../../hooks/useCommentsContext';
+import { commentType } from '../../../../../server/types/commentType';
 
 const CommentForm: React.FC<{
     post: postType,
-    setIsCommentFormOpen: Dispatch<SetStateAction<boolean>>
-}> = ({ post, setIsCommentFormOpen }) => {
+    setIsCommentFormOpen: Dispatch<SetStateAction<boolean>>,
+    comments: commentType[]
+}> = ({ post, setIsCommentFormOpen, comments }) => {
 
-    const { comments } = useContext(CommentContext)
     const { currentUserData } = useContext(UserContext)
     const [text, setText] = useState('');
 

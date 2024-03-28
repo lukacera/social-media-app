@@ -8,15 +8,15 @@ const ConfirmDelete: React.FC<{
     post: postType
 }> = ({ setOpenConfirmDelete, post }) => {
 
-    const { targetUser, setTargetUser } = useContext(UserContext)
+    const { currentUserData, setCurrentUserData } = useContext(UserContext)
 
     // Delete post from DB and close modal 
     const handleDeletePost = async () => {
         try {
             await deletePost(post._id)
-            const filteredPosts = targetUser.posts?.filter(trgUserPost =>
+            const filteredPosts = currentUserData.posts?.filter(trgUserPost =>
                 trgUserPost._id !== post._id)
-            setTargetUser(prevData => ({
+            setCurrentUserData(prevData => ({
                 ...prevData,
                 posts: filteredPosts
             }))

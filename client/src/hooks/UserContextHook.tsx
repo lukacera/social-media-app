@@ -1,13 +1,11 @@
 import React, { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 import { getCurrentUser } from '../api/fetchUsersAPIs/getCurrentUserApi';
 import { userType } from '../../../server/types/userType';
-
+import { socket } from '../constants/SocketIoURL';
 
 interface UserContextType {
     currentUserData: userType;
     setCurrentUserData: Dispatch<SetStateAction<userType>>;
-    isCurrentUser: boolean;
-    setIsCurrentUser: Dispatch<SetStateAction<boolean>>;
 }
 
 // Context that will be used in components
@@ -27,7 +25,42 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         posts: []
     });
 
-    // Fetch currentUser when he changes, new user logs in
+    useEffect(() => {
+
+        // Listen for socket events
+        socket.on('acceptFriendRequest', (targetUser: userType) => {
+            const updatedRequests = currentUserData.friendRequests?.filter(
+                req => req !== targetUser.username
+            )
+
+            const updatedFriends = currentUserData.friends ? [...currentUserData.friends, targetUser.username] : []
+            setCurrentUserData(prevData => ({
+                ...prevData,
+                friendRequests: updatedRequests,
+                friends: updatedFriends
+            }))
+        });
+
+        socket.on('deleteReceivedFriendRequest', (targetUser: userType) => {
+            console.log("Delete received frienedRequest!!!!!")
+            const updatedRequests = currentUserData.friendRequests?.filter(
+                req => req !== targetUser.username
+            )
+            setCurrentUserData(prevData => ({
+                ...prevData,
+                friendRequests: updatedRequests
+            }))
+        });
+
+        // Cleanup socket connection on component unmount
+        return () => {
+            socket.off("acceptFriendRequest");
+            socket.off("deleteReceivedFriendRequest");
+        };
+    }, [currentUserData]);
+
+
+    // Fetch currentUser when new user logs in
     useEffect(() => {
         const fetchCurrentUser = async () => {
             const user = await getCurrentUser();
@@ -39,15 +72,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, [currentUserData._id]);
 
 
-
-    const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false);
-
     return (
         <UserContext.Provider value={{
             currentUserData,
-            setCurrentUserData,
-            isCurrentUser,
-            setIsCurrentUser
+            setCurrentUserData
         }}>
             {children}
         </UserContext.Provider>

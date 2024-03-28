@@ -12,7 +12,7 @@ const CreatePostModal: React.FC<{
   closeModal: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ closeModal }) => {
 
-  const { targetUser, setTargetUser } = useContext(UserContext)
+  const { currentUserData, setCurrentUserData } = useContext(UserContext)
   const navigate = useNavigate()
 
   const [previewImage, setPreviewImage] = useState<string>("");
@@ -40,13 +40,13 @@ const CreatePostModal: React.FC<{
       const post: postType = await createNewPost(imageFile, postContent);
 
       // Create a new array with the new post's ID added to it
-      const updatedPosts = targetUser.posts ? [...targetUser.posts] : [];
+      const updatedPosts = currentUserData.posts ? [...currentUserData.posts] : [];
       if (post._id) {
         updatedPosts.push(post._id);
       }
 
-      // Update the targetUser state with the new array
-      setTargetUser(prevData => ({
+      // Update the currentUserData state with the new array
+      setCurrentUserData(prevData => ({
         ...prevData,
         posts: updatedPosts
       }));
