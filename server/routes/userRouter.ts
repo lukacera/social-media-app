@@ -1,7 +1,10 @@
 import { Router } from "express";
 
 // Controllers functions
-import { sendFriendRequest, acceptFriendRequest, deleteReceivedFriendRequest, deleteSentFriendRequest } from "../controllers/friendRequestController";
+import {
+    sendFriendRequest, acceptFriendRequest,
+    deleteReceivedFriendRequest, deleteSentFriendRequest, deleteFriend
+} from "../controllers/friendRequestController";
 import { getUser, editUser, getAllusers, updateUserImg } from "../controllers/userController";
 const express = require("express");
 const router: Router = express.Router()
@@ -55,6 +58,12 @@ router
 router
     .route("/:username/acceptFriendRequest")
     .post(protect, acceptFriendRequest)
+
+
+// DELETE FRIEND
+router
+    .route("/:username/deleteFriend")
+    .delete(protect, deleteFriend)
 
 
 export default router;
