@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from "react"
 import { editProfile } from "../../api/editProfileDataAPIs/editProfileApi";
 import { UserContext } from "../../hooks/UserContextHook";
+
 const EditProfileModal: React.FC<{
     isEditOpen: boolean,
     closeModal: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ isEditOpen, closeModal }) => {
-    const { targetUser, setTargetUser } = useContext(UserContext)
+    const { currentUserData, setCurrentUserData } = useContext(UserContext)
     // Set initial state for update to be current User data
     const [update, setUpdate] = useState({
-        name: targetUser.name,
-        surname: targetUser.surname,
-        age: targetUser.age
+        name: currentUserData.name,
+        surname: currentUserData.surname,
+        age: currentUserData.age
     });
 
     const [errorMessage, setErrorMessage] = useState<string>("")
@@ -18,8 +19,8 @@ const EditProfileModal: React.FC<{
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const fetched_data = await editProfile(targetUser.username, update);
-            setTargetUser(prevData => ({
+            const fetched_data = await editProfile(currentUserData.username, update);
+            setCurrentUserData(prevData => ({
                 ...prevData,
                 ...update
             }))
@@ -34,14 +35,14 @@ const EditProfileModal: React.FC<{
     }
     // Set targetUser on render
     useEffect(() => {
-        if (targetUser) {
+        if (currentUserData) {
             setUpdate({
-                name: targetUser.name,
-                surname: targetUser.surname,
-                age: targetUser.age
+                name: currentUserData.name,
+                surname: currentUserData.surname,
+                age: currentUserData.age
             });
         }
-    }, [targetUser]);
+    }, [currentUserData]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

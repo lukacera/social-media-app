@@ -1,16 +1,40 @@
-import React, { useContext } from "react"
+import React, { useEffect, useState } from "react"
 import { FaPen } from "react-icons/fa";
-import { UserContext } from "../../hooks/UserContextHook";
-const Bio: React.FC<{ openModal: React.Dispatch<React.SetStateAction<boolean>> }> = ({ openModal }) => {
+import { socket } from "../../constants/SocketIoURL";
+import { userType } from "../../../../server/types/userType";
+const Bio: React.FC<{
+    openModal: React.Dispatch<React.SetStateAction<boolean>>,
+    targetUser: userType,
+    isCurrentUser: boolean
+}> = ({ openModal, targetUser, isCurrentUser }) => {
 
-    const { targetUser, isCurrentUser } = useContext(UserContext)
+    const [friendsNumber, setFriendsNumber] = useState<number>(targetUser.friends?.length || 0)
+
+    useEffect(() => {
+        socket.on("unfriendUser", (targetUserFromSocket: userType) => {
+            if (targetUser.username === targetUserFromSocket.username) {
+                setFriendsNumber(prevNumber => prevNumber - 1)
+            }
+        })
+        socket.on("acceptFriendRequest", (targetUserFromSocket: userType) => {
+            if (targetUser.username === targetUserFromSocket.username) {
+                console.log("Increment!")
+                setFriendsNumber(prevNumber => prevNumber + 1)
+            }
+        })
+        return () => {
+            socket.off("acceptFriendRequest")
+            socket.off("unfriendUser")
+        }
+    }, [targetUser.username])
+
 
     return (
         <div className="flex flex-col gap-14">
             <div className="flex flex-col items-center gap-10 relative">
                 <h3 className="font-merryweather text-3xl">Bio</h3>
                 {isCurrentUser && (
-                    <div className="absolute left-20 bg-gradient-to-tl 
+                    <div className="absolute right-20 bg-gradient-to-tl 
                   from-white to-linearGradientStart 
                   p-4 text-black rounded-full cursor-pointer"
                         onClick={() => openModal(true)}>
@@ -37,7 +61,7 @@ const Bio: React.FC<{ openModal: React.Dispatch<React.SetStateAction<boolean>> }
             <div className="flex justify-center gap-10">
                 <p className="grid place-items-center gap-2">
                     <span className="font-bold text-2xl">
-                        {targetUser.friends?.length}
+                        {friendsNumber}
                     </span>
                     <span className="opacity-80">Friends</span>
                 </p>
