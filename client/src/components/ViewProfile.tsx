@@ -7,9 +7,9 @@ import EditProfileModal from "./viewProfileComponents/EditProfileModal";
 import Overlay from "./Overlay";
 import UserAllPosts from "./viewProfileComponents/UserAllPosts";
 import { UserContext } from "../hooks/UserContextHook";
-
 import { getUser } from "../api/fetchUsersAPIs/getUserApi";
 import { useNavigate, useParams } from "react-router-dom";
+import FriendStatusViewProfilePage from "./viewProfileComponents/FriendStatusViewProfilePage";
 const ViewProfile: React.FC = () => {
 
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false)
@@ -21,6 +21,7 @@ const ViewProfile: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate()
+
 
   // Fetch targetUser every time Client requests for different user
   useEffect(() => {
@@ -38,55 +39,53 @@ const ViewProfile: React.FC = () => {
       }
 
     }
-
     fetchUser()
   }, [username, setTargetUser, navigate, currentUserData.username, setIsCurrentUser])
   return (
     <>
       {!loading && (
         <>
-
           {isEditOpen && (
             <Overlay />
           )}
           <div className="h-full grid place-items-center my-12">
             <div className="flex flex-col gap-16 text-xl">
-              < ProfileImg />
-              < Bio openModal={setIsEditOpen} />
-
+              <ProfileImg />
+              <Bio openModal={setIsEditOpen} />
               <EditProfileModal isEditOpen={isEditOpen} closeModal={setIsEditOpen} />
             </div>
-            <div className="my-20 grid place-items-center">
-              {targetUser.posts && targetUser.posts.length > 0 ? (
-                <h2 className="text-3xl">
-                  <span className="font-bold">{targetUser.username} </span>
-                  posted:
-                </h2>
-              ) : (
-                <p className="text-3xl my-20 flex items-center gap-2">
-                  <span className="font-bold">
-                    {targetUser.username}
-                  </span>
-                  <span>has not published any posts</span>
-                </p>
-              )}
 
-              {targetUser.posts && (
-                <div className="mt-12">
-                  <UserAllPosts />
+            <div className="mt-10">
+              <FriendStatusViewProfilePage />
 
-                </div>
-              )}
+              <div className="my-20 grid place-items-center">
+                {targetUser.posts && targetUser.posts.length > 0 ? (
+                  <h2 className="text-3xl">
+                    <span className="font-bold">{targetUser.username} </span>
+                    posted:
+                  </h2>
+                ) : (
+                  <p className="text-3xl my-20 flex items-center gap-2">
+                    <span className="font-bold">
+                      {targetUser.username}
+                    </span>
+                    <span>has not published any posts</span>
+                  </p>
+                )}
 
+                {targetUser.posts && (
+                  <div className="mt-12">
+                    <UserAllPosts />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </>
       )}
-
     </>
-
-
   )
-};
+}
+
 
 export default ViewProfile;

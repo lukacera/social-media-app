@@ -14,6 +14,7 @@ export const deleteReceivedFriendRequest = async (targetUsername: string) => {
             throw new Error('Failed to delete request');
         }
         const data = await response.json()
+        console.log(data)
         return data;
     } catch (error) {
         throw new Error('Operation failed!');

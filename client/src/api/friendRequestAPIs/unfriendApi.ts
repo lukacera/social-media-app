@@ -1,9 +1,9 @@
 import { baseUrl } from "../../constants/baseURL";
-export const acceptFriendRequest = async (targetUsername: string) => {
+export const unfriendUser = async (targetUsername: string) => {
     const token = localStorage.getItem("token")
     try {
-        const response = await fetch(`${baseUrl}/users/${targetUsername}/acceptFriendRequest`, {
-            method: "POST",
+        const response = await fetch(`${baseUrl}/users/${targetUsername}/deleteFriend`, {
+            method: "DELETE",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -11,13 +11,12 @@ export const acceptFriendRequest = async (targetUsername: string) => {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to accept request');
+            throw new Error('Failed to delete friend');
         }
 
         const data = await response.json()
-        console.log(data)
         return data;
     } catch (error) {
-        throw new Error('Operation failed!');
+        throw new Error(`THERE WAS AN ERROR WHEN PROGRAM TRIED TO DELETE FRIEND ${targetUsername} ! ` + error);
     }
 };

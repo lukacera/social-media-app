@@ -18,6 +18,6 @@ export const likePost = async (postId: Types.ObjectId) => {
         const data = await response.json()
         return data;
     } catch (error) {
-        throw new Error('Operation failed!');
+        throw new Error('Operation failed!' + error);
     }
 };
