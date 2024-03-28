@@ -112,13 +112,25 @@ export const deletePost = asyncHandler(async (req: CustomRequest, res: Response)
         return res.status(400).json({ message: "Post not found! " })
     }
 
-    const postCreator = postToDelete.creator._id;
+    const postCreatorID = postToDelete.creator._id;
 
     // Check if user is trying to delete post that was not made by him
-    if (!postCreator?.equals(currentUser)) {
+    if (!postCreatorID?.equals(currentUser)) {
         return res.status(400).json({ message: "User can delete only his posts!" })
     }
 
+    const postCreator = await User.findById(postCreatorID)
+    const postToDeleteIndex = postCreator?.posts?.findIndex(post => post._id === postToDelete._id);
+
+    let filteredPosts;
+    if (postToDeleteIndex) {
+        filteredPosts = postCreator?.posts?.splice(postToDeleteIndex, 1)
+    }
+
+    // Update posts in post creator's document
+    await postCreator?.updateOne({
+        posts: filteredPosts
+    })
 
     // All checks passed, delete post
     await postToDelete.deleteOne()
