@@ -1,29 +1,47 @@
-import React, { Dispatch, SetStateAction } from "react"
+import React from "react"
 import { TiCancel } from "react-icons/ti";
 import { FaCheck } from "react-icons/fa";
-import { handleAcceptFriendRequest, handleDeleteFriendRequest } from "../../handlers/HandleFriendRequest";
+import { deleteReceivedFriendRequest } from "../../api/friendRequestAPIs/deleteRecievedFriendRequestApi";
+import { acceptFriendRequest } from "../../api/friendRequestAPIs/acceptFriendRequestApi";
 
 const SingleFriendRequest: React.FC<{
-    request: string, index: number,
-    setFriendRequests: Dispatch<SetStateAction<string[]>>
-}> = ({ index, request, setFriendRequests }) => {
+    request: string
+}> = ({ request }) => {
+
+    const handleDeleteFriendRequest = async () => {
+        try {
+            await deleteReceivedFriendRequest(request)
+        } catch (error) {
+            console.log("Error occured while deleting friend request in header " + error)
+        }
+    }
+    const handleAcceptFriendRequest = async () => {
+        try {
+            await acceptFriendRequest(request)
+        } catch (error) {
+            console.log("Error occured while accepting friend request in header " + error)
+        }
+    }
     return (
-        <div className="flex items-center w-full justify-around">
+
+        <div className="grid items-center grid-cols-2 w-full">
             <span className="text-[1.2rem]">
                 {request}
             </span>
-            <p className="flex text-2xl gap-3">
-                <span className="border-2 border-red-600 p-2 rounded-full cursor-pointer
-                                        text-red-600 hover:bg-white hover:border-white"
-                    onClick={() => handleDeleteFriendRequest(request, index, setFriendRequests)}>
+            <div className="flex text-2xl gap-3">
+                <span className="border-2 border-red-600 p-2 
+                rounded-full cursor-pointer text-red-600 
+                hover:bg-white hover:border-white"
+                    onClick={handleDeleteFriendRequest} >
                     < TiCancel title="Decline request" />
                 </span>
-                <span className="border-2 border-green-600 p-2 rounded-full cursor-pointer
-                                        text-green-600 hover:bg-white hover:border-white"
-                    onClick={() => handleAcceptFriendRequest(request, index, setFriendRequests)}>
+                <span className="border-2 border-green-600 
+                p-2 rounded-full cursor-pointer text-green-600 
+                hover:bg-white hover:border-white"
+                    onClick={handleAcceptFriendRequest}>
                     < FaCheck title="Accept request" />
                 </span>
-            </p>
+            </div>
 
         </div>
     )
