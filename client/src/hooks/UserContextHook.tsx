@@ -8,8 +8,6 @@ interface UserContextType {
     setCurrentUserData: Dispatch<SetStateAction<userType>>;
     isCurrentUser: boolean;
     setIsCurrentUser: Dispatch<SetStateAction<boolean>>;
-    targetUser: userType;
-    setTargetUser: Dispatch<SetStateAction<userType>>
 }
 
 // Context that will be used in components
@@ -28,15 +26,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         friends: [],
         posts: []
     });
-    const [targetUser, setTargetUser] = useState<userType>({
-        age: 0,
-        name: "",
-        password: "",
-        surname: "",
-        username: ""
-    })
 
-    // Fetch currentUser
+    // Fetch currentUser when he changes, new user logs in
     useEffect(() => {
         const fetchCurrentUser = async () => {
             const user = await getCurrentUser();
@@ -44,7 +35,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         };
         fetchCurrentUser();
+
     }, [currentUserData._id]);
+
+
 
     const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false);
 
@@ -53,9 +47,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             currentUserData,
             setCurrentUserData,
             isCurrentUser,
-            setIsCurrentUser,
-            targetUser,
-            setTargetUser
+            setIsCurrentUser
         }}>
             {children}
         </UserContext.Provider>
