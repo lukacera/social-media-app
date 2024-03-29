@@ -3,7 +3,7 @@ import { baseUrl } from "../../constants/baseURL";
 export const getAllPosts = async () => {
 
     try {
-        const response = await fetch(`${baseUrl}/posts/getAllPosts`, {
+        const response = await fetch(`${baseUrl}/posts`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json"

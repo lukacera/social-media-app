@@ -60,7 +60,6 @@ router
     .post(protect, acceptFriendRequest)
 
 
-// DELETE FRIEND
 router
     .route("/:username/deleteFriend")
     .delete(protect, deleteFriend)

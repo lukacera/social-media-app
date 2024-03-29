@@ -1,7 +1,5 @@
-import { NextFunction, Request, Response, Router } from "express";
-interface CustomRequestPublicID extends Request {
-    publicId?: string
-}
+import { Router } from "express";
+
 const express = require("express");
 const router: Router = express.Router()
 import { protect } from "../middlewares/authMiddleware";
@@ -9,6 +7,11 @@ import { createPost, getAllPosts, deletePost, getOnePost } from "../controllers/
 import { uploadMiddleware, uploadToCloudinary } from "../config/multerConfig";
 import { likePost, unlikePost } from "../controllers/LikeController"
 import { createComment, deleteComment } from "../controllers/CommentController"
+
+router
+    .route("/")
+    .get(getAllPosts)
+
 router
     .route("/createPost")
     .post(protect, uploadMiddleware, (req, res, next) => {
@@ -21,9 +24,6 @@ router
         }
     }, createPost)
 
-router
-    .route("/getAllPosts")
-    .get(getAllPosts)
 
 router
     .route("/:postId")
