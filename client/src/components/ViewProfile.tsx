@@ -10,7 +10,7 @@ import UserAllPosts from "./viewProfileComponents/UserAllPosts";
 import FriendStatusViewProfilePage from "./viewProfileComponents/FriendStatusViewProfilePage";
 import { postType } from "../../../server/types/postType";
 import { socket } from "../constants/SocketIoURL";
-import { ClockLoader } from "react-spinners"
+import { PulseLoader } from "react-spinners"
 
 const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
 
@@ -66,8 +66,8 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
   return (
     <>
       {loading &&
-        <div className="h-screen w-screen grid place-items-center text-white">
-          <ClockLoader />
+        <div className="h-full w-full grid place-items-center text-white">
+          <PulseLoader color="white" />
         </div>}
       {isEditOpen && <Overlay />}
       {!loading && (
