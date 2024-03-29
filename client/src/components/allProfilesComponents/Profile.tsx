@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { userType } from "../../../../server/types/userType";
 import FriendStatus from "./FriendStatus";
 import { getImgURL } from "../../constants/imgURL";
+import { getUser } from "../../api/fetchUsersAPIs/getUserApi";
+import { socket } from "../../constants/SocketIoURL";
 
 const Profile: React.FC<{ user: userType }> = ({ user }) => {
+
+    const [updatedUser, setUpdatedUser] = useState<userType | null>(null);
+
+    useEffect(() => {
+
+        const fetchUpdatedUser = async (username: string) => {
+            try {
+                const updatedUserData: userType = await getUser(username);
+                setUpdatedUser(updatedUserData);
+            } catch (error) {
+                console.error("Error fetching updated user data:", error);
+            }
+        };
+
+        // Listen to acceptFriendRequest event
+        socket.on("acceptFriendRequest", (acceptedUser: userType) => {
+            if (acceptedUser.username === user.username) {
+                // Fetch updated user data
+                fetchUpdatedUser(acceptedUser.username);
+            }
+        });
+
+        return () => {
+            // Clean up event listener
+            socket.off("acceptFriendRequest");
+        };
+    }, [user.username]);
 
     return (
         <div className="profileWrapper">
             <Link to={`/users/${user.username}`}>
                 <div className="flex place-items-center">
                     <img className="w-[3rem] h-[3rem] rounded-full" src={getImgURL(user.avatar || "")} alt="" />
-                    <p className="pl-10 text-[1.2rem]">{user.username}</p>
+                    <p className="pl-10 text-[1.2rem]">{updatedUser ? updatedUser.username : user.username}</p>
                 </div>
             </Link>
-            <FriendStatus targetUser={user} />
+            <FriendStatus targetUser={updatedUser || user} />
         </div>
     );
 };
