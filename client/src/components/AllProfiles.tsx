@@ -5,6 +5,7 @@ import { userType } from "../../../server/types/userType";
 import { UserContext } from "../hooks/UserContextHook";
 import AllProfilesSearchBarInput from "./allProfilesComponents/AllProfilesSearchBarInput";
 import Profile from "./allProfilesComponents/Profile";
+import LoadingFidget from "./UIComponents/LoadingFidget";
 
 const AllProfiles: React.FC = () => {
 
@@ -38,27 +39,27 @@ const AllProfiles: React.FC = () => {
 
     return (
         <div>
-            {loading ? (
-                <div className="text-center mt-20">Loading...</div>
-            ) : (
-                <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
-                    <AllProfilesSearchBarInput setSearchProfile={setSearchProfile} />
-                    <div className="flex flex-wrap gap-20 justify-center">
+            {loading
+                ? <LoadingFidget />
+                : (
+                    <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
+                        <AllProfilesSearchBarInput setSearchProfile={setSearchProfile} />
+                        <div className="flex flex-wrap gap-20 justify-center">
 
-                        {filteredUsers.length === 0 &&
-                            <p className="text-2xl">
-                                No profiles found!
-                            </p>}
-                        {filteredUsers.map((user: userType) => (
-                            <div key={user._id as unknown as Key}>
-                                <Profile user={user} />
-                            </div>
+                            {filteredUsers.length === 0 &&
+                                <p className="text-2xl">
+                                    No profiles found!
+                                </p>}
+                            {filteredUsers.map((user: userType) => (
+                                <div key={user._id as unknown as Key}>
+                                    <Profile user={user} />
+                                </div>
 
-                        ))}
+                            ))}
 
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
 
         </div>
 

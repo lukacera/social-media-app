@@ -10,7 +10,7 @@ import UserAllPosts from "./viewProfileComponents/UserAllPosts";
 import FriendStatusViewProfilePage from "./viewProfileComponents/FriendStatusViewProfilePage";
 import { postType } from "../../../server/types/postType";
 import { socket } from "../constants/SocketIoURL";
-import { PulseLoader } from "react-spinners"
+import LoadingFidget from "./UIComponents/LoadingFidget";
 
 const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
 
@@ -65,10 +65,7 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
 
   return (
     <>
-      {loading &&
-        <div className="h-full w-full grid place-items-center text-white">
-          <PulseLoader color="white" />
-        </div>}
+      {loading && <LoadingFidget />}
       {isEditOpen && <Overlay />}
       {!loading && (
         <div className="h-full grid place-items-center my-12">

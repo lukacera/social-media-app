@@ -3,7 +3,7 @@ import { getAllPosts } from "../api/postAPIs/getAllPostsApi";
 import { postType } from "../../../server/types/postType";
 import SinglePostComponent from "./postComponents/SinglePostComponent";
 import { socket } from "../constants/SocketIoURL";
-
+import LoadingFidget from "./UIComponents/LoadingFidget";
 export const Feed = (): ReactNode => {
     const [posts, setPosts] = useState<postType[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -44,6 +44,7 @@ export const Feed = (): ReactNode => {
     return (
         <div className="flex flex-col items-center gap-10 overflow-auto">
             <h2 className="mt-10 text-4xl tracking-widest font-bold">Feed</h2>
+            {loading && <LoadingFidget />}
             {!loading && (
                 <div className="flex flex-col gap-40 my-20">
                     {posts && posts.length > 0 && posts.map((post, index) => (
