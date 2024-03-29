@@ -42,7 +42,8 @@ export const Feed = (): ReactNode => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center gap-10 overflow-auto">
+        <div className="flex flex-col items-center gap-10 
+        overflow-auto">
             <h2 className="mt-10 text-4xl tracking-widest font-bold">Feed</h2>
             {loading && <LoadingFidget />}
             {!loading && (

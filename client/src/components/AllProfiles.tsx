@@ -38,7 +38,7 @@ const AllProfiles: React.FC = () => {
     );
 
     return (
-        <div>
+        <div className="h-full">
             {loading
                 ? <LoadingFidget />
                 : (
