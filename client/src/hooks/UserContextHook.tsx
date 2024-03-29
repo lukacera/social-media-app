@@ -1,7 +1,7 @@
 import React, { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 import { getCurrentUser } from '../api/fetchUsersAPIs/getCurrentUserApi';
 import { userType } from '../../../server/types/userType';
-import { socket } from '../constants/SocketIoURL';
+import { setupSocketListeners, removeSocketListeners } from '../utils/currentUserSocketService';
 
 interface UserContextType {
     currentUserData: userType;
@@ -25,38 +25,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         posts: []
     });
 
+
     useEffect(() => {
 
-        // Listen for socket events
-        socket.on('acceptFriendRequest', (targetUser: userType) => {
-            const updatedRequests = currentUserData.friendRequests?.filter(
-                req => req !== targetUser.username
-            )
+        setupSocketListeners(setCurrentUserData, currentUserData)
 
-            const updatedFriends = currentUserData.friends ? [...currentUserData.friends, targetUser.username] : []
-            setCurrentUserData(prevData => ({
-                ...prevData,
-                friendRequests: updatedRequests,
-                friends: updatedFriends
-            }))
-        });
-
-        socket.on('deleteReceivedFriendRequest', (targetUser: userType) => {
-            console.log("Delete received frienedRequest!!!!!")
-            const updatedRequests = currentUserData.friendRequests?.filter(
-                req => req !== targetUser.username
-            )
-            setCurrentUserData(prevData => ({
-                ...prevData,
-                friendRequests: updatedRequests
-            }))
-        });
-
-        // Cleanup socket connection on component unmount
         return () => {
-            socket.off("acceptFriendRequest");
-            socket.off("deleteReceivedFriendRequest");
-        };
+            removeSocketListeners()
+        }
     }, [currentUserData]);
 
 
