@@ -5,7 +5,7 @@
   "main": "./dist/app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.ts",
+    "start": "node dist/app.js",
     "build": "tsc",
     "test": "jest --watchAll",
     "vercel-build": "echo ok"
