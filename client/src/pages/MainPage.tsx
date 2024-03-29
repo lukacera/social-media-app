@@ -7,9 +7,6 @@ import { Feed } from "../components/Feed";
 import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
-import Messages from "../components/Messages";
-
-
 
 function MainPage(): ReactNode {
 
@@ -51,7 +48,15 @@ function MainPage(): ReactNode {
                     <div className="overflow-auto customWebkit">
                         {renderComponent}
                     </div>
-                    <Messages />
+                    <div>
+                        <h3 className="text-[2rem] flex justify-center
+                        font-bold pt-10">
+                            Messages
+                        </h3>
+                        <p className="grid place-items-center h-[20rem]">
+                            Work in progress...
+                        </p>
+                    </div>
                 </main>
             </div>
         </>
