@@ -66,7 +66,7 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
   return (
     <>
       {loading &&
-        <div className="h-screen w-screen grid place-items-center">
+        <div className="h-screen w-screen grid place-items-center text-white">
           <ClockLoader />
         </div>}
       {isEditOpen && <Overlay />}
