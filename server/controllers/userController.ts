@@ -21,10 +21,16 @@ export const getUser = async (req: Request, res: Response) => {
             const targetUser = await User.findOne({ username: username })
                 .populate({
                     path: "posts",
-                    populate: {
-                        path: "creator",
-                        model: "User"
-                    }
+                    populate: [
+                        {
+                            path: "creator",
+                            model: "User"
+                        },
+                        {
+                            path: "likes",
+                            model: "User"
+                        }
+                    ]
                 });
 
             if (!targetUser) {

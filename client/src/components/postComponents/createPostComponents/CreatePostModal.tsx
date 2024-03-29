@@ -1,18 +1,16 @@
-import React, { useContext, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import Overlay from "../../Overlay";
 
 import { createNewPost } from "../../../api/postAPIs/createNewPostApi";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../../hooks/UserContextHook";
-import { postType } from "../../../../../server/types/postType";
 import FileInput from "./FileInput";
 import CreatePostButton from "./CreatePostButton";
 import TextInputPost from "./TextInputPost";
+
 const CreatePostModal: React.FC<{
   closeModal: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ closeModal }) => {
 
-  const { currentUserData, setCurrentUserData } = useContext(UserContext)
   const navigate = useNavigate()
 
   const [previewImage, setPreviewImage] = useState<string>("");
@@ -21,6 +19,7 @@ const CreatePostModal: React.FC<{
   const emptyFile = new File([], "");
   const [imageFile, setImageFile] = useState<File>(emptyFile);
   const [postContent, setPostContent] = useState<string>('');
+
 
   // Use ref for hidden input
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,19 +35,7 @@ const CreatePostModal: React.FC<{
     try {
 
       // Try to create new post
-      const post: postType = await createNewPost(imageFile, postContent);
-
-      // Create a new array with the new post's ID added to it
-      const updatedPosts = currentUserData.posts ? [...currentUserData.posts] : [];
-      if (post._id) {
-        updatedPosts.push(post._id);
-      }
-
-      // Update the currentUserData state with the new array
-      setCurrentUserData(prevData => ({
-        ...prevData,
-        posts: updatedPosts
-      }));
+      await createNewPost(imageFile, postContent);
 
       // Close modal and navigate to home page (feed)
       handleCloseModal();
@@ -97,10 +84,14 @@ const CreatePostModal: React.FC<{
             < TextInputPost postContent={postContent} setPostContent={setPostContent} />
           </div>
 
-          <div onClick={() => handleSubmit()}>
-            < CreatePostButton />
+          {postContent.length > 0 &&
 
-          </div>
+            <div onClick={() => handleSubmit()}>
+              < CreatePostButton />
+            </div>
+
+          }
+
           {/* Hidden input, which will be called upon by useRef */}
           <input className="hidden" ref={fileInputRef}
             type="file" id="image" onChange={handleFileChange} />
