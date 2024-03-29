@@ -8,9 +8,12 @@ const TextInputPost: React.FC<{
         <div className="flex flex-col gap-2">
 
             <label htmlFor="postContent">Post content:</label>
-            <textarea className="p-2 text-black outline-none" spellCheck="false" name="" id="postContent"
-                cols={40} rows={10} placeholder="What's on your mind?" value={postContent}
-                onChange={(e) => setPostContent(e.target.value)}>
+            <textarea
+                className="p-2 text-black outline-none resize-none"
+                spellCheck="false" id="postContent"
+                cols={40} rows={10} placeholder="What's on your mind?"
+                value={postContent} onChange={(e) => setPostContent(e.target.value)}
+                required={true}>
             </textarea>
 
         </div>

@@ -17,11 +17,10 @@ const FriendStatusViewProfilePage: React.FC<{ targetUser: userType }> = ({ targe
   const [friendRequestSent, setFriendRequestSent] = useState<boolean>(false);
   const [friendRequestReceived, setFriendRequestReceived] = useState<boolean>(false);
 
-
   useEffect(() => {
 
     // Set initial state for areFriends
-    currentUserData.friends && setAreFriends(currentUserData.friends.includes(targetUser.username));
+    targetUser.friends && setAreFriends(targetUser.friends.includes(currentUserData.username));
 
     // Set initial state for friendRequestSent
     targetUser.friendRequests && setFriendRequestSent(targetUser.friendRequests.includes(currentUserData.username));
@@ -64,16 +63,12 @@ const FriendStatusViewProfilePage: React.FC<{ targetUser: userType }> = ({ targe
       socket.off("deleteSentFriendRequest");
       socket.off("deleteReceivedFriendRequest");
     };
-
   }, []);
 
   const handleUnfriend = async () => {
     setLoading(true);
     try {
       await unfriendUser(targetUser.username);
-      setAreFriends(false);
-      setFriendRequestReceived(false)
-      setFriendRequestSent(false)
     } catch (error) {
       console.error("Error unfriending user:", error);
     } finally {
@@ -85,9 +80,6 @@ const FriendStatusViewProfilePage: React.FC<{ targetUser: userType }> = ({ targe
     setLoading(true);
     try {
       await deleteSentFriendRequest(targetUser.username);
-      setFriendRequestSent(false);
-      setFriendRequestReceived(false);
-      setAreFriends(false);
 
     } catch (error) {
       console.error("Error cancelling sent friend request:", error);
@@ -100,9 +92,7 @@ const FriendStatusViewProfilePage: React.FC<{ targetUser: userType }> = ({ targe
     setLoading(true);
     try {
       await acceptFriendRequest(targetUser.username);
-      setAreFriends(true);
-      setFriendRequestReceived(false);
-      setFriendRequestSent(false);
+
     } catch (error) {
       console.error("Error accepting friend request:", error);
     } finally {
@@ -114,9 +104,7 @@ const FriendStatusViewProfilePage: React.FC<{ targetUser: userType }> = ({ targe
     setLoading(true);
     try {
       await deleteReceivedFriendRequest(targetUser.username);
-      setAreFriends(false);
-      setFriendRequestReceived(false);
-      setFriendRequestSent(false);
+
     } catch (error) {
       console.error("Error deleting received friend request:", error);
     } finally {
@@ -128,9 +116,7 @@ const FriendStatusViewProfilePage: React.FC<{ targetUser: userType }> = ({ targe
     setLoading(true);
     try {
       await sendFriendRequest(targetUser.username);
-      setAreFriends(false);
-      setFriendRequestReceived(false);
-      setFriendRequestSent(true);
+
     } catch (error) {
       console.error("Error sending friend request:", error);
     } finally {

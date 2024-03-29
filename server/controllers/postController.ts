@@ -19,7 +19,6 @@ interface CustomRequestPost extends CustomRequest {
 export const getAllPosts = getAllDocuments(Post, ["creator", "likes", "comments.creator"])
 
 
-
 // @desc Get a single post by ID
 // @route GET /api/posts/:postId
 
@@ -66,24 +65,22 @@ export const createPost = asyncHandler(async (req: CustomRequestPost, res: Respo
     const { text } = req.body;
 
     // Create a new post instance
-    const newPost = new Post({
+    const newPost = await Post.create({
         creator: creator,
         text: text,
         img: req.publicId,
         postCreatedAt: new Date()
     });
-    // Save the new post to the database
-    await newPost.save();
 
     const user = await User.findById(creator);
+
     if (!user) {
         throw new Error('User not found');
     }
 
-    // Add post to user's posts array
-    user.posts?.push(newPost._id);
-    await user.save();
-
+    await user.updateOne({
+        $push: { posts: newPost._id }
+    })
 
     // Fetch the new post from the database with populated creator field
     const populatedPost = await Post.findById(newPost._id).populate('creator');
@@ -120,16 +117,10 @@ export const deletePost = asyncHandler(async (req: CustomRequest, res: Response)
     }
 
     const postCreator = await User.findById(postCreatorID)
-    const postToDeleteIndex = postCreator?.posts?.findIndex(post => post._id === postToDelete._id);
-
-    let filteredPosts;
-    if (postToDeleteIndex) {
-        filteredPosts = postCreator?.posts?.splice(postToDeleteIndex, 1)
-    }
 
     // Update posts in post creator's document
-    await postCreator?.updateOne({
-        posts: filteredPosts
+    postCreator && await postCreator.updateOne({
+        $pull: { posts: postToDelete._id }
     })
 
     // All checks passed, delete post

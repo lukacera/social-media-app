@@ -6,19 +6,13 @@ import { UserContext } from "../../hooks/UserContextHook";
 const DisplayFriendRequests: React.FC = () => {
 
     const { currentUserData } = useContext(UserContext)
-    const [friendRequests, setFriendRequests] = useState<string[]>(
-        currentUserData.friendRequests || []
-    )
+
+    const [friendRequests, setFriendRequests] = useState<string[]>([])
     const [dropdown, setDropdown] = useState<boolean>(false)
 
 
     useEffect(() => {
-        if (currentUserData.friendRequests) {
-            setFriendRequests(currentUserData.friendRequests)
-        } else {
-            setFriendRequests([])
-
-        }
+        currentUserData.friendRequests && setFriendRequests(currentUserData.friendRequests)
     }, [currentUserData])
 
 
