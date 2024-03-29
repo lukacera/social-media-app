@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react"
 import { IoMdPersonAdd } from "react-icons/io";
 import SingleFriendRequest from "./SingleFriendRequest";
 import { UserContext } from "../../hooks/UserContextHook";
-
+import { socket } from "../../constants/SocketIoURL";
+import { userType } from "../../../../server/types/userType";
 const DisplayFriendRequests: React.FC = () => {
 
     const { currentUserData } = useContext(UserContext)
@@ -10,7 +11,31 @@ const DisplayFriendRequests: React.FC = () => {
     const [friendRequests, setFriendRequests] = useState<string[]>([])
     const [dropdown, setDropdown] = useState<boolean>(false)
 
+    useEffect(() => {
 
+        socket.on('acceptFriendRequest', (targetUser: userType) => {
+            const updatedRequests = currentUserData.friendRequests?.filter(
+                req => req !== targetUser.username
+            );
+            setFriendRequests(updatedRequests || [])
+
+            console.log("Friend request accepted!!")
+        });
+
+        socket.on('deleteReceivedFriendRequest', (targetUser: userType) => {
+
+            const updatedRequests = currentUserData.friendRequests?.filter(
+                req => req !== targetUser.username
+            );
+            setFriendRequests(updatedRequests || [])
+
+        });
+
+        return () => {
+            socket.off("acceptFriendRequest");
+            socket.off("deleteReceivedFriendRequest");
+        };
+    }, [currentUserData.friendRequests]);
     useEffect(() => {
         currentUserData.friendRequests && setFriendRequests(currentUserData.friendRequests)
     }, [currentUserData])

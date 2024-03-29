@@ -7,7 +7,7 @@ export const setupSocketListeners = (
     setCurrentUserData: Dispatch<SetStateAction<userType>>,
     currentUserData: userType) => {
 
-    socket.on('acceptFriendRequest', (targetUser) => {
+    socket.on('acceptFriendRequest', (targetUser: userType) => {
         const updatedRequests = currentUserData.friendRequests?.filter(
             req => req !== targetUser.username
         );
@@ -21,11 +21,13 @@ export const setupSocketListeners = (
         console.log("Friend request accepted!!")
     });
 
-    socket.on('deleteReceivedFriendRequest', (targetUser) => {
+    socket.on('deleteReceivedFriendRequest', (targetUser: userType) => {
 
         const updatedRequests = currentUserData.friendRequests?.filter(
             req => req !== targetUser.username
         );
+        console.log("Delete request!")
+        console.log(updatedRequests)
         setCurrentUserData(prevData => ({
             ...prevData,
             friendRequests: updatedRequests

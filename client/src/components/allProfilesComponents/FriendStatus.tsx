@@ -21,7 +21,7 @@ const FriendStatus: React.FC<{ targetUser: userType }> = ({ targetUser }) => {
     useEffect(() => {
 
         // Check if they are friends
-        if (currentUserData.friends?.includes(targetUser.username) && targetUser.friends?.includes(currentUserData.username)) {
+        if (currentUserData.friends?.includes(targetUser.username)) {
             setAreFriends(true);
             setFriendRequestSent(false)
             setFriendRequestReceived(false)
