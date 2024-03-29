@@ -43,7 +43,7 @@ function MainPage(): ReactNode {
     const renderComponent = renderComponentBasedOnURL()
     return (
         <>
-            <div className="grid grid-rows-[15%,85%] h-screen bg-white dark:bg-backgroundDark text-white font-[Nunito]">
+            <div className="grid grid-rows-[15%,85%] h-screen bg-backgroundDark text-white font-[Nunito]">
                 <HeaderNav />
                 <main className=" grid grid-cols-[10%_70%_20%]">
                     <Sidebar />
