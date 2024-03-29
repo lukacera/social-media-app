@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../app";
+import { app } from "../app";
 import User from "../models/User";
 import { userType } from "../types/userType";
 import { generateToken } from "../controllers/authController";

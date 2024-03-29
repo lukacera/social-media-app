@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../app";
+import { app } from "../app";
 import { Request, Response } from 'express';
 import User from "../models/User"
 import { getUser } from "../controllers/userController";
