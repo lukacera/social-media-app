@@ -1,1 +1,1 @@
-export const baseUrl = "https://social-media-app-backend-seven.vercel.app/api"
+export const baseUrl = "https://social-media-app-wm8c.onrender.com/api"
