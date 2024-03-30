@@ -2,17 +2,23 @@ import MainPage from './pages/MainPage';
 import Login from './pages/Login';
 import ErrorPage from './pages/ErrorPage';
 import SignUp from './pages/signUp';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 
 export const App: React.FC = () => {
     const token = localStorage.getItem("token");
     const location = useLocation();
+    const navigate = useNavigate();
+
     useEffect(() => {
-        // Empty useEffect hook, have to declare location even though
-        // it's not used, so that program acknowledges that path has changed.
-        // That is useful for checking if token is type of "null" or "string"
-    }, [location.pathname]);
+        // Navigate route from home if it is "/"
+        if (token && location.pathname === "/") {
+            navigate("/home");
+        }
+    }, [location.pathname, navigate, token]);
+
+
+
     return (
         <Routes>
             {!token && (
@@ -21,7 +27,6 @@ export const App: React.FC = () => {
                     <Route path="/signUp" element={<SignUp />} />
                     <Route path="*" element={<ErrorPage />} />
                 </>
-
             )}
             {token && (
                 <>
@@ -33,8 +38,6 @@ export const App: React.FC = () => {
                     <Route path="*" element={<ErrorPage />} />
                 </>
             )}
-
         </Routes>
     );
 };
-
