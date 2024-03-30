@@ -5,8 +5,7 @@ import CustomRequest from "../config/customRequest";
 import Comment from "../models/Comment";
 import Post from "../models/Post";
 import { io } from "../app";
-import User from "../models/User";
-import { commentType } from "../types/commentType";
+
 
 // @desc Create new comment
 // @route POST /api/posts/:postId/createNewComment
@@ -45,7 +44,10 @@ export const createComment = asyncHandler(async (req: CustomRequest, res: Respon
     await post.updateOne({ comments: updatedComments });
 
     // Send info to client that new comment was made
-    await newComment.populate("creator");
+    await newComment.populate({
+        path: 'creator',
+        select: ['username', 'avatar']
+    })
 
     // Emit the new comment to the client
     io.emit("newComment", newComment);
@@ -71,7 +73,8 @@ export const deleteComment = asyncHandler(async (req: CustomRequest, res: Respon
             path: "comments",
             populate: {
                 path: "creator",
-                model: "User"
+                model: "User",
+                select: ["username", "avatar"]
             }
         });
 

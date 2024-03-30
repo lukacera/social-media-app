@@ -14,32 +14,41 @@ const HeaderNav: React.FC = () => {
     const [createStatus, setCreateStatus] = useState<boolean>(false)
 
     return (
-        <div className="grid grid-cols-[10%_70%_20%] border-b-2 border-borderGray">
-            <div className="text-6xl flex justify-center
+        <header className="border-b-2 border-borderGray
+        lg:grid lg:grid-cols-[30%_50%_20%]">
+
+            {/* Logo and header div */}
+            <div className="text-6xl flex justify-around
                     items-center">
-                <Link to={token ? "/home" : "/"}>
-                    <svg width="1em" height="1em">
-                        {/* Setting linear gradient for logo */}
-                        <linearGradient id="blue-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
-                            <stop stopColor="#65ade3" offset="0%" />
-                            <stop stopColor="#094572" offset="100%" />
-                        </linearGradient>
-
-                        <GiBackup style={{ fill: "url(#blue-gradient)" }} />
-                    </svg>
-                </Link>
-
+                <div>
+                    <Link to={token ? "/home" : "/"}>
+                        <svg width="1em" height="1em">
+                            {/* Setting linear gradient for logo */}
+                            <linearGradient id="blue-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+                                <stop stopColor="#65ade3" offset="0%" />
+                                <stop stopColor="#094572" offset="100%" />
+                            </linearGradient>
+                            <GiBackup style={{ fill: "url(#blue-gradient)" }} />
+                        </svg>
+                    </Link>
+                </div>
+                <div>
+                    <Link to={token ? "/home" : "/"}>
+                        <h1 className="text-4xl font-madimi-one tracking-widest">
+                            Bondify
+                        </h1>
+                    </Link>
+                </div>
             </div>
-            <div className="flex justify-between ml-20 mr-10
-            items-center">
-                <Link to={token ? "/home" : "/"}>
-                    <h1 className="text-4xl font-madimi-one tracking-widest" data-testid="cypress-title" >Bondify</h1>
-                </Link>
+
+            {/* Button for creating post and menu for friend requests */}
+            <div className="flex justify-end items-center mr-10">
                 {token && (
                     <div className="flex gap-20 items-center">
                         <OpenPostModal handleOpenModal={setCreateStatus} />
 
-                        {/* If createStatus is true, it means that form for creating post should be open */}
+                        {/* If createStatus is true, it means that form 
+                        for creating post should be open */}
                         {createStatus && (
                             <CreatePostModal closeModal={setCreateStatus} />
                         )}
@@ -49,11 +58,11 @@ const HeaderNav: React.FC = () => {
                     </div>
 
                 )}
-
             </div>
+
             {/* Profile div */}
             < CurrentUser token={token} />
-        </div>
+        </header>
     )
 };
 

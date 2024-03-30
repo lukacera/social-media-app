@@ -4,6 +4,8 @@ const asyncHandler = require("express-async-handler")
 import CustomRequest from "../config/customRequest";
 import Post from "../models/Post";
 import { io } from "../app";
+
+
 // @desc Like post
 // @route POST api/posts/:postId/likePost
 
@@ -61,7 +63,8 @@ export const unlikePost = asyncHandler(async (req: CustomRequest, res: Response)
         return res.status(401).json({
             message: "User did not like this post, so there is no like to remove!"
         });
-    } else {
+    }
+    else {
 
         post.likes.splice(likedIndex, 1);
         await post.save();

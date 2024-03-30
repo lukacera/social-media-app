@@ -1,18 +1,43 @@
 // Imports 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { socket } from "../constants/SocketIoURL";
+import { postType } from "../../../server/types/postType";
+
 // Components
 import { Sidebar } from "../components/Sidebar";
 import { Feed } from "../components/Feed";
 import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
+import GreenMessage from "../components/UIComponents/GreenMessage";
+import { UserContext } from "../hooks/UserContextHook";
+
 
 function MainPage(): ReactNode {
+
+    const [commentPosted, setCommentPosted] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
     const currentURL = window.location.pathname;
+
+    const { currentUserData } = useContext(UserContext)
+
+    useEffect(() => {
+        socket.on("newComment", (post: postType) => {
+            // Show message only to user that submitted comment
+            if (post.creator._id === currentUserData._id) {
+                console.log("COmment posted!")
+                setCommentPosted(true)
+            }
+
+        })
+
+        return () => {
+            socket.off("newPost")
+        }
+    }, [currentUserData._id])
 
     // Check if Url is /users/ which means that client tries to access user 
     // that has no username, which is invalid
@@ -40,7 +65,10 @@ function MainPage(): ReactNode {
     const renderComponent = renderComponentBasedOnURL()
     return (
         <>
-            <div className="grid grid-rows-[15%,85%] h-screen bg-backgroundDark text-white font-[Nunito]">
+            {commentPosted && <GreenMessage text="Comment posted!" />}
+            <div className="grid grid-rows-[15%,85%]
+            lg:h-screen bg-backgroundDark 
+            text-white font-[Nunito]">
                 <HeaderNav />
                 <main className=" grid grid-cols-[10%_70%_20%]">
                     <Sidebar />
@@ -53,9 +81,6 @@ function MainPage(): ReactNode {
                         font-bold pt-10">
                             Messages
                         </h3>
-                        <p className="grid place-items-center h-[20rem]">
-                            Work in progress...
-                        </p>
                     </div>
                 </main>
             </div>

@@ -64,7 +64,8 @@ const CreatePostModal: React.FC<{
   return (
     <>
       <Overlay />
-      <div className="z-10 absolute top-[10%] left-[32%]">
+      <div className="absolute top-[10rem] left-0 
+      w-full flex justify-center">
         <form className="p-10 bg-profileColor
           grid place-items-center gap-10 relative">
 
