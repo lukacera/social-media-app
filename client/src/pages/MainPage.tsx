@@ -1,8 +1,7 @@
 // Imports 
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { socket } from "../constants/SocketIoURL";
-import { postType } from "../../../server/types/postType";
+
 
 // Components
 import { Sidebar } from "../components/Sidebar";
@@ -10,34 +9,13 @@ import { Feed } from "../components/Feed";
 import AllProfiles from "../components/AllProfiles";
 import ViewProfile from "../components/ViewProfile";
 import HeaderNav from "../components/HeaderNav";
-import GreenMessage from "../components/UIComponents/GreenMessage";
-import { UserContext } from "../hooks/UserContextHook";
 
 
 function MainPage(): ReactNode {
 
-    const [commentPosted, setCommentPosted] = useState<boolean>(false)
-
     const navigate = useNavigate()
 
     const currentURL = window.location.pathname;
-
-    const { currentUserData } = useContext(UserContext)
-
-    useEffect(() => {
-        socket.on("newComment", (post: postType) => {
-            // Show message only to user that submitted comment
-            if (post.creator._id === currentUserData._id) {
-                console.log("COmment posted!")
-                setCommentPosted(true)
-            }
-
-        })
-
-        return () => {
-            socket.off("newPost")
-        }
-    }, [currentUserData._id])
 
     // Check if Url is /users/ which means that client tries to access user 
     // that has no username, which is invalid
@@ -65,7 +43,6 @@ function MainPage(): ReactNode {
     const renderComponent = renderComponentBasedOnURL()
     return (
         <>
-            {commentPosted && <GreenMessage text="Comment posted!" />}
             <div className="grid bg-backgroundDark text-white font-[Nunito]
             sm:grid-rows-[15%,85%] sm:h-screen">
                 <HeaderNav />
