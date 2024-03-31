@@ -57,7 +57,7 @@ const HeaderNav: React.FC = () => {
             justify-end sm:justify-between">
                 {/* Dropdown menu */}
                 < GiHamburgerMenu onClick={() => setIsDropdownOpen(true)}
-                    className="cursor-pointer text-3xl" />
+                    className="cursor-pointer text-3xl md:hidden" />
                 {isDropdownOpen && <SidebarDropdownMenu
                     setIsDropdownOpen={setIsDropdownOpen} />}
                 {/* CurrentUser component */}
