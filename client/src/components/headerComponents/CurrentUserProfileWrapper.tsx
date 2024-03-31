@@ -1,37 +1,32 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { getImgURL } from "../../constants/imgURL";
 import { UserContext } from "../../hooks/UserContextHook";
-import { Link } from "react-router-dom";
+import DropdownMenu from "./DropdownMenu";
 const CurrentUserProfileWrapper = () => {
 
     const { currentUserData } = useContext(UserContext)
 
+    const [showDropdown, setShowDropdown] = useState<boolean>(false)
     return (
-        <div className="dropdown grid place-items-center">
-            <div className="profileWrapper">
-                <img className="w-12 h-12 rounded-full"
-                    src={getImgURL(currentUserData.avatar || "")} alt="" />
-                <p className="profileName">{currentUserData.username}</p>
-            </div>
-            <div className="menu h-[10rem] w-[20rem] rounded-lg 
-                    bg-profileColor border-[1px] border-borderGray
-                    absolute top-28 hidden place-items-center">
-                <div className="flex gap-5">
-                    <Link to={`/users/${currentUserData.username}`}>
-                        <p className="dropdownButton">
-                            Edit profile
-                        </p>
-                    </Link>
-                    {/* Remove token from localStorage when user logout & 
-                            redirect to login page */}
-                    <Link to={"/"} onClick={() => localStorage.removeItem("token")}>
-                        <p className="dropdownButton">
-                            Logout
-                        </p>
-                    </Link>
+        <section>
+            {/* Dropdown will appear on hover only when width is SM */}
+            <div className="w-12 relative
+                 hidden sm:w-auto sm:dropdown sm:block">
+                <div className="bg-profileColor rounded-full border-[1px] 
+                    border-gray-600 flex items-center gap-5   
+                        overflow-hidden cursor-pointer
+                        lg:px-6 lg:py-2 lg:w-[20rem]"
+                    onClick={() => setShowDropdown(!showDropdown)}>
+                    <img className="w-12 h-12 rounded-full"
+                        src={getImgURL(currentUserData.avatar || "")} alt="" />
+                    <p className="border-l-2 text-[1.2rem] tracking-wide pl-5
+                    max-w-[12rem] text-wrap hidden lg:flex">
+                        {currentUserData.username}
+                    </p>
                 </div>
+                {showDropdown && <DropdownMenu />}
             </div>
-        </div>
+        </section>
     )
 };
 

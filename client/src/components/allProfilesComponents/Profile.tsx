@@ -36,14 +36,22 @@ const Profile: React.FC<{ user: userType }> = ({ user }) => {
     }, [user.username]);
 
     return (
-        <div className="profileWrapper">
-            <Link to={`/users/${user.username}`}>
-                <div className="flex place-items-center">
-                    <img className="w-[3rem] h-[3rem] rounded-full" src={getImgURL(user.avatar || "")} alt="" />
-                    <p className="pl-10 text-[1.2rem]">{updatedUser ? updatedUser.username : user.username}</p>
-                </div>
-            </Link>
-            <FriendStatus targetUser={updatedUser || user} />
+        <div>
+            <div className="bg-profileColor rounded-full border-[1px]
+            border-gray-600 flex items-center gap-5 overflow-hidden 
+            cursor-pointer px-6 py-2 w-[18rem]">
+                <Link to={`/users/${user.username}`}>
+                    <div className="flex place-items-center">
+                        <img className=" w-[3rem] h-[3rem] rounded-full"
+                            src={getImgURL(user.avatar || "")} alt="" />
+                        <p className="pl-8 text-[1.2rem] max-w-[9rem] 
+                        break-words">
+                            {updatedUser ? updatedUser.username : user.username}
+                        </p>
+                    </div>
+                </Link>
+                <FriendStatus targetUser={updatedUser || user} />
+            </div>
         </div>
     );
 };

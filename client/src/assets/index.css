@@ -8,20 +8,23 @@
 @tailwind utilities;
 
 
+/* Dropdown styling for hovering over currentUser profile wrapper */
 
-.profileWrapper {
-    @apply px-6 py-2 bg-profileColor rounded-full border-[1px] border-gray-600
-    flex items-center gap-5 w-[20rem]  
-    overflow-hidden cursor-pointer
+.dropdownButton {
+    @apply text-sm border-borderGray border-[2px] cursor-pointer
+    px-4 py-1 hover:bg-white hover:border-white hover:text-black
 }
-.profileName {
-    @apply border-l-2 text-lg tracking-wide max-w-[12rem] text-wrap flex pl-5
+
+.dropdown:hover > .menu {
+    display: grid;
 }
+
+
 .liSidebar {
-    @apply text-4xl w-full flex justify-center p-2
+    @apply text-[2rem] w-full flex justify-center p-2
     bg-gradient-to-br hover:from-linearGradientStart
     hover:to-linearGradientEnd
-    cursor-pointer
+    cursor-pointer text-borderGray hover:text-white
 }
 .signInInputWrapper {
     @apply flex items-center gap-5 
@@ -52,13 +55,7 @@
   margin: 0;
 }
 
-.dropdownButton {
-    @apply text-lg border-borderGray border-[2px] cursor-pointer
-    px-4 py-1 hover:bg-white hover:border-white hover:text-black
-}
-.dropdown:hover > .menu {
-    display: grid;
-}
+
 .pageNotFoundParagraph {
     @apply grid place-items-center text-[3rem] tracking-wider
 }

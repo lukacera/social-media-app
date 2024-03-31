@@ -44,15 +44,20 @@ function MainPage(): ReactNode {
     return (
         <>
             <div className="grid bg-backgroundDark text-white font-[Nunito]
-            sm:grid-rows-[15%,85%] sm:h-screen">
+            grid-rows-[25%_75%] h-screen
+            sm:grid-rows-[15%_85%]
+            ">
                 <HeaderNav />
-                <main className=" grid grid-cols-[10%_70%_20%]">
+                <main className="grid
+                sm:grid-cols-[20%_80%]
+                xl:grid-cols-[10%_75%_15%]">
                     <Sidebar />
                     <div className="overflow-auto customWebkit">
                         {renderComponent}
                     </div>
-                    <div className="border-l-2 border-borderGray">
-                        <h3 className="flex justify-center font-bold pt-10 break-words">
+                    <div className="border-l-2 border-borderGray hidden xl:block">
+                        <h3 className="flex justify-center font-bold pt-10 
+                        break-words">
                             Messages
                         </h3>
                     </div>

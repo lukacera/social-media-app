@@ -42,9 +42,11 @@ const AllProfiles: React.FC = () => {
             {loading
                 ? <LoadingFidget />
                 : (
-                    <div className="my-20 flex flex-col gap-32 items-center overflow-auto">
+                    <div className="my-20 flex flex-col gap-32 
+                    items-center overflow-auto">
                         <AllProfilesSearchBarInput setSearchProfile={setSearchProfile} />
-                        <div className="flex flex-wrap gap-20 justify-center">
+                        <div className="flex flex-wrap gap-20 justify-center mx-5
+                        mb-10">
 
                             {filteredUsers.length === 0 &&
                                 <p className="text-2xl">
