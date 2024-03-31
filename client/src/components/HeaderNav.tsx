@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
 import CurrentUser from "./headerComponents/CurrentUser";
 import DisplayFriendRequests from "./headerComponents/DisplayFriendRequests";
-import CreatePostModal from "./postComponents/createPostComponents/CreatePostModal";
 import OpenPostModal from "./headerComponents/HeaderNavOpenPostModal";
 // Icons
 import { GiBackup } from "react-icons/gi";
@@ -15,7 +14,9 @@ const HeaderNav: React.FC = () => {
     const token = localStorage.getItem("token");
     const [isModalNewPostOpen, setIsModalNewPostOpen] = useState<boolean>(false)
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-
+    useEffect(() => {
+        console.log(isModalNewPostOpen)
+    }, [isModalNewPostOpen])
     return (
         <header className="border-b-2 border-borderGray grid         
         grid-rows-2 sm:grid-cols-[40%_60%] mt-10 md:mt-0
