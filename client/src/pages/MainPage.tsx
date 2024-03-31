@@ -49,7 +49,7 @@ function MainPage(): ReactNode {
             ">
                 <HeaderNav />
                 <main className="grid
-                sm:grid-cols-[20%_80%]
+                lg:grid-cols-[20%_80%]
                 xl:grid-cols-[10%_75%_15%]">
                     <Sidebar />
                     <div className="overflow-auto customWebkit">
@@ -57,7 +57,7 @@ function MainPage(): ReactNode {
                     </div>
                     <div className="border-l-2 border-borderGray hidden xl:block">
                         <h3 className="flex justify-center font-bold pt-10 
-                        break-words">
+                        break-words text-3xl">
                             Messages
                         </h3>
                     </div>

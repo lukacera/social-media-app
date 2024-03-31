@@ -2,7 +2,6 @@ import { ReactNode } from "react"
 import { FaHome } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi2";
 import { Link } from "react-router-dom";
-import { FaMessage } from "react-icons/fa6";
 
 export const Sidebar = (): ReactNode => {
     type IconType = {
@@ -17,15 +16,11 @@ export const Sidebar = (): ReactNode => {
         {
             icon: < HiUserGroup />,
             linkTo: "/users"
-        },
-        {
-            icon: <FaMessage className="block xl:hidden text-[1.5rem]" />,
-            linkTo: "/home"
         }
     ];
     return (
         <div className="grid-rows-[65%_35%] 
-        border-r-2 border-borderGray hidden sm:grid">
+        border-r-2 border-borderGray hidden lg:grid">
             <ul className="flex justify-start items-center mt-24 ml-2 
             flex-col gap-20 list-none">
                 {/* Icons in sidebar */}

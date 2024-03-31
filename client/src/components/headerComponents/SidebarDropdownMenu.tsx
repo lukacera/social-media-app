@@ -46,7 +46,7 @@ const SidebarDropdownMenu: React.FC<{
 
     }
     return (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-backgroundDark"
+        <div className="fixed top-0 left-0 w-screen h-screen bg-backgroundDark z-10"
             ref={navRef}>
 
             <div ref={xRef} className="absolute top-5 right-5 text-[2rem] cursor-pointer
@@ -61,24 +61,31 @@ const SidebarDropdownMenu: React.FC<{
                 {/* 1st ul */}
                 <ul className="grid place-items-center
                 font-merryweather gap-10" ref={ulRef}>
-                    <li className="px-5 py-3 bg-borderGray
-                    rounded-lg flex justify-center"
-                        onClick={handleCloseDropdown}>
+                    <li onClick={handleCloseDropdown}>
                         <Link to={"/home"}>
-                            Feed
+                            <div className="px-5 py-3 bg-borderGray
+                            rounded-lg flex justify-center hover:scale-110
+                            duration-75">
+                                Feed
+                            </div>
                         </Link>
                     </li>
-                    <li className="px-5 py-3 bg-borderGray rounded-lg
-                    flex justify-center" onClick={handleCloseDropdown}>
+                    <li onClick={handleCloseDropdown}>
                         <Link to={"/users"}>
-                            All profiles
+                            <div className="px-5 py-3 bg-borderGray rounded-lg
+                    flex justify-center  hover:scale-110
+                    duration-75">
+                                All profiles
+                            </div>
                         </Link>
                     </li>
                     <li onClick={handleCloseDropdown}>
                         <Link to={`/users/${currentUserData.username}`}>
 
                             <div className="px-5 py-3 bg-borderGray
-                            rounded-lg flex justify-center">
+                            rounded-lg flex justify-center
+                            hover:scale-110
+                            duration-75">
                                 Edit profile
                             </div>
                         </Link>
@@ -95,11 +102,15 @@ const SidebarDropdownMenu: React.FC<{
                 {/* 2nd ul */}
                 <ul className="flex flex-col gap-12
                 font-merryweather mt-12">
-                    <li className="px-5 py-3 bg-blue-500"
+                    <li className="px-5 py-3 bg-blue-500
+                    hover:scale-110
+                    duration-75 cursor-pointer"
                         onClick={handleCloseDropdown}>
                         Create new post
                     </li>
-                    <li className="px-5 py-3 bg-blue-500"
+                    <li className="px-5 py-3 bg-blue-500
+                    hover:scale-110
+                    duration-75 cursor-pointer"
                         onClick={handleCloseDropdown}>
                         Friend requests
                     </li>

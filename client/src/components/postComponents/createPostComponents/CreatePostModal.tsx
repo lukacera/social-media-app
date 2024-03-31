@@ -8,8 +8,8 @@ import CreatePostButton from "./CreatePostButton";
 import TextInputPost from "./TextInputPost";
 
 const CreatePostModal: React.FC<{
-  closeModal: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ closeModal }) => {
+  setIsModalNewPostOpen: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({ setIsModalNewPostOpen }) => {
 
   const navigate = useNavigate()
 
@@ -26,7 +26,8 @@ const CreatePostModal: React.FC<{
 
 
   const handleCloseModal = () => {
-    closeModal(false)
+    console.log("Console log!")
+    setIsModalNewPostOpen(false)
   }
 
   // Send form data to server and close the form

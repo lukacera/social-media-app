@@ -9,13 +9,12 @@ const CurrentUserProfileWrapper = () => {
     const [showDropdown, setShowDropdown] = useState<boolean>(false)
     return (
         <section>
-            {/* Dropdown will appear on hover only when width is SM */}
             <div className="w-12 relative
-                 hidden sm:w-auto sm:dropdown sm:block">
+                 hidden xl:w-auto lg:block">
                 <div className="bg-profileColor rounded-full border-[1px] 
                     border-gray-600 flex items-center gap-5   
                         overflow-hidden cursor-pointer
-                        lg:px-6 lg:py-2 lg:w-[20rem]"
+                        xl:px-6 xl:py-2 xl:w-[20rem]"
                     onClick={() => setShowDropdown(!showDropdown)}>
                     <img className="w-12 h-12 rounded-full"
                         src={getImgURL(currentUserData.avatar || "")} alt="" />
@@ -24,7 +23,9 @@ const CurrentUserProfileWrapper = () => {
                         {currentUserData.username}
                     </p>
                 </div>
-                {showDropdown && <DropdownMenu />}
+                {showDropdown && <DropdownMenu
+                    setShowDropdown={setShowDropdown} showDropdown={showDropdown} />
+                }
             </div>
         </section>
     )
