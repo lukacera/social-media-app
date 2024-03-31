@@ -8,18 +8,23 @@ import CreatePostModal from "./postComponents/createPostComponents/CreatePostMod
 import OpenPostModal from "./headerComponents/HeaderNavOpenPostModal";
 // Icons
 import { GiBackup } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
+import SidebarDropdownMenu from "./headerComponents/SidebarDropdownMenu";
 
 const HeaderNav: React.FC = () => {
     const token = localStorage.getItem("token");
-    const [createStatus, setCreateStatus] = useState<boolean>(false)
+    const [isModalNewPostOpen, setIsModalNewPostOpen] = useState<boolean>(false)
+    const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
     return (
-        <header className="border-b-2 border-borderGray
-        lg:grid lg:grid-cols-[30%_50%_20%]">
+        <header className="border-b-2 border-borderGray grid         
+        grid-rows-2 sm:grid-cols-[40%_60%] mt-10 md:mt-0
+        md:grid-cols-[30%_40%_30%] md:grid-rows-none">
 
             {/* Logo and header div */}
-            <div className="text-6xl flex justify-around
-                    items-center">
+            <div className="text-6xl items-center
+            flex justify-around ">
+
                 <div>
                     <Link to={token ? "/home" : "/"}>
                         <svg width="1em" height="1em">
@@ -39,29 +44,24 @@ const HeaderNav: React.FC = () => {
                         </h1>
                     </Link>
                 </div>
+
             </div>
-
-            {/* Button for creating post and menu for friend requests */}
-            <div className="flex justify-end items-center mr-10">
-                {token && (
-                    <div className="flex gap-20 items-center">
-                        <OpenPostModal handleOpenModal={setCreateStatus} />
-
-                        {/* If createStatus is true, it means that form 
-                        for creating post should be open */}
-                        {createStatus && (
-                            <CreatePostModal closeModal={setCreateStatus} />
-                        )}
-
-                        < DisplayFriendRequests />
-
-                    </div>
-
-                )}
+            <div className="w-full justify-end items-center gap-20
+            hidden md:flex">
+                <OpenPostModal handleOpenModal={setIsModalNewPostOpen} />
+                <DisplayFriendRequests />
             </div>
-
-            {/* Profile div */}
-            < CurrentUser token={token} />
+            {/* Container for CurrentUser and dropdown menu */}
+            <div className="flex  items-center mx-10
+            justify-end sm:justify-between">
+                {/* Dropdown menu */}
+                < GiHamburgerMenu onClick={() => setIsDropdownOpen(true)}
+                    className="cursor-pointer text-3xl" />
+                {isDropdownOpen && <SidebarDropdownMenu
+                    setIsDropdownOpen={setIsDropdownOpen} />}
+                {/* CurrentUser component */}
+                <CurrentUser token={token} />
+            </div>
         </header>
     )
 };
