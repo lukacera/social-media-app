@@ -18,7 +18,7 @@ const PostCreatorInfo: React.FC<{ post: postType }> = ({ post }) => {
                     </p>
                 </Link>
 
-                <p>{moment(post.postCreatedAt).format('MMMM Do YYYY, h:mm:ss')}</p>
+                <p>{moment(post.postCreatedAt).format('MMMM Do YYYY, HH:mm:ss')}</p>
             </div>
         </div>
     )
