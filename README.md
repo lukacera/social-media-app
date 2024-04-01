@@ -1,11 +1,16 @@
 # Social media app
 
+### Login Credentials
+**username: guest**
+**password: guestguest**
+
 ## Technologies used:
 
-*Frontend*: React, Typescript, Tailwind CSS, CSS, HTML5
-*Backend*: NodeJS, ExpressJS
+**Frontend**: React, Typescript, Tailwind CSS, CSS, HTML5
 
-MVC architecture, RestAPIs
+**Backend**: NodeJS, ExpressJS
+
+**Architecture**:MVC architecture, RestAPIs
 
 *Libraries used*: 
 Socket.io - live updates, 
