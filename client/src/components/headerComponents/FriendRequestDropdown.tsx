@@ -27,13 +27,14 @@ const FriendRequestsDropdown: React.FC<{
 
 
     return (
-        <div className="absolute -left-[8rem] 
+        <div className="absolute -left-32 
                     top-5 px-7 py-5 bg-profileColor border-2 
-                    border-borderGray"
+                    border-borderGray text-center
+                    w-[20rem] z-10"
             ref={dropdownRef}>
             {/* Dropdown menu content */}
             {friendRequests.length > 0 && (
-                <h3 className="text-lg text-nowrap">
+                <h3 className="text-lg">
                     You have
                     <span className="font-bold px-1">
                         {friendRequests.length}
@@ -45,7 +46,7 @@ const FriendRequestsDropdown: React.FC<{
                 </h3>
             )}
             {friendRequests.length === 0 && (
-                <span className="text-lg text-nowrap">
+                <span className="text-lg">
                     You have no pending friend requests!
                 </span>
             )}

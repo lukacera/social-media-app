@@ -10,7 +10,7 @@ const CurrentUserProfileWrapper = () => {
     return (
         <section>
             <div className="w-12 relative
-                 hidden xl:w-auto lg:block">
+                 hidden lg:block xl:w-auto">
                 <div className="bg-profileColor rounded-full border-[1px] 
                     border-gray-600 flex items-center gap-5   
                         overflow-hidden cursor-pointer

@@ -7,7 +7,7 @@ const UserAllPosts: React.FC<{
 }> = ({ targetUserPosts }) => {
 
     return (
-        <div className="my-12 grid place-items-center gap-20">
+        <div className="flex flex-col justify-center gap-40 my-20 w-auto">
             {targetUserPosts.map((post: postType, index: number) => (
                 <div key={index}>
                     <SinglePostComponent post={post} />

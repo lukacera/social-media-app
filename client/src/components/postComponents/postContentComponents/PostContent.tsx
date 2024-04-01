@@ -7,7 +7,8 @@ const PostContent: React.FC<{ post: postType }> = ({ post }) => {
       {post.img && (
         <img className="w-[30rem] h-[20rem]" src={getImgURL(post.img)} alt="" />
       )}
-      <p className="text-xl font-bold font-merryweather">
+      <p className="text-xl font-bold font-merryweather w-[80%] max-w-[26rem]
+      break-words text-center lg:w-auto lg:text-start">
         {post.text}
       </p>
     </div>

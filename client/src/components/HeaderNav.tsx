@@ -25,7 +25,8 @@ const HeaderNav: React.FC = () => {
             {isModalNewPostOpen && <CreatePostModal setIsModalNewPostOpen={setIsModalNewPostOpen} />}
             <header className="border-b-2 border-borderGray grid         
                     grid-rows-2 sm:grid-cols-[40%_60%] mt-10 lg:mt-0
-                    lg:grid-cols-[30%_40%_30%] lg:grid-rows-none">
+                    lg:grid-cols-[30%_60%_10%]
+                    xl:grid-cols-[30%_45%_25%] lg:grid-rows-none">
 
                 {/* Logo and header div */}
                 <div className="text-6xl items-center
@@ -53,23 +54,40 @@ const HeaderNav: React.FC = () => {
 
                 </div>
                 {/* Div for openPost button and friend requests dropdown */}
-                <div className="w-full justify-end items-center gap-20
-                                hidden lg:flex">
-                    <OpenPostModal setIsModalNewPostOpen={setIsModalNewPostOpen} />
-                    <DisplayFriendRequests />
-                </div>
 
-                {/* Container for CurrentUser and dropdown menu */}
-                <div className="flex  items-center mx-10
-                    justify-end">
-                    {/* Dropdown menu */}
-                    < GiHamburgerMenu onClick={() => setIsDropdownOpen(true)}
-                        className="cursor-pointer text-3xl lg:hidden" />
-                    {isDropdownOpen && <SidebarDropdownMenu
-                        setIsDropdownOpen={setIsDropdownOpen} />}
-                    {/* CurrentUser component */}
+                {token && (
+                    <>
+                        <div className="w-full justify-end items-center gap-20
+                                    hidden lg:flex pr-10">
+                            <OpenPostModal setIsModalNewPostOpen={setIsModalNewPostOpen} />
+                            <DisplayFriendRequests />
+                        </div>
+
+                        {/* Container for dropdown menu */}
+                        <div className="w-[90%] mx-auto grid 
+                        grid-cols-5 items-center lg:hidden">
+
+                            <div className="col-span-3 flex items-center justify-between">
+                                <OpenPostModal setIsModalNewPostOpen={setIsModalNewPostOpen} />
+                                <DisplayFriendRequests />
+                            </div>
+                            <div className="flex justify-end w-full col-span-2">
+                                < GiHamburgerMenu onClick={() => setIsDropdownOpen(true)}
+                                    className="cursor-pointer text-3xl lg:hidden" />
+                                {isDropdownOpen && <SidebarDropdownMenu
+                                    setIsDropdownOpen={setIsDropdownOpen} />}
+                            </div>
+
+
+                        </div>
+
+                    </>
+
+                )}
+                <div className="grid place-items-center">
                     <CurrentUser token={token} />
                 </div>
+
             </header>
 
         </>

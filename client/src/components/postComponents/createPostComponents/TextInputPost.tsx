@@ -11,7 +11,7 @@ const TextInputPost: React.FC<{
             <textarea
                 className="p-2 text-black outline-none resize-none"
                 spellCheck="false" id="postContent"
-                cols={40} rows={10} placeholder="What's on your mind?"
+                rows={10} cols={24} placeholder="What's on your mind?"
                 value={postContent} onChange={(e) => setPostContent(e.target.value)}
                 required={true}>
             </textarea>

@@ -57,7 +57,7 @@
 
 
 .pageNotFoundParagraph {
-    @apply grid place-items-center text-[3rem] tracking-wider
+    @apply grid place-items-center text-center text-[3rem] tracking-wider
 }
 
 .editProfileInput {

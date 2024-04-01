@@ -65,10 +65,12 @@ const CreatePostModal: React.FC<{
   return (
     <>
       <Overlay />
-      <div className="absolute top-[10rem] left-0 
-      w-full flex justify-center">
+      <div className="absolute top-[10rem] left-[10%] lg:left-0 
+      flex justify-center z-10
+      lg:w-full">
         <form className="p-10 bg-profileColor
-          grid place-items-center gap-10 relative">
+          grid place-items-center gap-10 relative
+          lg:w-full">
 
           <span className="absolute top-3 right-5 cursor-pointer"
             onClick={handleCloseModal}>X</span>

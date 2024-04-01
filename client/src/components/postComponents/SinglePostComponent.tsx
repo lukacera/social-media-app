@@ -18,21 +18,25 @@ const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
     }, [currentUserData._id, post]);
 
     return (
-        <div className="w-[30rem] flex flex-col gap-20">
+        <div className="mx-auto max-w-[40rem] flex flex-col gap-20
+        items-center">
             {post && (
-                <div className="grid gap-10">
-                    <PostCreatorInfo post={post} />
-                    <PostContent post={post} />
-                </div>
-            )}
-            <div className="flex justify-between">
-                {post && <LikeCommentButtons post={post} />}
-                {isThisUsersPost && post && (
-                    <div className="flex justify-end items-center gap-5">
-                        <DeletePostBtn post={post} />
+                <>
+                    <div className="grid gap-10">
+                        <PostCreatorInfo post={post} />
+                        <PostContent post={post} />
                     </div>
-                )}
-            </div>
+                    <div className="flex justify-between w-full">
+                        <LikeCommentButtons post={post} />
+                        {isThisUsersPost && post && (
+                            <div className="flex justify-end items-center gap-5">
+                                <DeletePostBtn post={post} />
+                            </div>
+                        )}
+                    </div>
+                </>
+            )}
+
         </div>
     );
 };

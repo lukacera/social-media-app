@@ -33,23 +33,26 @@ const ProfileImg: React.FC<{
 
     return (
         <div className="flex flex-col place-items-center gap-10 ">
-            <div className="relative flex items-center gap-20">
+            <div className="relative flex items-center gap-10 lg:gap-20">
                 {image ? (
-                    <img className="w-[18rem] h-[18rem] rounded-full"
+                    <img className="w-[7rem] h-[7rem]  lg:w-[10rem]lg:h-[10rem] rounded-full"
                         src={image} alt="User picture" />
                 ) : (
-                    <img className="w-[18rem] h-[18rem] rounded-full"
+                    <img className="w-[7rem] h-[7rem] lg:w-[10rem]  lg:h-[10rem] rounded-full"
                         src={getImgURL(targetUser.avatar || "")} alt="User picture" />
                 )}
                 {isCurrentUser && (
                     <div className="absolute -left-10 bottom-0 
                     bg-gradient-to-tl from-white to-linearGradientStart 
-                    p-3 text-black rounded-full cursor-pointer"
+                    p-3 text-black rounded-full cursor-pointer
+                    text-sm lg:text-lg"
                         onClick={handleImgChange}>
                         <FaPen />
                     </div>
                 )}
-                <h2 className="text-[2.4rem] font-bold">{targetUser.username}</h2>
+                <h2 className="text-[2rem] lg:text-[2.4rem] font-bold">
+                    {targetUser.username}
+                </h2>
             </div>
 
 

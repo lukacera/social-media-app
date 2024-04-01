@@ -22,7 +22,7 @@ const DropdownMenu: React.FC<{
 
     return (
         <div className="absolute top-16 
-        -right-10 bg-profileColor pl-10 pr-7 py-5
+        -right-7 bg-profileColor pl-10 pr-7 py-5
         rounded-lg
         xl:top-[4.3rem] xl:right-0
         xl:w-[20rem]"

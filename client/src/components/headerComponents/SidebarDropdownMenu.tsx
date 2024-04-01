@@ -3,6 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import { gsap } from "gsap"
 import { Link } from "react-router-dom";
 import { UserContext } from "../../hooks/UserContextHook";
+
 const SidebarDropdownMenu: React.FC<{
     setIsDropdownOpen: Dispatch<SetStateAction<boolean>>
 }> = ({ setIsDropdownOpen }) => {
@@ -58,12 +59,11 @@ const SidebarDropdownMenu: React.FC<{
 
             <div className="flex justify-center items-start gap-10 mt-40">
 
-                {/* 1st ul */}
                 <ul className="grid place-items-center
-                font-merryweather gap-10" ref={ulRef}>
+                font-merryweather gap-10 text-black" ref={ulRef}>
                     <li onClick={handleCloseDropdown}>
                         <Link to={"/home"}>
-                            <div className="px-5 py-3 bg-borderGray
+                            <div className="px-5 py-3 bg-white
                             rounded-lg flex justify-center hover:scale-110
                             duration-75">
                                 Feed
@@ -72,7 +72,7 @@ const SidebarDropdownMenu: React.FC<{
                     </li>
                     <li onClick={handleCloseDropdown}>
                         <Link to={"/users"}>
-                            <div className="px-5 py-3 bg-borderGray rounded-lg
+                            <div className="px-5 py-3 bg-white rounded-lg
                     flex justify-center  hover:scale-110
                     duration-75">
                                 All profiles
@@ -82,7 +82,7 @@ const SidebarDropdownMenu: React.FC<{
                     <li onClick={handleCloseDropdown}>
                         <Link to={`/users/${currentUserData.username}`}>
 
-                            <div className="px-5 py-3 bg-borderGray
+                            <div className="px-5 py-3 bg-white
                             rounded-lg flex justify-center
                             hover:scale-110
                             duration-75">
@@ -99,22 +99,6 @@ const SidebarDropdownMenu: React.FC<{
                     </li>
                 </ul>
 
-                {/* 2nd ul */}
-                <ul className="flex flex-col gap-12
-                font-merryweather mt-12">
-                    <li className="px-5 py-3 bg-blue-500
-                    hover:scale-110
-                    duration-75 cursor-pointer"
-                        onClick={handleCloseDropdown}>
-                        Create new post
-                    </li>
-                    <li className="px-5 py-3 bg-blue-500
-                    hover:scale-110
-                    duration-75 cursor-pointer"
-                        onClick={handleCloseDropdown}>
-                        Friend requests
-                    </li>
-                </ul>
             </div>
         </div>
     )

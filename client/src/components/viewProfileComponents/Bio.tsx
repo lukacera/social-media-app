@@ -14,7 +14,7 @@ const Bio: React.FC<{
             <div className="flex flex-col items-center gap-10 relative">
                 <h3 className="font-merryweather text-3xl">Bio</h3>
                 {isCurrentUser && (
-                    <div className="absolute right-20 bg-gradient-to-tl 
+                    <div className="absolute right-0 bg-gradient-to-tl 
                   from-white to-linearGradientStart 
                   p-4 text-black rounded-full cursor-pointer"
                         onClick={() => openModal(true)}>

@@ -6,7 +6,7 @@ const OpenPostModal: React.FC<{
 }> = ({ setIsModalNewPostOpen }) => {
     return (
         <p className="flex items-center gap-3 font-merryweather">
-            <span className="text-xl">New post</span>
+            <span className="hidden md:block text-xl">New post</span>
             <span className="text-2xl px-4 py-2 bg-white 
     text-black rounded-full cursor-pointer" onClick={() => setIsModalNewPostOpen(true)}>
                 +

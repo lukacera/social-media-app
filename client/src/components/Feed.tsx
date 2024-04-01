@@ -54,7 +54,8 @@ export const Feed = (): ReactNode => {
                         </div>
                     ))}
                     {posts && posts.length === 0 && (
-                        <p className="text-3xl tracking-wider grid place-items-center gap-20">
+                        <p className="text-3xl tracking-wider text-center grid place-items-center 
+                        gap-20">
                             <span>There are no posts currently!</span>
                             <span>Press + next to "New post" in header to make new post</span>
                         </p>

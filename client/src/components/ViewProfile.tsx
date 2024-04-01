@@ -78,6 +78,7 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
               targetUserPostsLength={targetUserPosts.length} />
           </div>
           <div className="mt-10">
+            {/* Show friend status if profile that user is on is not actually his */}
             {!isCurrentUser && <FriendStatusViewProfilePage targetUser={targetUser} />}
             <div className="my-20 grid place-items-center">
               {targetUserPosts.length > 0
@@ -94,7 +95,8 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
                   </>
 
                 ) : (
-                  <p className="text-3xl my-20 flex items-center gap-2">
+                  <p className="text-3xl my-20 flex flex-col text-center 
+                  items-center gap-2 max-w-[90%]">
                     <span className="font-bold">{targetUser.username}</span>
                     <span>has not published any posts</span>
                   </p>
