@@ -19,14 +19,16 @@ const SinglePostComponent: React.FC<{ post: postType }> = ({ post }) => {
 
     return (
         <div className="mx-auto max-w-[40rem] flex flex-col gap-20
-        items-center">
+        items-center w-[80%] lg:w-auto">
             {post && (
                 <>
                     <div className="grid gap-10">
                         <PostCreatorInfo post={post} />
                         <PostContent post={post} />
                     </div>
-                    <div className="flex justify-between w-full">
+                    <div className="flex justify-center gap-20 
+                    lg:justify-between
+                    w-full">
                         <LikeCommentButtons post={post} />
                         {isThisUsersPost && post && (
                             <div className="flex justify-end items-center gap-5">
