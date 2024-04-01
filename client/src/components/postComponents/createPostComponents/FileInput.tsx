@@ -34,7 +34,7 @@ const FileInput: React.FC<{
                     <div className="w-full flex justify-center items-center">
                         <img className="w-20 max-h-28" src={previewImage} alt="" />
                     </div>
-                    <div className="absolute top-0 right-[10%] 
+                    <div className="absolute top-0 -right-5 sm:right-0
                     grid place-items-center gap-2 text-gray-300">
                         <span className="text-sm">
                             Remove image:

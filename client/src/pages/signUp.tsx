@@ -44,9 +44,11 @@ const SignUp = (): ReactNode => {
         }
     }
     return (
-        <div className="flex justify-center items-center h-screen bg-slate-300">
-            <div className="w-[45rem] h-[55rem] bg-gradient-to-tr from-linearGradientStart
-            to-linearGradientEnd text-white flex flex-col gap-20 rounded-lg">
+        <div className="flex justify-center items-center h-screen 
+        bg-slate-300">
+            <div className="w-[90%] md:w-[45rem] h-auto my-10 pb-5 sm:h-[55rem] bg-gradient-to-tr 
+            from-linearGradientStart to-linearGradientEnd 
+            text-white flex flex-col gap-20 rounded-lg">
                 <div className="flex flex-col items-center gap-16">
                     <h2 className="flex pt-10 text-3xl
                         font-madimi-one tracking-widest">
@@ -57,7 +59,8 @@ const SignUp = (): ReactNode => {
                 <form method="POST" onSubmit={handleSubmit}
                     className="flex flex-col items-center gap-10 w-[80%] mx-auto">
                     <section className="flex flex-col gap-10">
-                        <div className="flex gap-5">
+                        <div className="flex gap-6 flex-col sm:flex-row mx-auto
+                        sm:w-full">
                             <div className="signInInputWrapper">
                                 <input className="bg-transparent placeholder:text-slate-200
                                 focus:outline-none" type="text" value={userData.name}
@@ -80,7 +83,7 @@ const SignUp = (): ReactNode => {
                                     name="age" required autoComplete="off"
                                     onChange={(e) => handleChange(e)} />
                             </div>
-                            <div className="signInInputWrapper max-w-[15rem]">
+                            <div className="signInInputWrapper">
                                 <input className="bg-transparent placeholder:text-slate-200
                                         focus:outline-none"
                                     type="text" placeholder="Username" value={userData.username}
@@ -88,7 +91,7 @@ const SignUp = (): ReactNode => {
                                     onChange={(e) => handleChange(e)} />
                             </div>
                         </div>
-                        <div className="flex gap-5">
+                        <div className="flex gap-5 flex-col sm:flex-row">
                             <div className="signInInputWrapper">
                                 <input className="bg-transparent placeholder:text-slate-200
                                     focus:outline-none"
@@ -119,7 +122,7 @@ const SignUp = (): ReactNode => {
                             </button>
                         </div>
                         <div className="flex flex-col items-center gap-5">
-                            <p className="">If you already have an account, please proceed
+                            <p className="text-center">If you already have an account, please proceed
                                 to login page
                             </p>
                             <Link to="/">

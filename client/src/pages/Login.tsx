@@ -45,7 +45,8 @@ const Login = (): ReactNode => {
     }
     return (
         <div className="flex justify-center items-center h-screen bg-slate-300">
-            <div className="w-[30rem] h-[45rem] bg-gradient-to-tr from-linearGradientStart
+            <div className="w-[90%] sm:w-[30rem] h-[45rem] bg-gradient-to-tr 
+            from-linearGradientStart
             to-linearGradientEnd text-white flex flex-col gap-20 rounded-lg">
                 <div className="flex flex-col items-center gap-16">
                     <h2 className="flex pt-10 text-3xl

@@ -29,9 +29,10 @@ const SingleComment: React.FC<{
     }
     return (
         <div>
-            <div className="flex flex-row items-start gap-5">
+            <div className="flex flex-row items-start gap-5 text-[0.8rem]
+            lg:text-base">
                 <Link to={`/users/${comment.creator.username}`}>
-                    <img className="w-16 h-16 rounded-full"
+                    <img className="w-10 h-10 lg:w-16 lg:h-16 rounded-full"
                         src={getImgURL(comment.creator.avatar || "")} alt="" />
                 </Link>
                 <div className="flex justify-between w-full pl-2">
@@ -42,7 +43,12 @@ const SingleComment: React.FC<{
                     </Link>
                     <p className="flex items-center gap-2">
                         <span><FaCalendarAlt /></span>
-                        <span>{moment(comment.commentCreatedAt).format("DD/MM/YY, HH:mm:ss")}</span>
+                        <span className="hidden md:block">
+                            {moment(comment.commentCreatedAt).format("DD/MM/YY, HH:mm:ss")}
+                        </span>
+                        <span className="block md:hidden">
+                            {moment(comment.commentCreatedAt).format("DD/MM/YY")}
+                        </span>
                     </p>
                 </div>
             </div>

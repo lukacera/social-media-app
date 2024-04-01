@@ -62,8 +62,10 @@ const CommentPost: React.FC<{ post: postType }> = ({ post }) => {
             {isCommentFormOpen && (
                 <>
                     <Overlay />
-                    <div className="absolute top-[25%] right-[30%]
-                    w-[50rem] max-h-[36rem] overflow-auto customWebkit" >
+                    <div className="absolute  max-h-[36rem] overflow-auto 
+                    customWebkit top-[25%] left-4 md:left-[5%] lg:left-[20%]
+                    xl:left-[30%]
+                    w-[90%] max-w-[50rem]">
 
                         < CommentForm post={post}
                             setIsCommentFormOpen={setisCommentFormOpen}

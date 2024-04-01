@@ -9,9 +9,11 @@ const TextInputPost: React.FC<{
 
             <label htmlFor="postContent">Post content:</label>
             <textarea
-                className="p-2 text-black outline-none resize-none"
+                className="p-2 text-black outline-none resize-none
+                w-[15rem] h-[10rem]
+                sm:w-[20rem] sm:h-[10rem]"
                 spellCheck="false" id="postContent"
-                rows={10} cols={24} placeholder="What's on your mind?"
+                placeholder="What's on your mind?"
                 value={postContent} onChange={(e) => setPostContent(e.target.value)}
                 required={true}>
             </textarea>

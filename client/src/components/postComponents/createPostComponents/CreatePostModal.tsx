@@ -65,9 +65,9 @@ const CreatePostModal: React.FC<{
   return (
     <>
       <Overlay />
-      <div className="absolute top-[10rem] left-[10%] lg:left-0 
+      <div className="absolute top-[10rem]
       flex justify-center z-10
-      lg:w-full">
+      left-5 sm:left-[15%] lg:left-[25%] xl:left-[30%] w-[90%] max-w-[40rem]">
         <form className="p-10 bg-profileColor
           grid place-items-center gap-10 relative
           lg:w-full">
@@ -85,7 +85,8 @@ const CreatePostModal: React.FC<{
               setImageFile={setImageFile} />
 
             {/* Input for text content of post */}
-            < TextInputPost postContent={postContent} setPostContent={setPostContent} />
+            < TextInputPost postContent={postContent}
+              setPostContent={setPostContent} />
           </div>
 
           {postContent.length > 0 &&

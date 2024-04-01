@@ -58,13 +58,17 @@ const CommentForm: React.FC<{
                                 placeholder='Your comment...'
                                 value={text}
                                 onChange={(e) => setText(e.target.value)} />
+
                             {text.length > 0 && (
-                                <button className="px-5 py-2 bg-white 
-                                text-black rounded-lg mt-5 border-2 absolute 
-                                right-5 top-10" onClick={handleCreateComment}>
+                                <button className="bg-white text-black 
+                                rounded-lg mt-5 border-2 absolute 
+                                top-10 w-[6rem] py-1 sm:px-5 md:py-2
+                                text-[0.8rem] right-0 sm:w-auto sm:text-base"
+                                    onClick={handleCreateComment}>
                                     Add comment
                                 </button>
                             )}
+
                         </div>
                     </div>
 

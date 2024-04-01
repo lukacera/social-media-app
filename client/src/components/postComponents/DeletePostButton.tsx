@@ -16,7 +16,8 @@ const DeletePostBtn: React.FC<{ post: postType }> = ({ post }) => {
             {openConfirmDelete && (
                 <div>
                     <Overlay />
-                    <ConfirmDelete post={post} setOpenConfirmDelete={setOpenConfirmDelete} />
+                    <ConfirmDelete post={post}
+                        setOpenConfirmDelete={setOpenConfirmDelete} />
                 </div>
             )}
             <div onClick={() => setOpenConfirmDelete(true)} className="text-red-600 

@@ -52,14 +52,14 @@ const EditProfileModal: React.FC<{
         }))
     }
     return !isEditOpen ? null : (
-        <div className="flex flex-col bg-profileColor
-            fixed left-[33%] top-[28%] rounded-lg">
-            <p className=" flex justify-end p-5">
-                <span className="cursor-pointer text-[1.6rem]"
-                    onClick={() => closeModal(false)}>
-                    x
-                </span>
-            </p>
+        <div className="flex flex-col items-center bg-profileColor
+            fixed  top-[28%] rounded-lg
+            xl:left-[30%] w-[90%] max-w-[40rem]">
+            <span className="cursor-pointer text-[1.6rem] flex justify-end w-full
+            p-5"
+                onClick={() => closeModal(false)}>
+                x
+            </span>
             <form className="grid place-items-center gap-5 px-20 pb-10"
                 encType="multipart/form-data" onSubmit={handleSubmit}>
                 <h3 className="text-2xl tracking-wide">Edit your profile:</h3>

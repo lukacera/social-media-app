@@ -26,8 +26,9 @@ const ConfirmDelete: React.FC<{
         }
     }
     return (
-        <div className="absolute top-[40%] left-[30%] bg-profileColor p-20
-        grid place-items-center gap-10 rounded-xl">
+        <div className="absolute top-[40%]  bg-profileColor p-20
+        grid place-items-center gap-10 rounded-xl
+        left-5 lg:left-[30%] w-[90%] max-w-[40rem]">
             <p className="text-[1.2rem] font-bold tracking-wide">
                 Are you sure that you want to delete this post?
             </p>
