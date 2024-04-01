@@ -1,5 +1,21 @@
 # Social media app
 
+## Technologies used:
+
+*Frontend*: React, Typescript, Tailwind CSS, CSS, HTML5
+*Backend*: NodeJS, ExpressJS
+
+MVC architecture, RestAPIs
+
+*Libraries used*: 
+Socket.io - live updates, 
+Cloudinary - image hosting, 
+Multer - handling upload of files in Node,
+JWT - authentication,
+Jest - backend testing,
+Gsap - handling animations in React components,
+MomentJS - formating date
+
 ## Features
 
 **Profile:**
