@@ -1,6 +1,7 @@
 # Social media app
 
 ### Login Credentials
+
 **username: guest**
 **password: guestguest**
 
@@ -10,7 +11,7 @@
 
 **Backend**: NodeJS, ExpressJS
 
-**Architecture**:MVC architecture, RestAPIs
+**Architecture**: MVC architecture, RestAPIs
 
 *Libraries used*: 
 Socket.io - live updates, 
