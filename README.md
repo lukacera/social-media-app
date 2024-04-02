@@ -1,14 +1,5 @@
 # Social media app
 
-### Login Credentials
-
-```
- username: guest
-
- password: guestguest
-
-```
-
 ## Technologies used:
 
 **Frontend**: React, Typescript, Tailwind CSS, CSS, HTML5
