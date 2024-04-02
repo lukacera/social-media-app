@@ -86,7 +86,7 @@ const SidebarDropdownMenu: React.FC<{
                             rounded-lg flex justify-center
                             hover:scale-110
                             duration-75">
-                                Edit profile
+                                My profile
                             </div>
                         </Link>
                     </li>

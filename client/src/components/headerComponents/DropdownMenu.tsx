@@ -32,7 +32,7 @@ const DropdownMenu: React.FC<{
                     className="text-center p-2 bg-white text-black 
                     rounded-lg xl:w-[7rem]"
                     onClick={() => setShowDropdown(false)}>
-                    Edit Profile
+                    My Profile
                 </Link>
                 <Link to="/" className="p-2 bg-white text-black 
                 rounded-lg xl:w-[7rem] text-center"

@@ -11,7 +11,7 @@ const TextInputPost: React.FC<{
             <textarea
                 className="p-2 text-black outline-none resize-none
                 w-[15rem] h-[10rem]
-                sm:w-[20rem] sm:h-[10rem]"
+                sm:w-[20rem] sm:h-[10rem] lg:w-[30rem] lg:h-[14rem]"
                 spellCheck="false" id="postContent"
                 placeholder="What's on your mind?"
                 value={postContent} onChange={(e) => setPostContent(e.target.value)}

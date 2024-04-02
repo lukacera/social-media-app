@@ -26,7 +26,6 @@ const CreatePostModal: React.FC<{
 
 
   const handleCloseModal = () => {
-    console.log("Console log!")
     setIsModalNewPostOpen(false)
   }
 
@@ -65,9 +64,9 @@ const CreatePostModal: React.FC<{
   return (
     <>
       <Overlay />
-      <div className="absolute top-[10rem]
-      flex justify-center z-10
-      left-5 sm:left-[15%] lg:left-[25%] xl:left-[30%] w-[90%] max-w-[40rem]">
+      <div className="fixed top-[5rem] sm:top-[10rem] flex justify-center 
+      items-center z-10 inset-x-0 mx-auto w-full max-w-[40rem]">
+
         <form className="p-10 bg-profileColor
           grid place-items-center gap-10 relative
           lg:w-full">

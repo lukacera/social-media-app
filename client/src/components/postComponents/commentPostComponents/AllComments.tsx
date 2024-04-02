@@ -10,7 +10,7 @@ const AllComments: React.FC<{
 
     return (
         <div className="bg-profileColor pt-10 pb-16 px-12 
-        grid place-items-center ">
+        grid place-items-center">
             {/* Display existing comments */}
             <ul className="w-full grid place-items-start gap-16 pt-10">
 

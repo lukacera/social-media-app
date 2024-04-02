@@ -43,10 +43,10 @@ const SingleComment: React.FC<{
                     </Link>
                     <p className="flex items-center gap-2">
                         <span><FaCalendarAlt /></span>
-                        <span className="hidden md:block">
+                        <span className="hidden sm:block">
                             {moment(comment.commentCreatedAt).format("DD/MM/YY, HH:mm:ss")}
                         </span>
-                        <span className="block md:hidden">
+                        <span className="block sm:hidden">
                             {moment(comment.commentCreatedAt).format("DD/MM/YY")}
                         </span>
                     </p>
