@@ -69,7 +69,7 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
       {isEditOpen && <Overlay />}
       {!loading && (
         <div className="h-full grid place-items-center my-12">
-          <div className="flex flex-col gap-16 text-xl">
+          <div className="flex flex-col gap-16 text-xl max-w-[95%] mx-auto">
             <ProfileImg targetUser={targetUser} isCurrentUser={isCurrentUser} />
             <Bio
               targetUser={targetUser}

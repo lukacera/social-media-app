@@ -29,6 +29,7 @@ const Login = (): ReactNode => {
         }
 
     }
+
     // Handle submit function
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -43,14 +44,26 @@ const Login = (): ReactNode => {
         await fetchCurrentUser()
         navigate("/home")
     }
+
+    // Guest login
+    const handleSubmitGuest = async () => {
+
+        const fetched_data = await loginUser("guest", "guestguest");
+        if (typeof (fetched_data) === "string") {
+            setErrorValidation(fetched_data)
+            return
+        }
+
+        await fetchCurrentUser()
+        navigate("/home")
+    }
     return (
         <div className="flex justify-center items-center h-screen bg-slate-300">
-            <div className="w-[90%] sm:w-[30rem] h-[45rem] bg-gradient-to-tr 
-            from-linearGradientStart
-            to-linearGradientEnd text-white flex flex-col gap-20 rounded-lg">
+            <div className="w-[90%] sm:w-[30rem] max-h-[50rem] bg-gradient-to-tr 
+            from-linearGradientStart to-linearGradientEnd text-white flex 
+            flex-col gap-20 rounded-lg py-10">
                 <div className="flex flex-col items-center gap-16">
-                    <h2 className="flex pt-10 text-3xl
-                        font-madimi-one tracking-widest">
+                    <h2 className="flex text-3xl font-madimi-one tracking-widest">
                         BONDIFY
                     </h2>
                     <p className="text-3xl font-merryweather font-bold">Log in</p>
@@ -86,16 +99,25 @@ const Login = (): ReactNode => {
                                 Login
                             </button>
                         </div>
-                        <div className="flex flex-col gap-5">
-                            <p>If you don't have account, please sign up below</p>
+                        <div className="flex flex-col gap-5 text-center">
+                            <p>
+                                If you don't have account, please sign up below
+                            </p>
                             <Link to="/signup">
-                                <p className="signInButton flex justify-center">
+                                <p className="signInButton text-center">
                                     Sign up
                                 </p>
                             </Link>
                         </div>
                     </div>
                 </form>
+                {/* Guest login */}
+                <p className="rounded-full px-8 py-4 
+                            bg-gray-700 text-white mx-auto font-exo
+                            tracking-wide cursor-pointer"
+                    onClick={() => handleSubmitGuest()}>
+                    Continue as guest
+                </p>
             </div>
         </div>
     )

@@ -49,10 +49,10 @@ function MainPage(): ReactNode {
             ">
                 <HeaderNav />
                 <main className="grid
-                lg:grid-cols-[20%_80%]
+                lg:grid-cols-[20%_80%] h-auto
                 xl:grid-cols-[10%_75%_15%]">
                     <Sidebar />
-                    <div className="overflow-auto customWebkit">
+                    <div className="overflow-scroll sm:customWebkit">
                         {renderComponent}
                     </div>
                     <div className="border-l-2 border-borderGray hidden xl:block">

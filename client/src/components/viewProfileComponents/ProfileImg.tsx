@@ -50,7 +50,8 @@ const ProfileImg: React.FC<{
                         <FaPen />
                     </div>
                 )}
-                <h2 className="text-[2rem] lg:text-[2.4rem] font-bold">
+                <h2 className="text-[1.4rem] sm:text-[2rem] 
+                lg:text-[2.4rem] font-bold">
                     {targetUser.username}
                 </h2>
             </div>

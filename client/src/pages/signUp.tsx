@@ -44,7 +44,7 @@ const SignUp = (): ReactNode => {
         }
     }
     return (
-        <div className="flex justify-center items-center h-screen 
+        <div className="flex justify-center items-center min-h-screen 
         bg-slate-300">
             <div className="w-[90%] md:w-[45rem] h-auto my-10 pb-5 sm:h-[55rem] bg-gradient-to-tr 
             from-linearGradientStart to-linearGradientEnd 
