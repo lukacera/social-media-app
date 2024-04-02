@@ -34,7 +34,7 @@ const ConfirmDelete: React.FC<{
             </p>
             <div className="flex justify-around items-center w-full">
 
-                <button className="px-5 py-3 bg-red-600"
+                <button className="px-5 py-3 bg-red-600 rounded-lg"
                     onClick={handleDeletePost}>
                     Delete
                 </button>
