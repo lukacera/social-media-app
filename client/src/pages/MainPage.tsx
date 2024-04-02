@@ -52,7 +52,7 @@ function MainPage(): ReactNode {
                 lg:grid-cols-[20%_80%] h-auto
                 xl:grid-cols-[10%_75%_15%]">
                     <Sidebar />
-                    <div className="overflow-scroll sm:customWebkit">
+                    <div className="overflow-y-scroll lg:overflow-y-auto customWebkit">
                         {renderComponent}
                     </div>
                     <div className="border-l-2 border-borderGray hidden xl:block">
