@@ -26,13 +26,14 @@ const ConfirmDelete: React.FC<{
         }
     }
     return (
-        <div className="absolute top-[40%]  bg-profileColor p-20
-        grid place-items-center gap-10 rounded-xl
-        left-5 lg:left-[30%] w-[90%] max-w-[40rem]">
+        <div className="absolute  bg-profileColor p-20
+        grid place-items-center gap-10 rounded-xl inset-0 m-auto
+        w-[90%] max-w-[40rem] h-[80%] max-h-[25rem]">
             <p className="text-[1.2rem] font-bold tracking-wide">
                 Are you sure that you want to delete this post?
             </p>
-            <div className="flex justify-around items-center w-full">
+            <div className="w-[60%] max-w-[8rem] flex flex-col gap-10
+            sm:w-full sm:flex-row justify-center">
 
                 <button className="px-5 py-3 bg-red-600 rounded-lg"
                     onClick={handleDeletePost}>
