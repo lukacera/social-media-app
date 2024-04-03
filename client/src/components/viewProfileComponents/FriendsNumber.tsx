@@ -5,13 +5,11 @@ const FriendsNumber: React.FC<{ targetUser: userType }> = ({ targetUser }) => {
     const [friendsNumber, setFriendsNumber] = useState<number>(0)
 
     useEffect(() => {
-        console.log(targetUser)
         targetUser.friends && setFriendsNumber(targetUser.friends?.length)
     }, [targetUser])
 
     useEffect(() => {
         socket.on("unfriendUser", () => {
-            console.log("Unfriend user!")
             setFriendsNumber(prevNumber => prevNumber - 1)
 
         })

@@ -18,7 +18,6 @@ export const setupSocketListeners = (
             friends: updatedFriends
         }));
 
-        console.log("Friend request accepted!!")
     });
 
     socket.on('deleteReceivedFriendRequest', (targetUser: userType) => {
@@ -26,8 +25,7 @@ export const setupSocketListeners = (
         const updatedRequests = currentUserData.friendRequests?.filter(
             req => req !== targetUser.username
         );
-        console.log("Delete request!")
-        console.log(updatedRequests)
+
         setCurrentUserData(prevData => ({
             ...prevData,
             friendRequests: updatedRequests
@@ -35,7 +33,6 @@ export const setupSocketListeners = (
     });
 
     socket.on('unfriendUser', (targetUser) => {
-        console.log("Unfriend user!")
         const updatedFriends = currentUserData.friends?.filter(
             friend => friend !== targetUser.username
         );
