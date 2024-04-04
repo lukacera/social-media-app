@@ -45,9 +45,10 @@ const Login = (): ReactNode => {
         navigate("/home")
     }
 
-    // Guest login
+    // Guest login function
     const handleSubmitGuest = async () => {
 
+        // Provide loginUser API with guest user credentials
         const fetched_data = await loginUser("guest", "guestguest");
         if (typeof (fetched_data) === "string") {
             setErrorValidation(fetched_data)
@@ -59,7 +60,7 @@ const Login = (): ReactNode => {
     }
     return (
         <div className="flex justify-center items-center h-screen bg-slate-300">
-            <div className="w-[90%] sm:w-[30rem] max-h-[50rem] bg-gradient-to-tr 
+            <div className="w-[90%] sm:w-[30rem] max-h-[55rem] bg-gradient-to-tr 
             from-linearGradientStart to-linearGradientEnd text-white flex 
             flex-col gap-20 rounded-lg py-10">
                 <div className="flex flex-col items-center gap-16">
@@ -112,8 +113,8 @@ const Login = (): ReactNode => {
                     </div>
                 </form>
                 {/* Guest login */}
-                <p className="rounded-full px-8 py-4 
-                            bg-gray-700 text-white mx-auto font-exo
+                <p className="rounded-full px-8 py-4
+                            bg-[#DCDCDC] text-black mx-auto font-exo
                             tracking-wide cursor-pointer"
                     onClick={() => handleSubmitGuest()}>
                     Continue as guest

@@ -47,7 +47,7 @@ const SidebarDropdownMenu: React.FC<{
 
     }
     return (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-backgroundDark z-10"
+        <div className="fixed top-0 left-0 w-screen h-screen bg-backgroundDark z-20"
             ref={navRef}>
 
             <div ref={xRef} className="absolute top-5 right-5 text-[2rem] cursor-pointer

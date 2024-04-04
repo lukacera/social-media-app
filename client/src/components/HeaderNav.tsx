@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
@@ -7,7 +7,7 @@ import DisplayFriendRequests from "./headerComponents/DisplayFriendRequests";
 import OpenPostModal from "./headerComponents/HeaderNavOpenPostModal";
 import CreatePostModal from "./postComponents/createPostComponents/CreatePostModal";
 import SidebarDropdownMenu from "./headerComponents/SidebarDropdownMenu";
-
+import Overlay from "./Overlay";
 // Icons
 import { GiBackup } from "react-icons/gi";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -17,10 +17,10 @@ const HeaderNav: React.FC = () => {
     const token = localStorage.getItem("token");
     const [isModalNewPostOpen, setIsModalNewPostOpen] = useState<boolean>(false)
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-   
+
     return (
         <>
-            {isModalNewPostOpen && <CreatePostModal setIsModalNewPostOpen={setIsModalNewPostOpen} />}
+            {isModalNewPostOpen && <Overlay />}
             <header className="border-b-2 border-borderGray grid         
                     grid-rows-2 sm:grid-cols-[40%_60%] mt-10 lg:mt-0
                     lg:grid-cols-[30%_60%_10%]
@@ -85,6 +85,10 @@ const HeaderNav: React.FC = () => {
                 <div className="grid place-items-center">
                     <CurrentUser token={token} />
                 </div>
+
+                <CreatePostModal
+                    setIsModalNewPostOpen={setIsModalNewPostOpen}
+                    isModalNewPostOpen={isModalNewPostOpen} />
 
             </header>
 

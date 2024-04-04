@@ -6,7 +6,9 @@ const EditProfileModal: React.FC<{
     isEditOpen: boolean,
     closeModal: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ isEditOpen, closeModal }) => {
+
     const { currentUserData, setCurrentUserData } = useContext(UserContext)
+
     // Set initial state for update to be current User data
     const [update, setUpdate] = useState({
         name: currentUserData.name,
@@ -54,7 +56,7 @@ const EditProfileModal: React.FC<{
     return !isEditOpen ? null : (
         <div className="flex flex-col items-center bg-profileColor
             fixed  top-[10rem] rounded-lg inset-x-0 mx-auto
-            w-[90%] max-w-[40rem]">
+            w-[90%] max-w-[40rem] z-20">
             <span className="cursor-pointer text-[1.6rem] flex justify-end w-full
             p-5"
                 onClick={() => closeModal(false)}>

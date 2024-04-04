@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react"
-import Overlay from "../../Overlay";
 
 import { createNewPost } from "../../../api/postAPIs/createNewPostApi";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +7,9 @@ import CreatePostButton from "./CreatePostButton";
 import TextInputPost from "./TextInputPost";
 
 const CreatePostModal: React.FC<{
-  setIsModalNewPostOpen: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ setIsModalNewPostOpen }) => {
+  setIsModalNewPostOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  isModalNewPostOpen: boolean
+}> = ({ setIsModalNewPostOpen, isModalNewPostOpen }) => {
 
   const navigate = useNavigate()
 
@@ -61,9 +61,8 @@ const CreatePostModal: React.FC<{
     }
   };
 
-  return (
+  return !isModalNewPostOpen ? null : (
     <>
-      <Overlay />
       <div className="fixed top-[5rem] sm:top-[10rem] flex justify-center 
       items-center z-10 inset-x-0 mx-auto w-full max-w-[40rem]">
 
@@ -102,7 +101,6 @@ const CreatePostModal: React.FC<{
         </form>
       </div>
     </>
-
   )
 };
 

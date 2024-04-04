@@ -28,7 +28,7 @@ const ConfirmDelete: React.FC<{
     return (
         <div className="absolute  bg-profileColor p-20
         grid place-items-center gap-10 rounded-xl inset-0 m-auto
-        w-[90%] max-w-[40rem] h-[80%] max-h-[25rem]">
+        w-[90%] max-w-[40rem] h-[80%] max-h-[25rem] z-20">
             <p className="text-[1.2rem] font-bold tracking-wide">
                 Are you sure that you want to delete this post?
             </p>
