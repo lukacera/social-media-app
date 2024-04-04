@@ -18,7 +18,6 @@ const FriendStatusViewProfilePage: React.FC<{ targetUser: userType }> = ({ targe
   const [friendRequestReceived, setFriendRequestReceived] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(currentUserData)
     // Set initial state for areFriends
     targetUser.friends && currentUserData.friends && setAreFriends(targetUser.friends.includes(currentUserData.username)
       && currentUserData.friends?.includes(targetUser.username));

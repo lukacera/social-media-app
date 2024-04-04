@@ -26,7 +26,6 @@ const ViewProfile: React.FC<{ username: string }> = ({ username }) => {
     });
 
     socket.on('deletePost', (deletedPost: postType) => {
-      console.log("Post deleted!")
       setTargetUserPosts(prevPosts => prevPosts.filter(
         post => post._id !== deletedPost._id));
     });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
@@ -17,9 +17,7 @@ const HeaderNav: React.FC = () => {
     const token = localStorage.getItem("token");
     const [isModalNewPostOpen, setIsModalNewPostOpen] = useState<boolean>(false)
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-    useEffect(() => {
-        console.log(isModalNewPostOpen)
-    }, [isModalNewPostOpen])
+   
     return (
         <>
             {isModalNewPostOpen && <CreatePostModal setIsModalNewPostOpen={setIsModalNewPostOpen} />}
