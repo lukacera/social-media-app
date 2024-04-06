@@ -45,9 +45,9 @@ const SignUp = (): ReactNode => {
     }
     return (
         <div className="flex justify-center items-center min-h-screen 
-        bg-slate-300">
-            <div className="w-[90%] md:w-[45rem] h-auto my-10 pb-5 sm:h-[55rem] bg-gradient-to-tr 
-            from-linearGradientStart to-linearGradientEnd 
+        bg-white">
+            <div className="w-[90%] md:w-[45rem] h-auto my-10 pb-5 sm:h-[55rem]
+            bg-backgroundDark
             text-white flex flex-col gap-20 rounded-lg">
                 <div className="flex flex-col items-center gap-16">
                     <h2 className="flex pt-10 text-3xl
@@ -113,7 +113,8 @@ const SignUp = (): ReactNode => {
                     <div className="flex flex-col gap-10">
                         <div className="grid place-items-center gap-4">
                             {errorMessage && (
-                                <p className="text-black text-[1.2rem] text-nowrap">
+                                <p className="text-white text-[1.2rem] font-bold
+                                 text-nowrap">
                                     {errorMessage}
                                 </p>
                             )}

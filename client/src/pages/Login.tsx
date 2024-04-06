@@ -5,6 +5,7 @@ import { loginUser } from "../api/authAPIs/loginUserApi";
 import { ReactNode } from "react";
 import { UserContext } from "../hooks/UserContextHook";
 import { getCurrentUser } from "../api/fetchUsersAPIs/getCurrentUserApi";
+import { FaMask } from "react-icons/fa6";
 
 const Login = (): ReactNode => {
 
@@ -59,22 +60,26 @@ const Login = (): ReactNode => {
         navigate("/home")
     }
     return (
-        <div className="flex justify-center items-center h-screen bg-slate-300">
-            <div className="w-[90%] sm:w-[30rem] max-h-[55rem] bg-gradient-to-tr 
-            from-linearGradientStart to-linearGradientEnd text-white flex 
-            flex-col gap-20 rounded-lg py-10">
-                <div className="flex flex-col items-center gap-16">
-                    <h2 className="flex text-3xl font-madimi-one tracking-widest">
-                        BONDIFY
-                    </h2>
-                    <p className="text-3xl font-merryweather font-bold">Log in</p>
+        <div className="flex justify-center items-center h-screen bg-white
+        ">
+            <div className="w-[90%] sm:w-[30rem] max-h-[55rem] bg-backgroundDark 
+            text-white flex border-2 border-black
+            flex-col gap-16 rounded-lg py-10">
+                <div className="flex flex-col items-center gap-10">
+                    <div className="flex flex-col items-center gap-5">
+
+                        <h2 className="flex text-3xl font-madimi-one tracking-widest">
+                            BONDIFY
+                        </h2>
+                    </div>
+                    <p className="text-3xl font-merryweather font-bold">Login</p>
                 </div>
                 <form method="POST" onSubmit={handleSubmit}
                     className="flex flex-col items-center gap-10 w-[80%] mx-auto">
                     {/* Username input wrapper */}
                     <div className="signInInputWrapper">
                         <FaUser />
-                        <input className="bg-transparent placeholder:text-slate-200
+                        <input className="bg-transparent
                         focus:outline-none" placeholder="Username"
                             onChange={(e) => setUsername(e.target.value)}
                             type="text" required />
@@ -82,17 +87,17 @@ const Login = (): ReactNode => {
                     {/* Password input wrapper */}
                     <div className="signInInputWrapper">
                         <FaLock />
-                        <input className="bg-transparent placeholder:text-slate-200
+                        <input className="bg-transparent
                         focus:outline-none"
                             onChange={(e) => setPassword(e.target.value)}
                             type="password" placeholder="Password" required />
                     </div>
                     {/* Buttons div */}
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-5">
                         <div className="grid place-items-center gap-5">
                             {/* Place error message if something went wrong */}
                             {errorValidation && (
-                                <p className="text-black text-xl">
+                                <p className="text-white text-xl">
                                     {errorValidation}
                                 </p>
                             )}
@@ -114,10 +119,14 @@ const Login = (): ReactNode => {
                 </form>
                 {/* Guest login */}
                 <p className="rounded-full px-8 py-4
-                            bg-[#313131] mx-auto font-exo
-                            tracking-wide cursor-pointer"
+                            bg-white text-black font-bold mx-auto font-exo
+                            tracking-wide cursor-pointer
+                            flex items-center gap-3"
                     onClick={() => handleSubmitGuest()}>
-                    Continue as guest
+                    <span className="text-[1.3rem]">
+                        <FaMask />
+                    </span>
+                    <span>Continue as guest</span>
                 </p>
             </div>
         </div>
