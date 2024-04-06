@@ -1,4 +1,3 @@
-import "../assets/index.css";
 import { Key, useContext, useEffect, useState } from "react";
 import { getAllProfiles } from "../api/fetchUsersAPIs/getAllProfilesApi";
 import { userType } from "../../../server/types/userType";

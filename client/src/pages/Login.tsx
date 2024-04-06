@@ -114,7 +114,7 @@ const Login = (): ReactNode => {
                 </form>
                 {/* Guest login */}
                 <p className="rounded-full px-8 py-4
-                            bg-[#DCDCDC] text-black mx-auto font-exo
+                            bg-[#313131] mx-auto font-exo
                             tracking-wide cursor-pointer"
                     onClick={() => handleSubmitGuest()}>
                     Continue as guest
