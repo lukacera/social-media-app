@@ -4,7 +4,7 @@
 
 **Frontend**: React, Typescript, Tailwind CSS, CSS, HTML5
 
-**Backend**: NodeJS, ExpressJS
+**Backend**: NodeJS, ExpressJS, TypeScript
 
 **Architecture**: MVC architecture, RestAPIs
 
