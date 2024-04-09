@@ -45,7 +45,7 @@ const SignUp = (): ReactNode => {
     }
     return (
         <div className="flex justify-center items-center min-h-screen 
-        bg-white">
+        bg-borderGray">
             <div className="w-[90%] md:w-[45rem] h-auto my-10 pb-5 sm:h-[55rem]
             bg-backgroundDark
             text-white flex flex-col gap-20 rounded-lg">

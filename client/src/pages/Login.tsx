@@ -60,7 +60,7 @@ const Login = (): ReactNode => {
         navigate("/home")
     }
     return (
-        <div className="flex justify-center items-center h-screen bg-white
+        <div className="flex justify-center items-center h-screen bg-borderGray
         ">
             <div className="w-[90%] sm:w-[30rem] max-h-[55rem] bg-backgroundDark 
             text-white flex border-2 border-black
