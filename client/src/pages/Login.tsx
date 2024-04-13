@@ -60,7 +60,7 @@ const Login = (): ReactNode => {
         navigate("/home")
     }
     return (
-        <div className="flex justify-center items-center h-screen bg-borderGray
+        <div className="flex justify-center items-center h-screen bg-white
         ">
             <div className="w-[90%] sm:w-[30rem] max-h-[55rem] bg-backgroundDark 
             text-white flex border-2 border-black
@@ -119,9 +119,10 @@ const Login = (): ReactNode => {
                 </form>
                 {/* Guest login */}
                 <p className="rounded-full px-8 py-4
-                            bg-white text-black font-bold mx-auto font-exo
+                            bg-backgroundDark text-white font-bold mx-auto font-exo
                             tracking-wide cursor-pointer
-                            flex items-center gap-3"
+                            flex items-center gap-3
+                            border-2 border-white"
                     onClick={() => handleSubmitGuest()}>
                     <span className="text-[1.3rem]">
                         <FaMask />
