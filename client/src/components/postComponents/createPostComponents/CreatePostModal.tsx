@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react"
 import { createNewPost } from "../../../api/postAPIs/createNewPostApi";
 import { useNavigate } from "react-router-dom";
 import FileInput from "./FileInput";
-import CreatePostButton from "./CreatePostButton";
 import TextInputPost from "./TextInputPost";
 
 const CreatePostModal: React.FC<{
@@ -62,46 +61,57 @@ const CreatePostModal: React.FC<{
   };
 
   return !isModalNewPostOpen ? null : (
-    <>
-      <div className="fixed top-[5rem] sm:top-[10rem] flex justify-center 
-      items-center z-10 inset-x-0 mx-auto w-full max-w-[40rem]">
-
-        <form className="p-10 bg-profileColor
-          grid place-items-center gap-10 relative
-          lg:w-full">
-
-          <span className="absolute top-3 right-5 cursor-pointer"
-            onClick={handleCloseModal}>X</span>
-          <h3 className="text-2xl font-bold">Create new post:</h3>
-
-          <div className="grid gap-16">
-
-            {/* File input for img */}
-            <FileInput fileInputRef={fileInputRef}
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl mx-4">
+        <form className="p-6 sm:p-8 relative">
+          <button
+            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            onClick={handleCloseModal}
+            aria-label="Close modal"
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+  
+          <h3 className="text-2xl font-bold text-white mb-6">Create new post</h3>
+  
+          <div className="space-y-6">
+            <FileInput
+              fileInputRef={fileInputRef}
               previewImage={previewImage}
               setPreviewImage={setPreviewImage}
-              setImageFile={setImageFile} />
-
-            {/* Input for text content of post */}
-            < TextInputPost postContent={postContent}
-              setPostContent={setPostContent} />
+              setImageFile={setImageFile}
+            />
+  
+            <TextInputPost
+              postContent={postContent}
+              setPostContent={setPostContent}
+            />
           </div>
-
-          {postContent.length > 0 &&
-
-            <div onClick={() => handleSubmit()}>
-              < CreatePostButton />
+  
+          {postContent.length > 0 && (
+            <div className="mt-6">
+              <button
+                onClick={() => handleSubmit()}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors"
+              >
+                Create Post
+              </button>
             </div>
-
-          }
-
-          {/* Hidden input, which will be called upon by useRef */}
-          <input className="hidden" ref={fileInputRef}
-            type="file" id="image" onChange={handleFileChange} />
+          )}
+  
+          <input
+            className="hidden"
+            ref={fileInputRef}
+            type="file"
+            id="image"
+            onChange={handleFileChange}
+          />
         </form>
       </div>
-    </>
-  )
+    </div>
+  );
 };
 
 export default CreatePostModal;
