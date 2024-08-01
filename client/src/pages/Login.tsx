@@ -60,75 +60,60 @@ const Login = (): ReactNode => {
         navigate("/home")
     }
     return (
-        <div className="flex justify-center items-center h-screen bg-white
-        ">
-            <div className="w-[90%] sm:w-[30rem] max-h-[55rem] bg-backgroundDark 
-            text-white flex border-2 border-black
-            flex-col gap-16 rounded-lg py-10">
-                <div className="flex flex-col items-center gap-10">
-                    <div className="flex flex-col items-center gap-5">
-
-                        <h2 className="flex text-3xl font-madimi-one tracking-widest">
-                            BONDIFY
-                        </h2>
-                    </div>
-                    <p className="text-3xl font-merryweather font-bold">Login</p>
+        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
+            <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 transition-all duration-300 ease-in-out transform hover:scale-105">
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-2 font-madimi-one tracking-wider">BONDIFY</h1>
+                    <p className="text-2xl font-semibold text-gray-600 dark:text-gray-300 font-merryweather">Login</p>
                 </div>
-                <form method="POST" onSubmit={handleSubmit}
-                    className="flex flex-col items-center gap-10 w-[80%] mx-auto">
-                    {/* Username input wrapper */}
-                    <div className="signInInputWrapper">
-                        <FaUser />
-                        <input className="bg-transparent
-                        focus:outline-none" placeholder="Username"
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="relative">
+                        <FaUser className="absolute top-3 left-3 text-gray-400" />
+                        <input
+                            className="w-full pl-10 pr-3 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400 bg-transparent text-gray-800 dark:text-white transition-colors duration-300"
+                            type="text"
+                            placeholder="Username"
                             onChange={(e) => setUsername(e.target.value)}
-                            type="text" required />
+                            required
+                        />
                     </div>
-                    {/* Password input wrapper */}
-                    <div className="signInInputWrapper">
-                        <FaLock />
-                        <input className="bg-transparent
-                        focus:outline-none"
+                    <div className="relative">
+                        <FaLock className="absolute top-3 left-3 text-gray-400" />
+                        <input
+                            className="w-full pl-10 pr-3 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400 bg-transparent text-gray-800 dark:text-white transition-colors duration-300"
+                            type="password"
+                            placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)}
-                            type="password" placeholder="Password" required />
+                            required
+                        />
                     </div>
-                    {/* Buttons div */}
-                    <div className="flex flex-col gap-5">
-                        <div className="grid place-items-center gap-5">
-                            {/* Place error message if something went wrong */}
-                            {errorValidation && (
-                                <p className="text-white text-xl">
-                                    {errorValidation}
-                                </p>
-                            )}
-                            <button className="signInButton">
-                                Login
-                            </button>
-                        </div>
-                        <div className="flex flex-col gap-5 text-center">
-                            <p>
-                                If you don't have account, please sign up below
-                            </p>
-                            <Link to="/signup">
-                                <p className="signInButton text-center">
-                                    Sign up
-                                </p>
-                            </Link>
-                        </div>
-                    </div>
+                    
+                    {errorValidation && (
+                        <p className="text-red-500 text-center">{errorValidation}</p>
+                    )}
+                    
+                    <button className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300 font-semibold">
+                        Login
+                    </button>
                 </form>
-                {/* Guest login */}
-                <p className="rounded-full px-8 py-4
-                            bg-backgroundDark text-white font-bold mx-auto font-exo
-                            tracking-wide cursor-pointer
-                            flex items-center gap-3
-                            border-2 border-white"
-                    onClick={() => handleSubmitGuest()}>
-                    <span className="text-[1.3rem]">
+                
+                <div className="mt-6 text-center">
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">Don't have an account?</p>
+                    <Link to="/signup" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold transition-colors duration-300">
+                        Sign up
+                    </Link>
+                </div>
+                
+                <div className="mt-8">
+                    <button
+                        onClick={handleSubmitGuest}
+                        className="w-full flex items-center justify-center gap-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300 font-semibold"
+                    >
                         <FaMask />
-                    </span>
-                    <span>Continue as guest</span>
-                </p>
+                        <span>Continue as guest</span>
+                    </button>
+                </div>
             </div>
         </div>
     )
