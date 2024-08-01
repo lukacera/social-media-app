@@ -1,1 +1,1 @@
-export const baseUrl = "https://localhost:3000/api"
+export const baseUrl = "https://social-media-app-wm8c.onrender.com/api"
