@@ -1,1 +1,0 @@
-export const baseUrl = "https://social-media-app-wm8c.onrender.com/api"
