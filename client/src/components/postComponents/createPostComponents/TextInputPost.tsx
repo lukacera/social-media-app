@@ -9,9 +9,8 @@ const TextInputPost: React.FC<{
 
             <label htmlFor="postContent">Post content:</label>
             <textarea
-                className="p-2 text-black outline-none resize-none
-                w-[15rem] h-[10rem]
-                sm:w-[20rem] sm:h-[10rem] lg:w-[30rem] lg:h-[14rem]"
+                className="p-2 text-black outline-none
+                h-[10rem] w-full resize-y max-h-[30rem]"
                 spellCheck="false" id="postContent"
                 placeholder="What's on your mind?"
                 value={postContent} onChange={(e) => setPostContent(e.target.value)}
