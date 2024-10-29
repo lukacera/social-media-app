@@ -42,4 +42,4 @@ MomentJS - formating date
 2) Delete requests
 3) Delete send requests
 4) Unfriend user that current user is already friends with
-5) View all incoming requests and handle them
+
